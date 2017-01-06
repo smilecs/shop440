@@ -1,0 +1,120 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shop440.Fragments.profile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="126dp"
+            android:layout_height="126dp"
+            android:src="@drawable/profile"
+            android:id="@+id/profile"
+            android:layout_marginTop="96dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile"
+            android:text="Egbai Mmumene"
+            android:id="@+id/name"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="true"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/stats"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="24dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="28dp"
+                android:id="@+id/storesLayoutText"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:id="@+id/storesNumber"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="78"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="STORES"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+
+                android:layout_marginLeft="28dp"
+                android:id="@+id/likeNumberText"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/likeNumber"
+                    android:paddingLeft="12dp"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="78"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="LIKES"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
+                android:id="@+id/purchaseNumber"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="78"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:text="PURCHASES"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/header"
+            android:text="My Stores"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/stats"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/myStores"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/header">
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</ScrollView>

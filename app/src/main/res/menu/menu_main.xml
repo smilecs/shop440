@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.shop440.MainActivity">
+
+    <item
+        android:id="@+id/search"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/search"
+        />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/profile"
+        app:showAsAction="ifRoom|collapseActionView"/>
+</menu>

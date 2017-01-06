@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/profile"
+        android:layout_marginTop="52dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:layout_marginStart="154dp"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:id="@+id/fullname"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:id="@+id/name"
+            android:hint="Full Name"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textInputLayout2"
+        android:layout_below="@+id/fullname"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:inputType="number"
+            android:id="@+id/phone"
+            android:hint="Phone Number" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:text="Select profile picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textStyle="bold"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Create account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/create"
+        android:textColor="#fff"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/button_bg_rounded"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/textInputLayout2"
+         />
+</RelativeLayout>
