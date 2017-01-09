@@ -2,6 +2,8 @@ package com.shop440;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,12 +12,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.android.volley.RequestQueue;
 import com.shop440.Models.User;
 import com.shop440.Utils.Image;
-import com.shop440.Utils.VolleySingleton;
-
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,10 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SignUp extends AppCompatActivity {
     private Uri fileUri;
     User user;
-    JSONObject json;
-    RequestQueue queue;
     Context c;
-    VolleySingleton volleySingleton;
     private static final int PICK_IMAGE = 1;
     @BindView(R.id.imageView) CircleImageView profile;
     @BindView(R.id.phone) EditText phone;
@@ -40,6 +35,7 @@ public class SignUp extends AppCompatActivity {
     @OnClick(R.id.create) void submit(){
         user.setFullname(phone.getText().toString());
         user.setFullname(name.getText().toString());
+        user.setPhone(phone.getText().toString());
         Intent i = new Intent(c, confirm.class);
         i.putExtra("phone", phone.getText().toString());
         i.putExtra("user", user);
@@ -62,10 +58,8 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
-        json = new JSONObject();
+        //json = new JSONObject();
         user = new User();
-        volleySingleton = VolleySingleton.getsInstance();
-        queue = volleySingleton.getmRequestQueue();
         c = this;
         ButterKnife.bind(this);
     }
@@ -78,10 +72,25 @@ public class SignUp extends AppCompatActivity {
             //model.setType("2");
             fileUri = data.getData();
             Image image = new Image(this, fileUri);
-            profile.setImageBitmap(image.getBitmapFromUri());
-            String base = Base64.encodeToString(image.bitmapToByteArray(image.getBitmapFromUri()), Base64.CRLF);
+            Bitmap bt = getResizedBitmap(image.getBitmapFromUri(), 120, 120);
+            profile.setImageBitmap(bt);
+            String base = Base64.encodeToString(image.bitmapToByteArray(bt), Base64.DEFAULT);
+            Log.d("base64", base);
             user.setImage(base);
         }
 
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
+                matrix, false);
+
+        return resizedBitmap;
     }
 }

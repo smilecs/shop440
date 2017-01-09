@@ -78,12 +78,13 @@
                 android:orientation="vertical"
                 android:layout_marginRight="16dp"
                 android:layout_alignParentRight="true"
-                android:id="@+id/purchaseNumber"
+                android:id="@+id/purchaseNumberLayout"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="12dp"
+                    android:id="@+id/purchaseNumber"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:text="78"/>
                 <TextView

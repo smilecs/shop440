@@ -18,6 +18,9 @@
     </string>
     <!--SharedPreference Strings-->
     <string name="state">loginState</string>
+    <string name="shop440">data</string>
+    <string name="profileImage">profile_image</string>
+    <string name="username">name</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

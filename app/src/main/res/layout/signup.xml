@@ -6,9 +6,9 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/profile"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/profile"
         android:layout_marginTop="52dp"
         android:id="@+id/imageView"
         android:layout_alignParentTop="false"
@@ -55,6 +55,7 @@
         android:text="Select profile picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:id="@+id/textView"
         android:textStyle="bold"
         android:layout_below="@+id/imageView"

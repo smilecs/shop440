@@ -4,14 +4,27 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.shop440.Utils.Urls;
+import com.shop440.Utils.VolleySingleton;
+
+import org.json.JSONObject;
 
 /**
  * A login screen that offers login via email/password.
@@ -32,14 +45,22 @@ public class LoginActivity extends AppCompatActivity  {
     private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
+    JSONObject login;
     private TextView createAcct;
     private View mLoginFormView;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    VolleySingleton volleySingleton;
+    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in);
         // Set up the login form.
+        login = new JSONObject();
+        volleySingleton = VolleySingleton.getsInstance();
+        queue = volleySingleton.getmRequestQueue();
         mEmailView = (EditText) findViewById(R.id.phone);
         createAcct = (TextView) findViewById(R.id.createaccount);
         createAcct.setOnClickListener(new OnClickListener() {
@@ -52,13 +73,43 @@ public class LoginActivity extends AppCompatActivity  {
         });
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
+                    login.put("Phone", mEmailView.getText().toString());
+                    login.put("Passcode", mPasswordView.getText().toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.GET_TOKEN, login ,new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
+                            Log.d("response", response.getString("Token"));
+                            editor.putString("token", response.getString("Token"));
+                            editor.apply();
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
 
+                    }
+                });
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                queue.add(jsonObjectRequest);
             }
         });
 

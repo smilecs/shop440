@@ -15,11 +15,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.shop440.Models.SmsListener;
 import com.shop440.Models.User;
 import com.shop440.Receiver.SmsReciever;
@@ -39,22 +41,27 @@ public class confirm extends AppCompatActivity {
     private String serverCode;
     RequestQueue queue;
     private String query;
-    JSONObject json;
+    JSONObject json, login;
+    String TAG = "confirm.java";
     User user;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     VolleySingleton volleySingleton;
     String compare;
     @BindView(R.id.editText) EditText passcode;
-    @BindView(R.id.feedback) TextView feedback;
+    @BindView(R.id.textView2) TextView feedback;
     @BindView(R.id.progressBar) ProgressBar bar;
     @BindView(R.id.button) Button continueButton;
+    @BindView(R.id.retry) Button retrybut;
+    @OnClick(R.id.textView3) void resend(){
+       GetPasscode(phone);
+
+    }
     @OnClick(R.id.button) void submit(){
         if(ComparePasscode(passcode.getText().toString(), compare)){
-            get_token();
-            Intent i = new Intent(confirm.this, MainActivity.class);
-            startActivity(i);
-            finish();
+            user.setPasscode(compare);
+            register();
+
         }else {
             feedback.setVisibility(View.VISIBLE);
             feedback.setTextColor(Color.parseColor("Red"));
@@ -62,17 +69,23 @@ public class confirm extends AppCompatActivity {
         }
 
     }
+    @OnClick(R.id.retry) void retry(){
+        register();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // BroadcastReceiver reciever = new SmsReciever();
         setContentView(R.layout.confirmation);
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
         editor = sharedPreferences.edit();
         phone = getIntent().getStringExtra("phone");
         user = (User) getIntent().getSerializableExtra("user");
-        //phone = "me";
+        //phone = "";
+        json = new JSONObject();
+        login = new JSONObject();
+        Log.d(TAG, user.getFullname());
         volleySingleton = VolleySingleton.getsInstance();
         queue = volleySingleton.getmRequestQueue();
         SmsReciever.bindListener(new SmsListener() {
@@ -80,17 +93,17 @@ public class confirm extends AppCompatActivity {
             public void messageReceived(String messageText) {
                 Log.d("Text",messageText);
                 Toast.makeText(confirm.this,"Loading Passcode",Toast.LENGTH_LONG).show();
-                String[] newString = messageText.split("");
+                String[] newString = messageText.split(" ");
                 if(ComparePasscode(newString[newString.length -1], compare)){
-                    get_token();
-                    Intent i = new Intent(confirm.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
+                    Log.d("Passcode", newString[newString.length -1]);
+                    user.setPasscode(compare);
+                    register();
                 }
 
             }
         });
-        Validate(phone);
+
+        GetPasscode(phone);
         ButterKnife.bind(this);
         continueButton.setEnabled(false);
         passcode.addTextChangedListener(new TextWatcher() {
@@ -101,8 +114,9 @@ public class confirm extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(i1 > 3){
-                    continueButton.setEnabled(true);
+                Log.d("text", String.valueOf(i));
+                if(i >= 1){
+                   continueButton.setEnabled(true);
                 }
             }
 
@@ -113,18 +127,19 @@ public class confirm extends AppCompatActivity {
         });
     }
 
-    private void Validate(String q){
+    private void GetPasscode(String q){
         try{
             q = URLEncoder.encode(phone, "UTF-8");
         }catch (Exception e){
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.PASSCODE + "?phone=" + URLEncoder.encode(q), null, new Response.Listener<JSONObject>() {
+        StringRequest ObjectRequest = new StringRequest(Request.Method.GET, Urls.BASE_URL + Urls.PASSCODE + "?phone=" + URLEncoder.encode(q), new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try{
-                    compare = response.getString("Passcode");
-                }catch (Exception e){
+                    compare = new JSONObject(response).getString("Passcode");
+                }
+                catch (Exception e){
                     e.printStackTrace();
                 }
             }
@@ -136,11 +151,11 @@ public class confirm extends AppCompatActivity {
                 feedback.setText("Unable to process request. Please click Resend passcode!");
             }
         });
-        queue.add(jsonObjectRequest);
+        ObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(ObjectRequest);
     }
 
     private Boolean ComparePasscode(String fromSms, String fromServer){
-        json = new JSONObject();
         if(fromSms.equals(fromServer)){
             try{
                 bar.setVisibility(View.VISIBLE);
@@ -152,19 +167,9 @@ public class confirm extends AppCompatActivity {
                 json.put("Name", user.getFullname());
                 json.put("Image", user.getImage());
                 json.put("Passcode", fromSms);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEW_USER, json, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+                login.put("Phone", user.getPhone());
+                login.put("Passcode", fromSms);
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-
-                    }
-                });
-                queue.add(jsonObjectRequest);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -175,14 +180,19 @@ public class confirm extends AppCompatActivity {
     }
 
     private void get_token(){
-
         feedback.setText("Loading token");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.GET_TOKEN, json, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.GET_TOKEN, login ,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
+                    Log.d("response", response.toString());
                     editor.putString("token", response.getString("Token"));
+                    editor.putString(getResources().getString(R.string.profileImage), user.getImage());
+                    editor.putString(getResources().getString(R.string.username), user.getFullname());
                     editor.commit();
+                    Intent i = new Intent(confirm.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -194,7 +204,53 @@ public class confirm extends AppCompatActivity {
 
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjectRequest);
+    }
+
+    private void register(){
+        bar.setVisibility(View.VISIBLE);
+        continueButton.setVisibility(View.GONE);
+        feedback.setText("Creating Account!");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEW_USER, json, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("NewUser", "success");
+                get_token();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                feedback.setText("Error uploading data Please try again");
+                retrybut.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30 * 1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(jsonObjectRequest);
+       /* JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEW_USER, json, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("NewUser", "success");
+                get_token();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                feedback.setText("Error uploading data Please try again");
+                retrybut.setVisibility(View.VISIBLE);
+
+
+            }
+        });*/
+        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                9000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
 
     }
 }

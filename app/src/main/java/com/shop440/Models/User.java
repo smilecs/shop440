@@ -11,6 +11,33 @@ public class User implements Serializable{
     public String image;
     public String fullname;
     public String passcode;
+    public String Likes;
+    public String Stores;
+    public String Purchases;
+
+    public String getLikes() {
+        return Likes;
+    }
+
+    public void setLikes(String likes) {
+        Likes = likes;
+    }
+
+    public String getStores() {
+        return Stores;
+    }
+
+    public void setStores(String stores) {
+        Stores = stores;
+    }
+
+    public String getPurchases() {
+        return Purchases;
+    }
+
+    public void setPurchases(String purchases) {
+        Purchases = purchases;
+    }
 
     public String getPasscode() {
         return passcode;
