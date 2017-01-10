@@ -31,11 +31,8 @@
         <activity
             android:name=".SignUp"
             android:exported="true"
-            android:label="Sign Up"
-            >
-
-        </activity>
-        <activity android:name=".confirm"></activity>
+            android:label="Sign Up"></activity>
+        <activity android:name=".confirm" />
 
         <receiver
             android:name=".Receiver.SmsReciever"
@@ -46,7 +43,11 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".NewStore"></activity>
+        <activity android:name=".NewStore" />
+        <activity
+            android:name=".GetLocation"
+            android:label="@string/title_activity_get_location"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

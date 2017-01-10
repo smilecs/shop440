@@ -10,4 +10,6 @@ public class Urls {
     public static String PASSCODE = "/api/get_passcode";
     public static String GET_TOKEN = "/api/login";
     public static String BASE_URL = "http://192.168.43.126:8080";
+    public static String ME = "/api/me";
+    public static String MyStores = "/api/me/stores";
 }

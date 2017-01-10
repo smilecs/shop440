@@ -6,13 +6,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="126dp"
             android:layout_height="126dp"
             android:src="@drawable/profile"
             android:id="@+id/profile"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="36dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
         <TextView
@@ -111,6 +112,7 @@
             android:id="@+id/myStores"
             android:layout_marginTop="16dp"
             android:layout_below="@+id/header">
+
 
         </RelativeLayout>
 
