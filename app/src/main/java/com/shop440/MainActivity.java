@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.shop440.Fragments.MainActivityFragment;
-import com.shop440.Fragments.profile;
 import com.shop440.Utils.VolleySingleton;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.profile) {
             if(!sharedPreferences.getString("token", "Null").equals("Null")){
-                profile pl = new profile();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, pl).addToBackStack(null).commit();
+                Intent i = new Intent(this, Profile.class);
+                startActivity(i);
             }else {
                 Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);

@@ -13,4 +13,67 @@
     tools:context="com.shop440.GetLocation"
     tools:showIn="@layout/activity_get_location">
 
+
+    <TextView
+        android:text="Please make sure you are at your store location, as this location will be used in giving directions to your customers."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_marginTop="28dp"
+        android:id="@+id/textView5" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addresslayout"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp">
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"
+            android:inputType="textMultiLine"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="36dp"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar2" />
+
+    <TextView
+        android:text="Getting Location and saving store data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/save"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="24dp"
+        android:id="@+id/textView6" />
+
+    <Button
+        android:text="Continue"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/addresslayout"
+        android:background="@drawable/button_bg_rounded"
+        android:layout_marginEnd="21dp"
+        android:id="@+id/save" />
+
 </RelativeLayout>

@@ -1,36 +1,17 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:background="@color/colorPrimary"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.shop440.Fragments.profile">
-
+    android:layout_height="wrap_content"
+    >
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="126dp"
-            android:layout_height="126dp"
-            android:src="@drawable/profile"
-            android:id="@+id/profile"
-            android:layout_marginTop="36dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile"
-            android:text="Egbai Mmumene"
-            android:id="@+id/name"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:layout_centerHorizontal="true"
-            android:textAllCaps="true"/>
-        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/stats"
-            android:layout_below="@+id/name"
-            android:layout_marginTop="24dp">
+            android:layout_below="@+id/profile"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,11 +23,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="12dp"
+                    android:textColor="@color/text"
                     android:id="@+id/storesNumber"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="78"/>
+                    android:text="0"/>
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textColor="@color/text"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:text="STORES"/>
@@ -64,12 +47,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/likeNumber"
+                    android:textColor="@color/text"
                     android:paddingLeft="12dp"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="78"/>
+                    android:text="0"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:text="LIKES"/>
             </LinearLayout>
@@ -85,39 +70,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="12dp"
+                    android:textColor="@color/text"
                     android:id="@+id/purchaseNumber"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="78"/>
+                    android:text="0"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:text="PURCHASES"/>
             </LinearLayout>
 
         </RelativeLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/header"
-            android:text="My Stores"
-            android:layout_marginTop="16dp"
-            android:layout_below="@+id/stats"
-            android:layout_centerHorizontal="true"
-            android:textAppearance="?android:textAppearanceLarge"
-            />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/myStores"
-            android:layout_marginTop="16dp"
-            android:layout_below="@+id/header">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="126dp"
+        android:layout_height="126dp"
+        android:src="@drawable/img"
+        android:id="@+id/profile"
+        android:layout_marginTop="44dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="14dp" />
 
 
-        </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textAllCaps="true"
+        android:layout_alignTop="@+id/profile"
+        android:layout_toStartOf="@+id/profile"
+        android:layout_marginEnd="27dp"
+        android:layout_marginTop="49dp" />
 
 
-    </RelativeLayout>
-
-
-</ScrollView>
+</RelativeLayout>
