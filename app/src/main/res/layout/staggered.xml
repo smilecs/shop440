@@ -42,6 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/logo"
                     android:layout_marginTop="12dp"
+                    android:id="@+id/price"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:layout_alignStart="@+id/logo"
                     android:text="400000"/>

@@ -13,4 +13,5 @@ public class Urls {
     public static String ME = "/api/me";
     public static String MyStores = "/api/me/stores";
     public static String NEWSTORE = "/api/new_store";
+    public static String GETSTORE = "/api";
 }
