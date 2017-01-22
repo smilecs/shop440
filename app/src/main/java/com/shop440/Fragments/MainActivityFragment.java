@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.MainAdapter;
 import com.shop440.Models.Store;
 import com.shop440.R;
@@ -22,6 +22,8 @@ import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -71,9 +73,28 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void GetData(){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Urls.GETSTORE, new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.GETSTORE, null,new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
+                try{
+                    JSONArray array = response.getJSONArray("Data");
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject object = array.getJSONObject(i);
+                        Store store = new Store();
+                        store.setName(object.getString("Name"));
+                        store.setDescription(object.getString("Description"));
+                        store.setPrice(object.getString("Price"));
+                        store.setCategory(object.getString("Category"));
+                        store.setCity(object.getString("City"));
+                        store.setCitySlug(object.getString("CitySlug"));
+                        store.setOwner(object.getJSONObject("Store").getString("Name"));
+                        store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisaiton"));
+                        model.add(store);
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {

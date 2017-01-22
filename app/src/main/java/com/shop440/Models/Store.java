@@ -7,7 +7,40 @@ import java.io.Serializable;
  */
 
 public class Store implements Serializable {
-    public String Owner, Slug, Name, Description, Specialisation, Phone, Address, CitySlug, City, State, Country, Coordinates, Logo;
+    public String Owner, Slug, Name, Description, Specialisation, Phone, Address, CitySlug, City, State, Country, Coordinates, Logo, Price, Category, Tags;
+    public String OwnerSlug;
+
+    public String getOwnerSlug() {
+        return OwnerSlug;
+    }
+
+    public void setOwnerSlug(String ownerSlug) {
+        OwnerSlug = ownerSlug;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    public String getTags() {
+        return Tags;
+    }
+
+    public void setTags(String tags) {
+        Tags = tags;
+    }
+
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
+    }
 
     public String getOwner() {
         return Owner;
