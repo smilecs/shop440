@@ -1,13 +1,17 @@
 package com.shop440.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.shop440.Models.Store;
 import com.shop440.R;
 
@@ -27,15 +31,16 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView StoreName, price;
-        ImageView profileLogo, ProfileImage;
+        TextView StoreName, price, product;
+        ImageView productDisplay, logo;
 
         public ViewHolder(View itemView) {
             super(itemView);
             price = (TextView) itemView.findViewById(R.id.price);
             StoreName = (TextView) itemView.findViewById(R.id.storeName);
-            profileLogo = (ImageView) itemView.findViewById(R.id.mainImage);
-            ProfileImage = (ImageView) itemView.findViewById(R.id.logo);
+            productDisplay = (ImageView) itemView.findViewById(R.id.mainImage);
+            product = (TextView) itemView.findViewById(R.id.product);
+            logo = (ImageView) itemView.findViewById(R.id.logo);
         }
 
     }
@@ -50,7 +55,18 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Store store = model.get(position);
-        holder.StoreName.setText(store.getName());
+        try{
+            byte[] imageByte = Base64.decode(store.getPlaceholder(), Base64.DEFAULT);
+            Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+            holder.productDisplay.setImageBitmap(bit);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        holder.StoreName.setText(store.getOwner());
+        holder.product.setText(store.getName());
+        Glide.with(c).load(store.getImage()).into(holder.productDisplay);
+
+        holder.price.setText(store.getPrice());
 
     }
 

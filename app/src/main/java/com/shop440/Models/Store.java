@@ -8,7 +8,23 @@ import java.io.Serializable;
 
 public class Store implements Serializable {
     public String Owner, Slug, Name, Description, Specialisation, Phone, Address, CitySlug, City, State, Country, Coordinates, Logo, Price, Category, Tags;
-    public String OwnerSlug;
+    public String OwnerSlug, Image, Placeholder;
+
+    public String getPlaceholder() {
+        return Placeholder;
+    }
+
+    public void setPlaceholder(String placeholder) {
+        Placeholder = placeholder;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
 
     public String getOwnerSlug() {
         return OwnerSlug;

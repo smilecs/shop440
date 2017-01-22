@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,13 +39,14 @@ public class MainActivityFragment extends Fragment {
     RecyclerView list;
     MainAdapter mainAdapter;
     ArrayList<Store> model;
-    Store store;
     Context c;
+    ProgressBar bar;
     String TAG = "MainActivityFragment.class";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     SharedPreferences sharedPreferences;
     String token;
+    View view;
 
     public MainActivityFragment() {
     }
@@ -62,8 +66,9 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
         list = (RecyclerView) view.findViewById(R.id.recyclerView);
+        bar = (ProgressBar) view.findViewById(R.id.progressBar);
         RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
@@ -73,10 +78,11 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void GetData(){
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.GETSTORE, null,new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETSTORE, null,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
+                    bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
@@ -89,7 +95,15 @@ public class MainActivityFragment extends Fragment {
                         store.setCitySlug(object.getString("CitySlug"));
                         store.setOwner(object.getJSONObject("Store").getString("Name"));
                         store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
-                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisaiton"));
+                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        store.setImage(object.getJSONObject("Image").getString("Path"));
+                        String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
+                        try{
+                            store.setPlaceholder(placeholder[1]);
+
+                        }catch (Exception e){
+
+                        }
                         model.add(store);
                     }
                 }catch(JSONException e){
@@ -101,8 +115,12 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                bar.setVisibility(View.GONE);
+                Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
+
             }
         });
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(9000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonArrayRequest);
     }
 }
