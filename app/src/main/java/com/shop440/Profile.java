@@ -81,9 +81,9 @@ public class Profile extends AppCompatActivity {
         token = sharedPreferences.getString("token", "null");
         ButterKnife.bind(this);
         name.setTypeface(robotMedium);
-        lkeNumber.setTypeface(robotThin);
-        purchaseNumber.setTypeface(robotThin);
-        storeNumber.setTypeface(robotThin);
+        lkeNumber.setTypeface(robotMedium);
+        purchaseNumber.setTypeface(robotMedium);
+        storeNumber.setTypeface(robotMedium);
         model = new ArrayList<>();
         list = (RecyclerView) findViewById(R.id.storeList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

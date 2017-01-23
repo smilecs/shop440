@@ -3,6 +3,7 @@ package com.shop440.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -11,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.Store;
 import com.shop440.R;
+import com.shop440.Utils.VolleySingleton;
 
 import java.util.ArrayList;
 
@@ -53,20 +56,38 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        Typeface robotMedium = Typeface.createFromAsset(c.getAssets(),
+                "fonts/Roboto-Medium.ttf");
+        Typeface robotThin = Typeface.createFromAsset(c.getAssets(),
+                "fonts/Roboto-Thin.ttf");
+        Typeface robotCondensed = Typeface.createFromAsset(c.getAssets(),
+                "fonts/RobotoCondensed-Light.ttf");
+        Typeface robotBold = Typeface.createFromAsset(c.getAssets(),
+                "fonts/RobotoCondensed-Bold.ttf");
         Store store = model.get(position);
-        try{
-            byte[] imageByte = Base64.decode(store.getPlaceholder(), Base64.DEFAULT);
-            Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-            holder.productDisplay.setImageBitmap(bit);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        byte[] imageByte = Base64.decode(store.getPlaceholder(), Base64.DEFAULT);
+        Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+        holder.productDisplay.setImageBitmap(bit);
+        ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
+        imageLoader.get(store.getImage(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                holder.productDisplay.setImageBitmap(response.getBitmap());
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        holder.StoreName.setTypeface(robotMedium);
+        holder.StoreName.setTypeface(robotCondensed);
+        holder.product.setTypeface(robotThin);
         holder.StoreName.setText(store.getOwner());
         holder.product.setText(store.getName());
-        Glide.with(c).load(store.getImage()).into(holder.productDisplay);
-
+        holder.price.setTypeface(robotBold);
         holder.price.setText(store.getPrice());
+        //Glide.with(c).load(store.getImage()).into(holder.productDisplay);
 
     }
 

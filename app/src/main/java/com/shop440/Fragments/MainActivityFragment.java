@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.MainAdapter;
 import com.shop440.Models.Store;
 import com.shop440.R;
+import com.shop440.Utils.EndlessRecyclerViewScrollListener;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
@@ -41,12 +43,16 @@ public class MainActivityFragment extends Fragment {
     ArrayList<Store> model;
     Context c;
     ProgressBar bar;
-    String TAG = "MainActivityFragment.class";
+    String TAG = "MainActivityFragment";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     SharedPreferences sharedPreferences;
     String token;
     View view;
+    String page = "1";
+    StaggeredGridLayoutManager layoutManager;
+    SwipeRefreshLayout refreshLayout;
+    Boolean next = true;
 
     public MainActivityFragment() {
     }
@@ -67,23 +73,52 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+                );
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                GetData("1");
+                //Refresh("1");
+            }
+        });
         list = (RecyclerView) view.findViewById(R.id.recyclerView);
         bar = (ProgressBar) view.findViewById(R.id.progressBar);
-        RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
         list.setAdapter(mainAdapter);
-        GetData();
+        list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if(next){
+                    GetData(String.valueOf(page));
+                }
+
+            }
+        });
+        GetData("1");
         return view;
     }
 
-    private void GetData(){
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETSTORE, null,new Response.Listener<JSONObject>() {
+    private void GetData(String page){
+        if(page.equals("1")){
+            model.clear();
+        }
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETSTORE + "p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
+                    refreshLayout.setRefreshing(false);
                     bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
+                    next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
                         Store store = new Store();
@@ -100,11 +135,14 @@ public class MainActivityFragment extends Fragment {
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
                             store.setPlaceholder(placeholder[1]);
+                            //Log.d(TAG, placeholder[1]);
 
                         }catch (Exception e){
+                            e.printStackTrace();
 
                         }
                         model.add(store);
+                        mainAdapter.notifyDataSetChanged();
                     }
                 }catch(JSONException e){
                     e.printStackTrace();
@@ -122,5 +160,11 @@ public class MainActivityFragment extends Fragment {
         });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(9000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonArrayRequest);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GetData("1");
     }
 }
