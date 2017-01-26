@@ -231,26 +231,5 @@ public class confirm extends AppCompatActivity {
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30 * 1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjectRequest);
-       /* JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEW_USER, json, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("NewUser", "success");
-                get_token();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                feedback.setText("Error uploading data Please try again");
-                retrybut.setVisibility(View.VISIBLE);
-
-
-            }
-        });*/
-        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                9000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
-
     }
 }

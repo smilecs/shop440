@@ -6,9 +6,33 @@ import java.io.Serializable;
  * Created by SMILECS on 1/6/17.
  */
 
-public class Store implements Serializable {
+public class StoreModel implements Serializable {
     public String Owner, Slug, Name, Description, Specialisation, Phone, Address, CitySlug, City, State, Country, Coordinates, Logo, Price, Category, Tags;
-    public String OwnerSlug, Image, Placeholder;
+    public String OwnerSlug, Image, Placeholder, Purchases, Likes, ProductsNumber;
+
+    public String getPurchases() {
+        return Purchases;
+    }
+
+    public void setPurchases(String purchases) {
+        Purchases = purchases;
+    }
+
+    public String getLikes() {
+        return Likes;
+    }
+
+    public void setLikes(String likes) {
+        Likes = likes;
+    }
+
+    public String getProductsNumber() {
+        return ProductsNumber;
+    }
+
+    public void setProductsNumber(String productsNumber) {
+        ProductsNumber = productsNumber;
+    }
 
     public String getPlaceholder() {
         return Placeholder;

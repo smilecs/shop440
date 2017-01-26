@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.shop440.Profile">
+    tools:context="com.shop440.Store">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,24 +24,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:minHeight="160dp">
-                <include layout="@layout/fragment_profile"/>
+                <include layout="@layout/store_header"/>
             </RelativeLayout>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:theme="@style/ToolBarStyle"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways"
-                />
-
-
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.CollapsingToolbarLayout>
-
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_profile" />
+    <include layout="@layout/fragment_main" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -49,6 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/add" />
+        app:srcCompat="@drawable/add" />
 
 </android.support.design.widget.CoordinatorLayout>

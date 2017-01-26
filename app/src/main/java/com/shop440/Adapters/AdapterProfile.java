@@ -1,6 +1,7 @@
 package com.shop440.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.shop440.Models.Store;
+import com.shop440.Models.StoreModel;
 import com.shop440.R;
 import com.shop440.Utils.VolleySingleton;
 
@@ -21,9 +22,9 @@ import java.util.ArrayList;
  */
 
 public class AdapterProfile  extends RecyclerView.Adapter<AdapterProfile.ViewHolder>{
-    ArrayList<Store> stores;
+    ArrayList<StoreModel> stores;
     Context c;
-    public AdapterProfile(Context c, ArrayList<Store> stores){
+    public AdapterProfile(Context c, ArrayList<StoreModel> stores){
         this.stores = stores;
         this.c = c;
     }
@@ -32,10 +33,19 @@ public class AdapterProfile  extends RecyclerView.Adapter<AdapterProfile.ViewHol
         TextView title;
         ImageView image;
         Context context;
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
+            context = itemView.getContext();
             title = (TextView) itemView.findViewById(R.id.storeName);
             image = (ImageView) itemView.findViewById(R.id.store_image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, com.shop440.Store.class);
+                    i.putExtra("data", (StoreModel) itemView.getTag());
+                    context.startActivity(i);
+                }
+            });
         }
     }
 
@@ -48,8 +58,9 @@ public class AdapterProfile  extends RecyclerView.Adapter<AdapterProfile.ViewHol
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Store store = stores.get(position);
+        StoreModel store = stores.get(position);
         holder.title.setText(store.getName());
+        holder.itemView.setTag(store);
         ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
         imageLoader.get(store.getLogo(), new ImageLoader.ImageListener() {
             @Override

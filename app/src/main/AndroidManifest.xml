@@ -74,6 +74,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shop440.MainActivity" />
         </activity>
+        <activity
+            android:name=".Store"
+            android:label="@string/title_activity_store"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shop440.Profile" />
+        </activity>
+        <activity android:name=".NewProduct" />
+        <activity android:name=".Category"></activity>
     </application>
-
 </manifest>

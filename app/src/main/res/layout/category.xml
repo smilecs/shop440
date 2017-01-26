@@ -14,21 +14,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/feedback"
-            android:visibility="gone"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:text="Something went wrong"
-            android:layout_marginTop="36dp"/>
+            android:id="@+id/text"
+            android:layout_marginLeft="12dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="Please Select your Product Category to proceed"/>
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/text"
+            android:layout_marginTop="12dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/recyclerView"/>
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="92dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/progressBar"/>
 

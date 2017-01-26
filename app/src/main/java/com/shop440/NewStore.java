@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
-import com.shop440.Models.Store;
+import com.shop440.Models.StoreModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NewStore extends AppCompatActivity {
-    Store store;
+    StoreModel store;
     @BindView(R.id.store_name) EditText storeName;
     @BindView(R.id.description) EditText description;
     @BindView(R.id.specialisation) EditText specialisation;
@@ -30,7 +30,7 @@ public class NewStore extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_store);
-        store = new Store();
+        store = new StoreModel();
         ButterKnife.bind(this);
 
     }

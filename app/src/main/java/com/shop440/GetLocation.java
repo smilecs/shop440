@@ -39,7 +39,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.shop440.Models.Store;
+import com.shop440.Models.StoreModel;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
@@ -69,7 +69,7 @@ public class GetLocation extends AppCompatActivity implements
     private double currentLatitude;
     private double currentLongitude;
     String token;
-    Store store;
+    StoreModel store;
     @BindView(R.id.address) EditText Address;
     @BindView(R.id.progressBar2) ProgressBar loading;
     @BindView(R.id.textView5) TextView feedback;
@@ -98,7 +98,7 @@ public class GetLocation extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         jsonObject = new JSONObject();
-        store = (Store) getIntent().getSerializableExtra("data");
+        store = (StoreModel) getIntent().getSerializableExtra("data");
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "null");

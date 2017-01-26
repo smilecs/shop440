@@ -3,12 +3,15 @@ package com.shop440;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.AdapterProfile;
-import com.shop440.Models.Store;
+import com.shop440.Models.StoreModel;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
@@ -40,8 +43,8 @@ import butterknife.OnClick;
 public class Profile extends AppCompatActivity {
     RecyclerView list;
     AdapterProfile adapterProfile;
-    ArrayList<Store> model;
-    Store store;
+    ArrayList<StoreModel> model;
+    StoreModel store;
     Context c;
     String TAG = "Profile.class";
     VolleySingleton volleySingleton;
@@ -79,8 +82,15 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().setTitle("Profile");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "null");
+        String Image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
         name.setTypeface(robotMedium);
+        name.setText(sharedPreferences.getString(getResources().getString(R.string.username), " "));
+        if(!Image.equals(" ")){
+            byte[] bytes = Base64.decode(Image, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            imageView.setImageBitmap(bitmap);
+        }
         lkeNumber.setTypeface(robotMedium);
         purchaseNumber.setTypeface(robotMedium);
         storeNumber.setTypeface(robotMedium);
@@ -146,8 +156,13 @@ public class Profile extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     JSONArray jsonArray = response.getJSONArray("Stores");
                     for(int i = 0; i < jsonArray.length(); i++){
-                        store = new Store();
+                        store = new StoreModel();
                         store.setName(jsonArray.getJSONObject(i).getString("Name"));
+                        store.setSlug(jsonArray.getJSONObject(i).getString("Slug"));
+                        store.setDescription(jsonArray.getJSONObject(i).getString("Description"));
+                        store.setProductsNumber(jsonArray.getJSONObject(i).getJSONObject("Analytics").getString("Products"));
+                        store.setPurchases(jsonArray.getJSONObject(i).getJSONObject("Analytics").getString("Purchases"));
+                        store.setLikes(jsonArray.getJSONObject(i).getJSONObject("Analytics").getString("Likes"));
                         store.setLogo(jsonArray.getJSONObject(i).getString("Logo"));
                         model.add(store);
                     }

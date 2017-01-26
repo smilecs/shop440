@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -20,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.MainAdapter;
-import com.shop440.Models.Store;
+import com.shop440.Models.StoreModel;
 import com.shop440.R;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
 import com.shop440.Utils.Urls;
@@ -40,7 +41,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class MainActivityFragment extends Fragment {
     RecyclerView list;
     MainAdapter mainAdapter;
-    ArrayList<Store> model;
+    ArrayList<StoreModel> model;
     Context c;
     ProgressBar bar;
     String TAG = "MainActivityFragment";
@@ -50,6 +51,7 @@ public class MainActivityFragment extends Fragment {
     String token;
     View view;
     String page = "1";
+    TextView feedback;
     StaggeredGridLayoutManager layoutManager;
     SwipeRefreshLayout refreshLayout;
     Boolean next = true;
@@ -90,6 +92,7 @@ public class MainActivityFragment extends Fragment {
         });
         list = (RecyclerView) view.findViewById(R.id.recyclerView);
         bar = (ProgressBar) view.findViewById(R.id.progressBar);
+        feedback = (TextView) view.findViewById(R.id.feedback);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
@@ -111,7 +114,8 @@ public class MainActivityFragment extends Fragment {
         if(page.equals("1")){
             model.clear();
         }
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETSTORE + "p=" + page, null, new Response.Listener<JSONObject>() {
+        feedback.setVisibility(View.GONE);
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETSTORE + "?p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -121,16 +125,16 @@ public class MainActivityFragment extends Fragment {
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
-                        Store store = new Store();
+                        StoreModel store = new StoreModel();
                         store.setName(object.getString("Name"));
                         store.setDescription(object.getString("Description"));
                         store.setPrice(object.getString("Price"));
                         store.setCategory(object.getString("Category"));
                         store.setCity(object.getString("City"));
                         store.setCitySlug(object.getString("CitySlug"));
-                        store.setOwner(object.getJSONObject("Store").getString("Name"));
-                        store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
-                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        store.setOwner(object.getJSONObject("StoreModel").getString("Name"));
+                        store.setOwnerSlug(object.getJSONObject("StoreModel").getString("Slug"));
+                        store.setSpecialisation(object.getJSONObject("StoreModel").getString("Specialisation"));
                         store.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
@@ -146,6 +150,7 @@ public class MainActivityFragment extends Fragment {
                     }
                 }catch(JSONException e){
                     e.printStackTrace();
+                    Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT).show();
                 }
 
             }
@@ -154,7 +159,8 @@ public class MainActivityFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 bar.setVisibility(View.GONE);
-                Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
+                feedback.setVisibility(View.VISIBLE);
+                Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT).show();
 
             }
         });
