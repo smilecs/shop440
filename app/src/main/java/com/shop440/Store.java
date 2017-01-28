@@ -78,7 +78,7 @@ public class Store extends AppCompatActivity {
         store = (StoreModel) getIntent().getSerializableExtra("data");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
         token = sharedPreferences.getString("token", "null");
-        if(sharedPreferences.getBoolean("reload", false)){
+        if(getIntent().getBooleanExtra("reload", false)){
             Get_Store();
         }
         productNumber.setText(store.getProductsNumber());

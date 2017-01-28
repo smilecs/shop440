@@ -21,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.MainAdapter;
-import com.shop440.Models.StoreModel;
+import com.shop440.Models.ProductModel;
 import com.shop440.R;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
 import com.shop440.Utils.Urls;
@@ -41,7 +41,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class MainActivityFragment extends Fragment {
     RecyclerView list;
     MainAdapter mainAdapter;
-    ArrayList<StoreModel> model;
+    ArrayList<ProductModel> model;
     Context c;
     ProgressBar bar;
     String TAG = "MainActivityFragment";
@@ -125,7 +125,7 @@ public class MainActivityFragment extends Fragment {
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
-                        StoreModel store = new StoreModel();
+                        ProductModel store = new ProductModel();
                         store.setName(object.getString("Name"));
                         store.setDescription(object.getString("Description"));
                         store.setPrice(object.getString("Price"));
@@ -143,6 +143,7 @@ public class MainActivityFragment extends Fragment {
 
                         }catch (Exception e){
                             e.printStackTrace();
+                            store.setPlaceholder(" ");
 
                         }
                         model.add(store);
@@ -150,7 +151,7 @@ public class MainActivityFragment extends Fragment {
                     }
                 }catch(JSONException e){
                     e.printStackTrace();
-                    Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_LONG).show();
                 }
 
             }
@@ -160,7 +161,7 @@ public class MainActivityFragment extends Fragment {
                 error.printStackTrace();
                 bar.setVisibility(View.GONE);
                 feedback.setVisibility(View.VISIBLE);
-                Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, "Oops! Connectivity problems", Snackbar.LENGTH_LONG).show();
 
             }
         });
