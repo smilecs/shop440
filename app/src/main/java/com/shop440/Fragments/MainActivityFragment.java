@@ -132,9 +132,9 @@ public class MainActivityFragment extends Fragment {
                         store.setCategory(object.getString("Category"));
                         store.setCity(object.getString("City"));
                         store.setCitySlug(object.getString("CitySlug"));
-                        store.setOwner(object.getJSONObject("StoreModel").getString("Name"));
-                        store.setOwnerSlug(object.getJSONObject("StoreModel").getString("Slug"));
-                        store.setSpecialisation(object.getJSONObject("StoreModel").getString("Specialisation"));
+                        store.setOwner(object.getJSONObject("Store").getString("Name"));
+                        store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
                         store.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
