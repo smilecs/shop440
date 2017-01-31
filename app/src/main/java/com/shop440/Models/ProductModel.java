@@ -13,7 +13,26 @@ public class ProductModel implements Serializable {
     public String Price;
     public String Category;
     public String Image;
-    public String CitySlug, City, State, Country, Coordinates, OwnerSlug, Specialisation, Owner, Placeholder;
+    public String CitySlug;
+    public String City;
+    public String State;
+    public String Country;
+    public String Coordinates;
+    public String OwnerSlug;
+    public String Specialisation;
+    public String Owner;
+    public String ProductCategory;
+    public String Placeholder;
+
+    public String getTagsText() {
+        return TagsText;
+    }
+
+    public void setTagsText(String tagsText) {
+        TagsText = tagsText;
+    }
+
+    public String TagsText;
 
     public String getPlaceholder() {
         return Placeholder;

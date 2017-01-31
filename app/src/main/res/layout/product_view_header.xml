@@ -11,35 +11,5 @@
         android:minHeight="180dp"
         android:adjustViewBounds="true"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Product Name"
-        android:id="@+id/productName"
-        android:layout_below="@+id/productImage"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:layout_marginTop="12dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/productDescription"
-        android:layout_below="@+id/productName"
-        android:layout_centerHorizontal="true"
-        android:text="Product Description"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_marginTop="6dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/productTags"
-        android:layout_below="@+id/productDescription"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="6dp"
-        android:text="toys kids babies"
-        android:textAppearance="?android:textAppearanceSmall"/>
 
 </RelativeLayout>

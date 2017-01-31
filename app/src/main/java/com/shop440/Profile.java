@@ -24,7 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.shop440.Adapters.AdapterProfile;
+import com.shop440.Adapters.StoreAdapter;
 import com.shop440.Models.StoreModel;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
@@ -42,7 +42,7 @@ import butterknife.OnClick;
 
 public class Profile extends AppCompatActivity {
     RecyclerView list;
-    AdapterProfile adapterProfile;
+    StoreAdapter storeAdapter;
     ArrayList<StoreModel> model;
     StoreModel store;
     Context c;
@@ -50,6 +50,7 @@ public class Profile extends AppCompatActivity {
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     String token;
     Toolbar toolbar;
     @BindView(R.id.profile)
@@ -79,13 +80,15 @@ public class Profile extends AppCompatActivity {
                 "fonts/RobotoCondensed-Light.ttf");
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profile");
+        //getSupportActionBar().setTitle("Profile");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         token = sharedPreferences.getString("token", "null");
         String Image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
         name.setTypeface(robotMedium);
         name.setText(sharedPreferences.getString(getResources().getString(R.string.username), " "));
+        getSupportActionBar().setTitle(sharedPreferences.getString(getResources().getString(R.string.username), " "));
         if(!Image.equals(" ")){
             byte[] bytes = Base64.decode(Image, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -99,8 +102,8 @@ public class Profile extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
-        adapterProfile = new AdapterProfile(this, model);
-        list.setAdapter(adapterProfile);
+        storeAdapter = new StoreAdapter(this, model);
+        list.setAdapter(storeAdapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
@@ -118,8 +121,10 @@ public class Profile extends AppCompatActivity {
                 try{
                     Log.d(TAG, response.toString());
                     name.setText(response.getString("Name"));
-                    toolbar.setTitle(response.getString("Name"));
-                    toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                    editor.putString(getResources().getString(R.string.username), response.getString("Name"));
+                    editor.apply();
+                    //editor.commit();
+                    //toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
                     JSONObject object = response.getJSONObject("Analytics");
                     storeNumber.setText(object.getString("Stores"));
                     purchaseNumber.setText(object.getString("Purchases"));
@@ -166,7 +171,7 @@ public class Profile extends AppCompatActivity {
                         store.setLogo(jsonArray.getJSONObject(i).getString("Logo"));
                         model.add(store);
                     }
-                    adapterProfile.notifyDataSetChanged();
+                    storeAdapter.notifyDataSetChanged();
 
                 }catch (Exception e){
                     e.printStackTrace();

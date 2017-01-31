@@ -13,7 +13,7 @@ public class Urls {
     public static String ME = "/api/me";
     public static String MyStores = "/api/me/stores";
     public static String NEWSTORE = "/api/new_store";
-    public static String GETSTORE = "/api/products";
+    public static String GETPRODUCTS = "/api/products";
     public static String GETSTOREPRODUCTS = "/api/stores/";
     public static String GETCATEGORIES = "/api/categories";
     public static String ADDPRODUCT = "/api/me/stores/";
