@@ -119,7 +119,7 @@ public class Store extends AppCompatActivity {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if(next){
-                    //GetData(String.valueOf(page));
+                    GetData(String.valueOf(page));
                 }
 
             }
@@ -172,7 +172,7 @@ public class Store extends AppCompatActivity {
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
                         Log.d(TAG, object.getJSONArray("Tags").toString());
-                        ProductModel product= new ProductModel();
+                        ProductModel product = new ProductModel();
                         product.setName(object.getString("Name"));
                         product.setSlug(object.getString("Slug"));
                         product.setDescription(object.getString("Description"));
@@ -180,7 +180,6 @@ public class Store extends AppCompatActivity {
                         product.setCategory(object.getString("Category"));
                         product.setCity(object.getString("City"));
                         product.setCitySlug(object.getString("CitySlug"));
-                        //product.setTags();
                         product.setOwner(object.getJSONObject("Store").getString("Name"));
                         product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
                         product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
@@ -195,8 +194,8 @@ public class Store extends AppCompatActivity {
                             product.setPlaceholder("");
                         }
                         model.add(product);
-                        mainAdapter.notifyDataSetChanged();
                     }
+                    mainAdapter.notifyDataSetChanged();
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
@@ -232,15 +231,24 @@ public class Store extends AppCompatActivity {
                     Log.d(TAG, response.toString());
                     //progressBar.setVisibility(View.GONE);
                     //JSONArray jsonArray = response.getJSONArray("Stores");
-                        StoreModel store = new StoreModel();
+                       final StoreModel store = new StoreModel();
                         store.setName(response.getString("Name"));
                         store.setSlug(response.getString("Slug"));
                         store.setDescription(response.getString("Description"));
                         store.setProductsNumber(response.getJSONObject("Analytics").getString("Products"));
-                        productNumber.setText(store.getProductsNumber());
                         store.setPurchases(response.getJSONObject("Analytics").getString("Purchases"));
                         store.setLikes(response.getJSONObject("Analytics").getString("Likes"));
                         store.setLogo(response.getString("Logo"));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                productNumber.setText(store.getProductsNumber());
+                                lkeNumber.setText(store.getLikes());
+                                purchaseNumber.setText(store.getPurchases());
+                                name.setText(store.getName());
+                                description.setText(store.getDescription());
+                            }
+                        });
                         //model.add(store);
                     //storeAdapter.notifyDataSetChanged();
                 }catch (Exception e){

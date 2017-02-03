@@ -29,14 +29,17 @@ import java.util.ArrayList;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
     ArrayList<ProductModel> model;
     Context c;
+    ImageLoader imageLoader;
     public ProductAdapter(Context c, ArrayList<ProductModel> model){
         this.model = model;
         this.c = c;
+        imageLoader = VolleySingleton.getsInstance().getImageLoader();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView StoreName, price, product;
-        ImageView productDisplay, logo;
+        ImageView logo;
+        ImageView productDisplay;
         public ViewHolder(final View itemView) {
             super(itemView);
             price = (TextView) itemView.findViewById(R.id.price);
@@ -77,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         byte[] imageByte = Base64.decode(product.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         holder.productDisplay.setImageBitmap(bit);
-        ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
+        //holder.productDisplay.setImageUrl(product.getImage(), imageLoader);
         imageLoader.get(product.getImage(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -88,7 +91,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 error.printStackTrace();
             }
         });
-
         holder.itemView.setTag(product);
         holder.StoreName.setTypeface(robotMedium);
         holder.StoreName.setTypeface(robotCondensed);

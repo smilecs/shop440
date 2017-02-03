@@ -21,7 +21,16 @@ public class ProductModel implements Serializable {
     public String OwnerSlug;
     public String Specialisation;
     public String Owner;
-    public String ProductCategory;
+    public String OwnerLogo;
+
+    public String getOwnerLogo() {
+        return OwnerLogo;
+    }
+
+    public void setOwnerLogo(String ownerLogo) {
+        OwnerLogo = ownerLogo;
+    }
+
     public String Placeholder;
 
     public String getTagsText() {

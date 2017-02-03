@@ -1,8 +1,12 @@
 package com.shop440;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +27,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.ProductAdapter;
 import com.shop440.Models.ProductModel;
+import com.shop440.Models.StoreModel;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
@@ -31,10 +36,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ProductView extends AppCompatActivity {
@@ -45,6 +52,7 @@ public class ProductView extends AppCompatActivity {
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     SharedPreferences sharedPreferences;
+    Context c;
     String token;
     ProductModel productModel;
     StaggeredGridLayoutManager layoutManager;
@@ -55,12 +63,23 @@ public class ProductView extends AppCompatActivity {
     @BindView(R.id.productPrice) TextView productPrice;
     @BindView(R.id.productTags) TextView productTags;
     @BindView(R.id.recyclerView) RecyclerView list;
+    @BindView(R.id.storeName) TextView storeName;
+    @OnClick(R.id.vistStore) void visit(){
+        Intent i = new Intent(c, Store.class);
+        StoreModel storeModel = new StoreModel();
+        storeModel.setSlug(productModel.OwnerSlug);
+        storeModel.setName(productModel.getOwner());
+        storeModel.setLogo(productModel.getOwnerLogo());
+        i.putExtra("data", storeModel);
+        startActivity(i);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        c = this;
         ButterKnife.bind(this);
         productModel = (ProductModel) getIntent().getSerializableExtra("data");
         volleySingleton = VolleySingleton.getsInstance();
@@ -70,21 +89,31 @@ public class ProductView extends AppCompatActivity {
         list = (RecyclerView) findViewById(R.id.recyclerView);
         bar = (ProgressBar) findViewById(R.id.progressBar);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        list.setHasFixedSize(true);
+        list.setHasFixedSize(false);
         list.setLayoutManager(layoutManager);
         list.setAdapter(mainAdapter);
         list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if(next){
-                    //GetData(String.valueOf(page));
+                    GetData(String.valueOf(page));
                 }
 
             }
         });
+        Typeface robotMedium = Typeface.createFromAsset(getAssets(),
+                "fonts/Roboto-Medium.ttf");
+        Typeface robotCondensed = Typeface.createFromAsset(getAssets(),
+                "fonts/RobotoCondensed-Light.ttf");
+        Typeface robotBold = Typeface.createFromAsset(getAssets(),
+                "fonts/RobotoCondensed-Bold.ttf");
+        productPrice.setTypeface(robotBold);
+        productName.setTypeface(robotMedium);
+        productDesc.setTypeface(robotCondensed);
         productName.setText(productModel.getName());
         productDesc.setText(productModel.getDescription());
         productPrice.setText(productModel.getPrice());
+        storeName.setText(productModel.getOwner());
         byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         imageView.setImageBitmap(bit);
@@ -109,8 +138,15 @@ public class ProductView extends AppCompatActivity {
         if(page.equals("1")){
             model.clear();
         }
+        String query = "";
+        Uri tempUri = Uri.parse(productModel.getCategory());
+        try{
+            query = URLEncoder.encode(query, "UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         //feedback.setVisibility(View.GONE);
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS +  "?category=" + productModel.getCategory(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS +  "?category=" + query, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -133,6 +169,7 @@ public class ProductView extends AppCompatActivity {
                         product.setOwner(object.getJSONObject("Store").getString("Name"));
                         product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
                         product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        product.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
                         product.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
@@ -144,8 +181,8 @@ public class ProductView extends AppCompatActivity {
                             product.setPlaceholder("");
                         }
                         model.add(product);
-                        mainAdapter.notifyDataSetChanged();
                     }
+                    mainAdapter.notifyDataSetChanged();
                 }catch(JSONException e){
                     e.printStackTrace();
                 }

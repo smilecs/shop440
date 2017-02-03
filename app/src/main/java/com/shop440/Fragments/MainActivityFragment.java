@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +101,7 @@ public class MainActivityFragment extends Fragment {
         list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.d(TAG, String.valueOf(page));
                 if(next){
                     GetData(String.valueOf(page));
                 }
@@ -111,9 +113,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void GetData(String page){
-        if(page.equals("1")){
-            model.clear();
-        }
+
         feedback.setVisibility(View.GONE);
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS + "?p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
@@ -134,6 +134,7 @@ public class MainActivityFragment extends Fragment {
                         store.setCitySlug(object.getString("CitySlug"));
                         store.setOwner(object.getJSONObject("Store").getString("Name"));
                         store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        store.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
                         store.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
                         store.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
@@ -141,14 +142,14 @@ public class MainActivityFragment extends Fragment {
                             store.setPlaceholder(placeholder[1]);
                             //Log.d(TAG, placeholder[1]);
 
-                        }catch (Exception e){
+                        }catch (ArrayIndexOutOfBoundsException e){
                             e.printStackTrace();
                             store.setPlaceholder(" ");
 
                         }
                         model.add(store);
-                        mainAdapter.notifyDataSetChanged();
                     }
+                    mainAdapter.notifyDataSetChanged();
                 }catch(JSONException e){
                     e.printStackTrace();
                     Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_LONG).show();
@@ -172,6 +173,6 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        GetData("1");
+        //GetData("1");
     }
 }
