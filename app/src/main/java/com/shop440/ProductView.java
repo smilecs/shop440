@@ -15,9 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -25,10 +25,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.NetworkImageView;
 import com.shop440.Adapters.ProductAdapter;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
+import com.shop440.Utils.FileCache;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
@@ -36,6 +38,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -54,16 +63,24 @@ public class ProductView extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Context c;
     String token;
+    FileCache fileCache;
     ProductModel productModel;
     StaggeredGridLayoutManager layoutManager;
     Boolean next = true;
-    @BindView(R.id.productImage) ImageView imageView;
+    @BindView(R.id.productImage) NetworkImageView imageView;
     @BindView(R.id.productName) TextView productName;
     @BindView(R.id.productDescription) TextView productDesc;
     @BindView(R.id.productPrice) TextView productPrice;
     @BindView(R.id.productTags) TextView productTags;
     @BindView(R.id.recyclerView) RecyclerView list;
     @BindView(R.id.storeName) TextView storeName;
+    @OnClick(R.id.download) void Download(){
+        try{
+            downloadVideo(productModel.getImage());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     @OnClick(R.id.vistStore) void visit(){
         Intent i = new Intent(c, Store.class);
         StoreModel storeModel = new StoreModel();
@@ -81,9 +98,11 @@ public class ProductView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         c = this;
         ButterKnife.bind(this);
+        fileCache = new FileCache(this);
         productModel = (ProductModel) getIntent().getSerializableExtra("data");
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
+        ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
         model = new ArrayList<>();
         mainAdapter = new ProductAdapter(this, model);
         list = (RecyclerView) findViewById(R.id.recyclerView);
@@ -117,7 +136,9 @@ public class ProductView extends AppCompatActivity {
         byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         imageView.setImageBitmap(bit);
-        ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
+        imageView.setImageUrl(productModel.getImage(), imageLoader);
+
+        /*
         imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -127,7 +148,7 @@ public class ProductView extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        });*/
 
         GetData("1");
 
@@ -135,9 +156,9 @@ public class ProductView extends AppCompatActivity {
     }
 
     private void GetData(String page){
-        if(page.equals("1")){
+        /*if(page.equals("1")){
             model.clear();
-        }
+        }*/
         String query = "";
         Uri tempUri = Uri.parse(productModel.getCategory());
         try{
@@ -165,7 +186,6 @@ public class ProductView extends AppCompatActivity {
                         product.setCategory(object.getString("Category"));
                         product.setCity(object.getString("City"));
                         product.setCitySlug(object.getString("CitySlug"));
-                        //product.setTags();
                         product.setOwner(object.getJSONObject("Store").getString("Name"));
                         product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
                         product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
@@ -174,8 +194,6 @@ public class ProductView extends AppCompatActivity {
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
                             product.setPlaceholder(placeholder[1]);
-                            //Log.d(TAG, placeholder[1]);
-
                         }catch (Exception e){
                             e.printStackTrace();
                             product.setPlaceholder("");
@@ -186,20 +204,68 @@ public class ProductView extends AppCompatActivity {
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 bar.setVisibility(View.GONE);
-                //feedback.setVisibility(View.VISIBLE);
-                //Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
-
             }
         });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(9000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonArrayRequest);
     }
+
+    public String downloadVideo(String Imageurl) throws MalformedURLException
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(c, "Saving image.......", Toast.LENGTH_LONG).show();
+            }
+        });
+        String type = "jpg";
+        final File file = fileCache.getFile(productModel.getName(), type);
+        final URL url = new URL(Imageurl);
+        Thread tm = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try
+                {
+                    long startTime = System.currentTimeMillis();
+                    URLConnection ucon = null;
+                    ucon = url.openConnection();
+                    InputStream is = ucon.getInputStream();
+                    BufferedInputStream inStream = new BufferedInputStream(is, 5 * 1024);
+                    FileOutputStream outStream = new FileOutputStream(file);
+                    byte[] buff = new byte[5 * 1024];
+
+                    //Read bytes (and store them) until there is nothing more to read(-1)
+                    int len;
+                    while ((len = inStream.read(buff)) != -1) {
+                        outStream.write(buff, 0, len);
+                    }
+                    outStream.flush();
+                    outStream.close();
+                    inStream.close();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(c, "Product Image saved to shop440" +  " " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+        tm.start();
+        Log.d(TAG, file.getAbsolutePath());
+        return "ok";
+    }
+
 
 }

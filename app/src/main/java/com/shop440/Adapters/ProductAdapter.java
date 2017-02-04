@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.shop440.Models.ProductModel;
 import com.shop440.ProductView;
 import com.shop440.R;
@@ -39,12 +39,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView StoreName, price, product;
         ImageView logo;
-        ImageView productDisplay;
+        NetworkImageView productDisplay;
         public ViewHolder(final View itemView) {
             super(itemView);
             price = (TextView) itemView.findViewById(R.id.price);
             StoreName = (TextView) itemView.findViewById(R.id.storeName);
-            productDisplay = (ImageView) itemView.findViewById(R.id.mainImage);
+            productDisplay = (NetworkImageView) itemView.findViewById(R.id.mainImage);
             product = (TextView) itemView.findViewById(R.id.product);
             logo = (ImageView) itemView.findViewById(R.id.logo);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +80,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         byte[] imageByte = Base64.decode(product.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         holder.productDisplay.setImageBitmap(bit);
-        //holder.productDisplay.setImageUrl(product.getImage(), imageLoader);
-        imageLoader.get(product.getImage(), new ImageLoader.ImageListener() {
+        holder.productDisplay.setMinimumHeight(bit.getHeight());
+        holder.productDisplay.setImageUrl(product.getImage(), imageLoader);
+        /*imageLoader.get(product.getImage(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 holder.productDisplay.setImageBitmap(response.getBitmap());
@@ -90,7 +91,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        });*/
         holder.itemView.setTag(product);
         holder.StoreName.setTypeface(robotMedium);
         holder.StoreName.setTypeface(robotCondensed);

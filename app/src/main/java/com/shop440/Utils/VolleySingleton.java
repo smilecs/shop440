@@ -22,7 +22,7 @@ public class VolleySingleton {
     private VolleySingleton(){
         mRequestQueue = Volley.newRequestQueue(Application.getAppContext());
         imageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-            private final LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(20);
+            private final LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(200);
 
 
             @Override
@@ -30,10 +30,12 @@ public class VolleySingleton {
                 return cache.get(url);
             }
 
+
             @Override
             public void putBitmap(String url, Bitmap bitmap) {
                 cache.put(url, bitmap);
             }
+
         });
 
     }

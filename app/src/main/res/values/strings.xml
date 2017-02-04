@@ -29,4 +29,5 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_store">Store</string>
     <string name="title_activity_product_view">ProductView</string>
+    <string name="title_activity_search">Search</string>
 </resources>

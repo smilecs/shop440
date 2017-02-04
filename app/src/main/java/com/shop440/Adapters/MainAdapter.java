@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.ProductModel;
 import com.shop440.ProductView;
@@ -46,7 +45,7 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
             super(itemView);
             price = (TextView) itemView.findViewById(R.id.price);
             ProductName = (TextView) itemView.findViewById(R.id.storeName);
-            productDisplay = (ImageView) itemView.findViewById(R.id.mainImage);
+            //productDisplay = (ImageView) itemView.findViewById(R.id.mainImage);
             product = (TextView) itemView.findViewById(R.id.product);
             logo = (ImageView) itemView.findViewById(R.id.logo);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +80,7 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
         ProductModel store = model.get(position);
         byte[] imageByte = Base64.decode(store.getPlaceholder(), Base64.CRLF);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-        holder.productDisplay.setImageBitmap(bit);
+        //holder.productDisplay.setImageBitmap(bit);
         //holder.productDisplay.setImageUrl(store.getImage(), imageLoader);
         holder.itemView.setTag(store);
         holder.ProductName.setTypeface(robotMedium);
@@ -90,16 +89,17 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
         holder.product.setText(store.getName());
         holder.price.setTypeface(robotBold);
         holder.price.setText(store.getPrice());
-        imageLoader.get(store.getImage(), new ImageLoader.ImageListener() {
+        /*imageLoader.get(store.getImage(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+
                 holder.productDisplay.setImageBitmap(response.getBitmap());
             }
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        });*/
         //Glide.with(c).load(store.getImage()).into(holder.productDisplay);
 
     }

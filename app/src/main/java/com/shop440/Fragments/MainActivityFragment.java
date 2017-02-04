@@ -21,7 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.shop440.Adapters.MainAdapter;
+import com.shop440.Adapters.ProductAdapter;
 import com.shop440.Models.ProductModel;
 import com.shop440.R;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
@@ -41,7 +41,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class MainActivityFragment extends Fragment {
     RecyclerView list;
-    MainAdapter mainAdapter;
+    ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     Context c;
     ProgressBar bar;
@@ -69,7 +69,7 @@ public class MainActivityFragment extends Fragment {
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
         model = new ArrayList<>();
-        mainAdapter = new MainAdapter(c, model);
+        mainAdapter = new ProductAdapter(c, model);
     }
 
     @Override
