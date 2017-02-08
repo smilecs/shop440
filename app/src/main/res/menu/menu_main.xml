@@ -5,11 +5,13 @@
 
     <item
         android:id="@+id/search"
-        app:showAsAction="ifRoom|collapseActionView"
         android:icon="@drawable/search"
+        android:title="Search"
+        app:showAsAction="always"
         />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/profile"
+        android:title="Profile"
         app:showAsAction="ifRoom|collapseActionView"/>
 </menu>

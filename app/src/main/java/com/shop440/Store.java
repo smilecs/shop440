@@ -57,9 +57,9 @@ public class Store extends AppCompatActivity {
     Boolean next = true;
     StoreModel store;
     @BindView(R.id.profile) ImageView imageView;
-    @BindView(R.id.storesNumber) TextView productNumber;
-    @BindView(R.id.likeNumber) TextView lkeNumber;
-    @BindView(R.id.purchaseNumber) TextView purchaseNumber;
+    TextView productNumber;
+    TextView lkeNumber;
+    TextView purchaseNumber;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.description) TextView description;
     @BindView(R.id.recyclerView) RecyclerView list;
@@ -75,7 +75,6 @@ public class Store extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(store.getName());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
         token = sharedPreferences.getString("token", "null");
@@ -84,6 +83,9 @@ public class Store extends AppCompatActivity {
         }
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
                 "fonts/RobotoCondensed-Bold.ttf");
+        purchaseNumber = (TextView) findViewById(R.id.purchaseNumber);
+        lkeNumber = (TextView) findViewById(R.id.likeNumber);
+        productNumber = (TextView) findViewById(R.id.storesNumber);
         productNumber.setTypeface(robotBold);
         lkeNumber.setTypeface(robotBold);
         purchaseNumber.setTypeface(robotBold);
@@ -106,7 +108,6 @@ public class Store extends AppCompatActivity {
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 GetData("1");
-                //Refresh("1");
             }
         });
         list = (RecyclerView) findViewById(R.id.recyclerView);
@@ -121,12 +122,11 @@ public class Store extends AppCompatActivity {
                 if(next){
                     GetData(String.valueOf(page));
                 }
-
             }
         });
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if(token.equals("null")) fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,16 +239,11 @@ public class Store extends AppCompatActivity {
                         store.setPurchases(response.getJSONObject("Analytics").getString("Purchases"));
                         store.setLikes(response.getJSONObject("Analytics").getString("Likes"));
                         store.setLogo(response.getString("Logo"));
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                productNumber.setText(store.getProductsNumber());
-                                lkeNumber.setText(store.getLikes());
-                                purchaseNumber.setText(store.getPurchases());
-                                name.setText(store.getName());
-                                description.setText(store.getDescription());
-                            }
-                        });
+                        productNumber.setText(store.getProductsNumber());
+                        lkeNumber.setText(store.getLikes());
+                        purchaseNumber.setText(store.getPurchases());
+                        name.setText(store.getName());
+                        description.setText(store.getDescription());
                         //model.add(store);
                     //storeAdapter.notifyDataSetChanged();
                 }catch (Exception e){

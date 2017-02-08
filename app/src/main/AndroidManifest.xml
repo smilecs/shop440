@@ -70,12 +70,14 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity" />
+                android:value="com.shop440.MainActivity"
+                android:launchMode="singleTop"/>
         </activity>
         <activity
             android:name=".Store"
             android:label="@string/title_activity_store"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shop440.Profile" />
@@ -89,7 +91,12 @@
         <activity
             android:name=".Search"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".SearchResult"
+            android:launchMode="singleTop">
+
+        </activity>
     </application>
 
 </manifest>
