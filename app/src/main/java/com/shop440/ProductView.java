@@ -6,37 +6,22 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
-import com.shop440.Adapters.ProductAdapter;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
-import com.shop440.Utils.EndlessRecyclerViewScrollListener;
 import com.shop440.Utils.FileCache;
-import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -45,7 +30,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -54,7 +38,7 @@ import butterknife.OnClick;
 
 
 public class ProductView extends AppCompatActivity {
-    ProductAdapter mainAdapter;
+    //ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     ProgressBar bar;
     String TAG = "ProductView";
@@ -65,18 +49,18 @@ public class ProductView extends AppCompatActivity {
     String token;
     FileCache fileCache;
     ProductModel productModel;
-    StaggeredGridLayoutManager layoutManager;
+    //StaggeredGridLayoutManager layoutManager;
     Boolean next = true;
     @BindView(R.id.productImage) NetworkImageView imageView;
     @BindView(R.id.productName) TextView productName;
     @BindView(R.id.productDescription) TextView productDesc;
     @BindView(R.id.productPrice) TextView productPrice;
     @BindView(R.id.productTags) TextView productTags;
-    @BindView(R.id.recyclerView) RecyclerView list;
+    //@BindView(R.id.recyclerView) RecyclerView list;
     @BindView(R.id.storeName) TextView storeName;
     @OnClick(R.id.download) void Download(){
         try{
-            downloadVideo(productModel.getImage());
+            downloadImage(productModel.getImage());
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -104,10 +88,11 @@ public class ProductView extends AppCompatActivity {
         requestQueue = volleySingleton.getmRequestQueue();
         ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
         model = new ArrayList<>();
-        mainAdapter = new ProductAdapter(this, model);
-        list = (RecyclerView) findViewById(R.id.recyclerView);
+        getSupportActionBar().setTitle(productModel.getName());
+        //mainAdapter = new ProductAdapter(this, model);
+        //list = (RecyclerView) findViewById(R.id.recyclerView);
         bar = (ProgressBar) findViewById(R.id.progressBar);
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        /*layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(false);
         list.setLayoutManager(layoutManager);
         list.setAdapter(mainAdapter);
@@ -119,7 +104,7 @@ public class ProductView extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
         Typeface robotMedium = Typeface.createFromAsset(getAssets(),
                 "fonts/Roboto-Medium.ttf");
         Typeface robotCondensed = Typeface.createFromAsset(getAssets(),
@@ -150,15 +135,13 @@ public class ProductView extends AppCompatActivity {
             }
         });*/
 
-        GetData("1");
+        //GetData("1");
 
 
     }
 
-    private void GetData(String page){
-        /*if(page.equals("1")){
-            model.clear();
-        }*/
+    /*private void GetData(String page){
+
         String query = "";
         Uri tempUri = Uri.parse(productModel.getCategory());
         try{
@@ -214,9 +197,9 @@ public class ProductView extends AppCompatActivity {
         });
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(9000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonArrayRequest);
-    }
+    }*/
 
-    public String downloadVideo(String Imageurl) throws MalformedURLException
+    public String downloadImage(String Imageurl) throws MalformedURLException
     {
         runOnUiThread(new Runnable() {
             @Override

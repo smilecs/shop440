@@ -135,7 +135,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/fragment_main" />
+    <!--<include layout="@layout/fragment_main" />-->
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
