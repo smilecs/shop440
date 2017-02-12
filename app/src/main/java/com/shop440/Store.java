@@ -89,7 +89,7 @@ public class Store extends AppCompatActivity {
         productNumber.setTypeface(robotBold);
         lkeNumber.setTypeface(robotBold);
         purchaseNumber.setTypeface(robotBold);
-        productNumber.setText(store.getProductsNumber());
+        productNumber.setText("099");
         lkeNumber.setText(store.getLikes());
         purchaseNumber.setText(store.getPurchases());
         name.setText(store.getName());

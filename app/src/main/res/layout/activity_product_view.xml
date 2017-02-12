@@ -18,7 +18,7 @@
             app:contentScrim="?attr/colorPrimaryDark"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:titleEnabled="false"
+            app:titleEnabled="true"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
         <android.support.v7.widget.Toolbar
@@ -26,116 +26,124 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-            <RelativeLayout
+
+            <com.android.volley.toolbox.NetworkImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4000"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:id="@+id/productPrice"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="6dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_marginStart="12dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Product Name"
-                    android:id="@+id/productName"
-                    android:layout_below="@+id/productPrice"
-                    android:layout_marginBottom="12dp"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    />
-                <com.android.volley.toolbox.NetworkImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/productImage"
-                    android:minHeight="180dp"
-                    android:layout_marginLeft="24dp"
-                    android:background="@color/wallet_holo_blue_light"
-                    android:layout_marginRight="24dp"
-                    android:layout_below="@+id/productName"
-                    android:adjustViewBounds="true"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/productDescription"
-                    android:layout_below="@+id/productImage"
-                    android:layout_centerHorizontal="true"
-                    android:text="Product Description"
-                    android:textAlignment="center"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginRight="12dp"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_marginTop="6dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/productTags"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_below="@+id/productPrice"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="toys kids babies"
-                    android:visibility="gone"
-                    android:textAppearance="?android:textAppearanceSmall"/>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_below="@+id/productDescription">
-                    <ImageView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:paddingTop="12dp"
-                        android:id="@+id/store_image"
-                        app:srcCompat="@drawable/ic_online_store"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="My Store"
-                        android:id="@+id/storeName"
-                        android:layout_toEndOf="@+id/store_image"
-                        android:paddingTop="12dp"
-                        android:textColor="@android:color/black"
-                        android:paddingBottom="12dp"
-                        android:layout_marginStart="6dp"
-                        android:textStyle="bold"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Visit Store"
-                        android:layout_alignParentRight="true"
-                        android:textStyle="bold"
-                        android:layout_below="@+id/storeName"
-                        android:background="@android:color/black"
-                        android:id="@+id/vistStore"
-                        android:layout_marginRight="12dp"
-                        />
-                </RelativeLayout>
-
-            </RelativeLayout>
+                android:id="@+id/productImage"
+                android:minHeight="180dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="24dp"
+                android:background="@color/wallet_holo_blue_light"
+                android:layout_marginRight="24dp"
+                android:adjustViewBounds="true"
+                />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4000"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:id="@+id/productPrice"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="6dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginStart="12dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:id="@+id/productName"
+            android:layout_below="@+id/productPrice"
+            android:layout_marginBottom="12dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
 
-    <!--<include layout="@layout/fragment_main" />-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/productDescription"
+            android:layout_below="@+id/productName"
+            android:layout_centerHorizontal="true"
+            android:text="Product Description"
+            android:textAlignment="center"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="12dp"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="6dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/productTags"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="12dp"
+            android:layout_below="@+id/productPrice"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="toys kids babies"
+            android:visibility="gone"
+            android:textAppearance="?android:textAppearanceSmall"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_below="@+id/productDescription">
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:paddingTop="12dp"
+                android:id="@+id/store_image"
+                app:srcCompat="@drawable/ic_online_store"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Store"
+                android:id="@+id/storeName"
+                android:layout_toEndOf="@+id/store_image"
+                android:paddingTop="12dp"
+                android:textColor="@android:color/black"
+                android:paddingBottom="12dp"
+                android:layout_marginStart="6dp"
+                android:textStyle="bold"
+                android:textAppearance="?android:textAppearanceSmall"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visit Store"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:layout_below="@+id/storeName"
+                android:background="@android:color/black"
+                android:id="@+id/vistStore"
+                android:layout_marginRight="12dp"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>
+
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
