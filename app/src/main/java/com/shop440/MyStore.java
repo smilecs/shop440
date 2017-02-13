@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,11 +37,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Store extends AppCompatActivity {
+public class MyStore extends AppCompatActivity {
     ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     ProgressBar bar;
@@ -125,11 +128,11 @@ public class Store extends AppCompatActivity {
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
+        if(token.equals("null")) fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Store.this, Category.class);
+                Intent i = new Intent(MyStore.this, Category.class);
                 //i.putExtra("data", productModel);
                 i.putExtra("backtrack", store);
                 startActivity(i);
@@ -171,7 +174,7 @@ public class Store extends AppCompatActivity {
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
-                        //Log.d(TAG, object.getJSONArray("Tags").toString());
+                        Log.d(TAG, object.getJSONArray("Tags").toString());
                         ProductModel product = new ProductModel();
                         product.setName(object.getString("Name"));
                         product.setSlug(object.getString("Slug"));
@@ -222,8 +225,9 @@ public class Store extends AppCompatActivity {
     }
 
     public void Get_Store(){
-        Log.d(TAG, Urls.BASE_URL + Urls.SINGLESTORE);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.SINGLESTORE + store.getSlug(), null, new Response.Listener<JSONObject>() {
+
+
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -254,10 +258,17 @@ public class Store extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                Log.d(TAG, "bad url");
                // progressBar.setVisibility(View.GONE);
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("X-AUTH-TOKEN", token);
+                return map;
+            }
+        };
         requestQueue.add(jsonObjectRequest);
     }
 

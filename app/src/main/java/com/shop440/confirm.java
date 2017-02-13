@@ -186,7 +186,7 @@ public class confirm extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     Log.d("response", response.toString());
-                    editor.putString("token", response.getString("Token"));
+                    editor.putString(Urls.TOKEN, response.getString("Token"));
                     editor.putString(getResources().getString(R.string.profileImage), user.getImage());
                     editor.putString(getResources().getString(R.string.username), user.getFullname());
                     editor.commit();

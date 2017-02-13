@@ -139,7 +139,7 @@ public class NewProduct extends AppCompatActivity {
         catModel = (CategoryModel) getIntent().getSerializableExtra("data");
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "null");
+        token = sharedPreferences.getString(Urls.TOKEN, "null");
         jsonArray = new JSONArray();
         jsonObject = new JSONObject();
         model = new ArrayList<>();

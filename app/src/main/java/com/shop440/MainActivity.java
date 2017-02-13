@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.shop440.Fragments.MainActivityFragment;
+import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
-        Log.d("token", sharedPreferences.getString("tokens", "null"));
+        Log.d("token", sharedPreferences.getString(Urls.TOKEN, "null"));
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

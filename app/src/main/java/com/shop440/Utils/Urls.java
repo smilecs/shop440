@@ -18,4 +18,5 @@ public class Urls {
     public static String GETCATEGORIES = "/api/categories";
     public static String ADDPRODUCT = "/api/me/stores/";
     public static String SINGLESTORE = "/api/stores/";
+    public static String TOKEN = "tokens";
 }

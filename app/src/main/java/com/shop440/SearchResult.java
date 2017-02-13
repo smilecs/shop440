@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -51,7 +52,10 @@ public class SearchResult extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.searchresult);
+        c = this;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         query = getIntent().getStringExtra("query");
         getSupportActionBar().setTitle(query);
         view = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -149,13 +153,13 @@ public class SearchResult extends AppCompatActivity {
     public String getUrl(String page, String q){
         if(getIntent().getBooleanExtra("isSearch", true)){
             try{
-                URI = Urls.GETPRODUCTS +"?query=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
+                URI = Urls.BASE_URL + Urls.GETPRODUCTS +"?query=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
             }catch (UnsupportedEncodingException un){
                 un.printStackTrace();
             }
         }else {
             try{
-                URI = Urls.GETPRODUCTS +"?category=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
+                URI = Urls.BASE_URL + Urls.GETPRODUCTS +"?category=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
             }catch (UnsupportedEncodingException un){
                 un.printStackTrace();
             }

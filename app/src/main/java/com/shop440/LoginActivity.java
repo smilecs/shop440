@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity  {
                     public void onResponse(JSONObject response) {
                         try{
                             Log.d("response", response.getString("Token"));
-                            editor.putString("token", response.getString("Token"));
+                            editor.putString(Urls.TOKEN, response.getString("Token"));
                             editor.apply();
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);

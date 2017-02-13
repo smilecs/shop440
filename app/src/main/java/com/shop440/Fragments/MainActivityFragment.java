@@ -25,6 +25,7 @@ import com.shop440.Adapters.ProductAdapter;
 import com.shop440.Models.ProductModel;
 import com.shop440.R;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
+import com.shop440.Utils.Metrics;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
@@ -93,7 +94,7 @@ public class MainActivityFragment extends Fragment {
         list = (RecyclerView) view.findViewById(R.id.recyclerView);
         bar = (ProgressBar) view.findViewById(R.id.progressBar);
         feedback = (TextView) view.findViewById(R.id.feedback);
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list), StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
         list.setAdapter(mainAdapter);

@@ -83,7 +83,7 @@ public class Profile extends AppCompatActivity {
         //getSupportActionBar().setTitle("Profile");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        token = sharedPreferences.getString("token", "null");
+        token = sharedPreferences.getString(Urls.TOKEN, "null");
         String Image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
         name.setTypeface(robotMedium);

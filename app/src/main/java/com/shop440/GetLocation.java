@@ -101,7 +101,7 @@ public class GetLocation extends AppCompatActivity implements
         store = (StoreModel) getIntent().getSerializableExtra("data");
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "null");
+        token = sharedPreferences.getString(Urls.TOKEN, "null");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 // The next two lines tell the new client that “this” current class will handle connection stuff
                 .addConnectionCallbacks(this)

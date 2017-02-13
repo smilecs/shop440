@@ -88,7 +88,7 @@ public class ProductView extends AppCompatActivity {
         requestQueue = volleySingleton.getmRequestQueue();
         ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
         model = new ArrayList<>();
-        getSupportActionBar().setTitle(productModel.getName());
+        //getSupportActionBar().setTitle(productModel.getName());
         //mainAdapter = new ProductAdapter(this, model);
         //list = (RecyclerView) findViewById(R.id.recyclerView);
         bar = (ProgressBar) findViewById(R.id.progressBar);

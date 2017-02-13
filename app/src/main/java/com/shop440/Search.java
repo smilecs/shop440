@@ -66,9 +66,14 @@ public class Search extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         int searchEditId = android.support.v7.appcompat.R.id.search_src_text;
+        searchItem.expandActionView();
         EditText et = (EditText) searchView.findViewById(searchEditId);
         et.setTextColor(Color.GREEN);
         et.setHintTextColor(Color.WHITE);
+        et.requestFocus();
+        searchView.setIconified(false);
+
+        //searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
