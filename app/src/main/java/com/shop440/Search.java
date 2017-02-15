@@ -72,15 +72,9 @@ public class Search extends AppCompatActivity {
         et.setHintTextColor(Color.WHITE);
         et.requestFocus();
         searchView.setIconified(false);
-
-        //searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // perform query here
-
-                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
-                // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();
                 Intent i = new Intent(Search.this, SearchResult.class);
                 i.putExtra("query", query);
@@ -103,7 +97,6 @@ public class Search extends AppCompatActivity {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Urls.BASE_URL + Urls.GETCATEGORIES, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-               // refreshLayout.setRefreshing(false);
                 bar.setVisibility(View.GONE);
                 for(int i = 0; i < response.length(); i++){
                     try{

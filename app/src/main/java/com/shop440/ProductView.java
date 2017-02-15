@@ -1,12 +1,21 @@
 package com.shop440;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -18,6 +27,17 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
 import com.shop440.Utils.FileCache;
@@ -37,7 +57,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ProductView extends AppCompatActivity {
+public class ProductView extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
     //ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     ProgressBar bar;
@@ -49,6 +72,13 @@ public class ProductView extends AppCompatActivity {
     String token;
     FileCache fileCache;
     ProductModel productModel;
+    static final int MYCODE = 2345;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    Location location;
+    private double currentLatitude;
+    private double currentLongitude;
     //StaggeredGridLayoutManager layoutManager;
     Boolean next = true;
     @BindView(R.id.productImage) NetworkImageView imageView;
@@ -73,6 +103,15 @@ public class ProductView extends AppCompatActivity {
         storeModel.setLogo(productModel.getOwnerLogo());
         i.putExtra("data", storeModel);
         startActivity(i);
+    }
+    @OnClick(R.id.getDirections) void GetDirecitons(){
+        //StartGps();
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?daddr="+productModel.getCoordinates()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER );
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+        startActivity(intent);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +175,19 @@ public class ProductView extends AppCompatActivity {
         });*/
 
         //GetData("1");
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                // The next two lines tell the new client that “this” current class will handle connection stuff
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                //fourth line adds the LocationServices API endpoint from GooglePlayServices
+                .addApi(LocationServices.API)
+                .build();
+
+        // Create the LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(3000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1000);
 
 
     }
@@ -250,5 +302,180 @@ public class ProductView extends AppCompatActivity {
         return "ok";
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
 
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                    /*
+                     * Thrown if Google Play services canceled the original
+                     * PendingIntent
+                     */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+                /*
+                 * If no resolution is available, display a dialog to the
+                 * user with the error.
+                 */
+            Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @TargetApi(23)
+    public void RequestPerms(){
+        requestPermissions(new String[]{
+                        android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                MYCODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MYCODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                        new Asynct().execute();
+                        //SaveData();
+                    }
+
+                }else{
+                   // AttachValues();
+                }
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Log.d("Getlocation", "onActivityResult");
+        if(requestCode == 313){
+            Log.d("Getlocation", "onActivityResult2");
+            new Asynct().execute();
+        }
+    }
+
+
+    public void SaveData(){
+        Log.d("GetLocation", currentLatitude + " WORKS " + currentLongitude);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    RequestPerms();
+                }
+            });
+
+        }else {
+            Log.d("GetLocation", currentLatitude + " WORKS2" + currentLongitude);
+            location = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+
+            if (location != null) {
+                currentLatitude = location.getLatitude();
+                currentLongitude = location.getLongitude();
+                Log.d("GetLocation", currentLatitude + " WORKS3" + currentLongitude);
+         //       store.setCoordinates(String.valueOf(currentLatitude)+","+String.valueOf(currentLongitude));
+       //         AttachValues();
+
+            }else{
+     //           AttachValues();
+            }
+        }
+    }
+
+    public void StartGps(){
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
+
+        PendingResult<LocationSettingsResult> results = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+        results.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                //final LocationSettingsStates = result.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        new Asynct().execute();
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // Location settings are not satisfied, but this can be fixed
+                        // by showing the user a dialog.
+                        try {
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            status.startResolutionForResult(
+                                    ProductView.this,
+                                    313);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Ignore the error.
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.CANCELED:
+                        new Asynct().execute();
+                        break;
+
+                }
+            }
+        });
+    }
+
+    private class Asynct extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            SaveData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("http://maps.google.com/maps?saddr="+String.valueOf(currentLatitude)+","+String.valueOf(currentLongitude)+"&daddr="+productModel.getCoordinates()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER );
+            intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+            startActivity(intent);
+        }
+    }
 }

@@ -147,6 +147,11 @@ public class MainActivityFragment extends Fragment {
                             store.setPlaceholder(" ");
 
                         }
+                        try{
+                            store.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0)+","+object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
+                        }catch (ArrayIndexOutOfBoundsException a){
+                            a.printStackTrace();
+                        }
                         model.add(store);
                     }
                     mainAdapter.notifyDataSetChanged();

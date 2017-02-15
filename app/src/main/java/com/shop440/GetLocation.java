@@ -203,8 +203,8 @@ public class GetLocation extends AppCompatActivity implements
                     if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-                       // new Asynct().execute();
-                        AttachValues();
+                       new Asynct().execute();
+                        //SaveData();
                     }
 
                 }else{
@@ -225,6 +225,8 @@ public class GetLocation extends AppCompatActivity implements
                 MYCODE);
     }
 
+
+    //get location data and save
     public void SaveData(){
         Log.d("GetLocation", currentLatitude + " WORKS " + currentLongitude);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -254,6 +256,7 @@ public class GetLocation extends AppCompatActivity implements
         }
     }
 
+    //Send data to server after getting all neccessary values
     private void SaveStore(JSONObject jsonObject){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEWSTORE, jsonObject, new Response.Listener<JSONObject>() {
 

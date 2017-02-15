@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimaryDark"
-            app:collapsedTitleGravity="top"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
