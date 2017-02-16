@@ -27,6 +27,10 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -79,8 +83,13 @@ public class ProductView extends AppCompatActivity implements
     Location location;
     private double currentLatitude;
     private double currentLongitude;
+    SharePhoto sharePhoto;
+    ShareLinkContent content;
+    ShareDialog shareDialog;
+    ShareContent shareContent;
     //StaggeredGridLayoutManager layoutManager;
     Boolean next = true;
+    @BindView(R.id.shareText) TextView shareText;
     @BindView(R.id.productImage) NetworkImageView imageView;
     @BindView(R.id.productName) TextView productName;
     @BindView(R.id.productDescription) TextView productDesc;
@@ -95,6 +104,19 @@ public class ProductView extends AppCompatActivity implements
             e.printStackTrace();
         }
     }
+
+    @OnClick(R.id.shareCard) void shareItem(){
+        Log.d(TAG, "facebookClick");
+        //shareDialog.show(shareContent, ShareDialog.Mode.AUTOMATIC);
+        content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://shop440.com/api/products/"+productModel.getSlug()))
+                .setContentTitle(productModel.getName())
+                .setImageUrl(Uri.parse(productModel.getImage()))
+                .build();
+        ShareDialog.show(ProductView.this, content);
+
+    }
+
     @OnClick(R.id.vistStore) void visit(){
         Intent i = new Intent(c, Store.class);
         StoreModel storeModel = new StoreModel();
@@ -160,7 +182,27 @@ public class ProductView extends AppCompatActivity implements
         byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         imageView.setImageBitmap(bit);
+        /*Bitmap forSocialMedia;
+        imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+               // sharePhoto = new SharePhoto.Builder().setBitmap(response.getBitmap()).build();
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });*/
         imageView.setImageUrl(productModel.getImage(), imageLoader);
+
+        /*shareContent = new ShareMediaContent.Builder()
+                .addMedium(sharePhoto)
+                .setContentUrl(Uri.parse("https://shop440.com/api/products/"+productModel.getSlug()))
+                .build();
+        shareDialog = new ShareDialog(this);*/
+
+
 
         /*
         imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {

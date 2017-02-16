@@ -80,7 +80,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         byte[] imageByte = Base64.decode(product.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         holder.productDisplay.setImageBitmap(bit);
-        holder.productDisplay.setMinimumHeight(bit.getHeight());
+        try{
+            holder.productDisplay.setMinimumHeight(bit.getHeight());
+        }catch (NullPointerException npe){
+            npe.printStackTrace();
+            //holder.productDisplay.setMinimumHeight(bit.getHeight());
+        }
         holder.productDisplay.setImageUrl(product.getImage(), imageLoader);
         /*imageLoader.get(product.getImage(), new ImageLoader.ImageListener() {
             @Override

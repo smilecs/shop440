@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/mainImage"
+                android:id="@+id/layout"
                 android:layout_marginTop="12dp">
                 <ImageView
                     android:layout_width="24dp"
