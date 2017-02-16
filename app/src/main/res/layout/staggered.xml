@@ -37,6 +37,7 @@
                     android:id="@+id/logo"
                     android:layout_below="@+id/product"
                     android:layout_marginLeft="12dp"
+                    android:layout_marginBottom="6dp"
                     app:srcCompat="@drawable/ic_online_store" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,6 +47,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"
                     android:layout_below="@+id/product"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:text="My Store"
@@ -56,19 +58,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Danshiki"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@+id/price"
                     android:layout_marginBottom="6dp"
                     android:textAppearance="?android:textAppearanceSmall"
-                    android:layout_alignStart="@+id/logo"
+
                     android:id="@+id/product"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@android:color/black"
                     android:id="@+id/price"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:layout_alignStart="@+id/logo"
                     android:text="400000"/>
             </RelativeLayout>
 
