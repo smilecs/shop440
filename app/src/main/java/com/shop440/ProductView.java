@@ -24,10 +24,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.ShareMediaContent;
-import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
@@ -68,6 +65,7 @@ public class ProductView extends AppCompatActivity {
     @BindView(R.id.productTags) TextView productTags;
     //@BindView(R.id.recyclerView) RecyclerView list;
     @BindView(R.id.storeName) TextView storeName;
+    @BindView(R.id.shareProgress) ProgressBar progressBar;
     @OnClick(R.id.download) void Download(){
         try{
             downloadImage(productModel.getImage());
@@ -140,6 +138,8 @@ public class ProductView extends AppCompatActivity {
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
+                //Log.d(TAG, result.getPostId());
+
 
             }
 
@@ -155,14 +155,15 @@ public class ProductView extends AppCompatActivity {
             }
         });
         /*if (ShareDialog.canShow(ShareLinkContent.class)) {
+         */
             content = new ShareLinkContent.Builder()
                     .setContentUrl(Uri.parse("https://shop440.com/api/products/"+productModel.getSlug()))
                     .setContentTitle(productModel.getName())
                     .setImageUrl(Uri.parse(productModel.getImage()))
-                    .build();*/
-            SharePhoto sharePhoto = new SharePhoto.Builder().setImageUrl(Uri.parse(productModel.getImage())).setCaption(productModel.getName()).build();
+                    .build();
+            /*SharePhoto sharePhoto = new SharePhoto.Builder().setImageUrl(Uri.parse(productModel.getImage())).setCaption(productModel.getName()).build();
             final ShareContent shareContent = new ShareMediaContent.Builder()
-                    .addMedium(sharePhoto).setContentUrl(Uri.parse("https://shop440.com/api/products/"+productModel.getSlug())).build();
+                    .addMedium(sharePhoto).setContentUrl(Uri.parse("https://shop440.com/api/products/"+productModel.getSlug())).build();*/
             final ShareDialog shareDialog = new ShareDialog(this);
 
 
@@ -173,7 +174,8 @@ public class ProductView extends AppCompatActivity {
         shareCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareDialog.show(shareContent, ShareDialog.Mode.AUTOMATIC);
+                progressBar.setVisibility(View.VISIBLE);
+                shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
             }
         });
 
@@ -195,6 +197,8 @@ public class ProductView extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "here");
+        progressBar.setVisibility(View.GONE);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
