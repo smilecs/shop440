@@ -1,215 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.shop440.ProductView">
-
-    <android.support.design.widget.AppBarLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <android.support.design.widget.CollapsingToolbarLayout
+        android:layout_marginBottom="?attr/actionBarSize"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimaryDark"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:titleEnabled="false"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
+            android:layout_height="wrap_content">
             <com.android.volley.toolbox.NetworkImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/productImage"
                 android:minHeight="180dp"
-                android:layout_marginTop="24dp"
+
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:adjustViewBounds="true"
                 />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-<android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="?attr/actionBarSize"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/productDescriptionCard"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp">
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/productDescriptionCard"
+                android:layout_marginLeft="12dp"
+                android:layout_below="@+id/productImage"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="4000"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:id="@+id/productPrice"
-                    android:layout_marginTop="12dp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="6dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_marginStart="12dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Product Name"
-                    android:id="@+id/productName"
-                    android:textStyle="bold"
-                    android:layout_below="@+id/productPrice"
-                    android:layout_marginBottom="12dp"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    />
+                    android:layout_marginTop="12dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4000"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:id="@+id/productPrice"
+                        android:layout_marginTop="12dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_marginStart="12dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Product Name"
+                        android:id="@+id/productName"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/productPrice"
+                        android:layout_marginBottom="12dp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/productDescription"
-                    android:layout_below="@+id/productName"
-                    android:layout_centerHorizontal="true"
-                    android:text="Product Description"
-                    android:textAlignment="center"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginRight="12dp"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_marginTop="6dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/productTags"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_below="@+id/productPrice"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="toys kids babies"
-                    android:visibility="gone"
-                    android:textAppearance="?android:textAppearanceSmall"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/productDescription"
+                        android:layout_below="@+id/productName"
+                        android:layout_centerHorizontal="true"
+                        android:text="Product Description"
+                        android:textAlignment="center"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginRight="12dp"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_marginTop="6dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/productTags"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_below="@+id/productPrice"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="toys kids babies"
+                        android:visibility="gone"
+                        android:textAppearance="?android:textAppearanceSmall"/>
 
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:id="@+id/vistStore"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_below="@+id/productDescriptionCard">
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_below="@+id/productDescription">
-                <ImageView
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:paddingTop="12dp"
-                    android:id="@+id/store_image"
-                    app:srcCompat="@drawable/ic_online_store"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_margin="12dp"
+                android:id="@+id/vistStore"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_below="@+id/productDescriptionCard">
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:text="My Store"
-                    android:id="@+id/storeName"
-                    android:textAllCaps="true"
-                    android:layout_below="@+id/store_image"
-                    android:textColor="@android:color/black"
-                    android:textAlignment="center"
-                    android:layout_centerHorizontal="true"
-                    android:textStyle="bold"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/storeName"
-                    android:text="See more from store"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textStyle="italic"
                     android:layout_marginBottom="6dp"
-                    android:layout_centerHorizontal="true"/>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+                    android:layout_below="@+id/productDescription">
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:paddingTop="12dp"
+                        android:id="@+id/store_image"
+                        app:srcCompat="@drawable/ic_online_store"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="My Store"
+                        android:id="@+id/storeName"
+                        android:textAllCaps="true"
+                        android:layout_below="@+id/store_image"
+                        android:textColor="@android:color/black"
+                        android:textAlignment="center"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="bold"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/storeName"
+                        android:text="See more from store"
+                        android:textColor="@android:color/holo_green_dark"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="6dp"
+                        android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:id="@+id/shareCard"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_below="@+id/vistStore">
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/shareProgress"
-                    android:visibility="gone"
-                    android:layout_centerHorizontal="true"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/shareText"
-                    android:text="Share on Facebook"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textStyle="bold"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    android:layout_centerHorizontal="true"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/shareText"
-                    android:layout_centerHorizontal="true"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="12dp"
-                    android:textColor="@android:color/holo_blue_light"
-                    android:text="let your friends see this item"
-                    />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:id="@+id/shareCard"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_below="@+id/vistStore">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shareProgress"
+                        android:visibility="gone"
+                        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shareText"
+                        android:text="Share on Facebook"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textStyle="bold"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:layout_centerHorizontal="true"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/shareText"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="12dp"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:text="let your friends see this item"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
 
-    </RelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
     <android.support.v7.widget.Toolbar
@@ -217,6 +187,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         app:theme="@style/AppTheme3"
+        app:popupTheme="@style/AppTheme3"
         android:elevation="12dp"
         android:background="#fff"
         >
@@ -265,7 +236,9 @@
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+<include layout="@layout/toolbar"/>
+
+</FrameLayout>
 
 
 
-</android.support.design.widget.CoordinatorLayout>

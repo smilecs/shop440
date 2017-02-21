@@ -131,6 +131,7 @@ public class MainActivityFragment extends Fragment {
                         store.setPrice(object.getString("Price"));
                         store.setCategory(object.getString("Category"));
                         store.setCity(object.getString("City"));
+                        store.setSlug(object.getString("Slug"));
                         store.setCitySlug(object.getString("CitySlug"));
                         store.setOwner(object.getJSONObject("Store").getString("Name"));
                         store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
