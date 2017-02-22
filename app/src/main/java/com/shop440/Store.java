@@ -182,6 +182,7 @@ public class Store extends AppCompatActivity {
                         product.setCitySlug(object.getString("CitySlug"));
                         product.setOwner(object.getJSONObject("Store").getString("Name"));
                         product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        product.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
                         product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
                         product.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
