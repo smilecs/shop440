@@ -37,7 +37,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView StoreName, price, product;
+        TextView StoreName, price, product, category, location;
         ImageView logo;
         NetworkImageView productDisplay;
         public ViewHolder(final View itemView) {
@@ -46,6 +46,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             StoreName = (TextView) itemView.findViewById(R.id.storeName);
             productDisplay = (NetworkImageView) itemView.findViewById(R.id.mainImage);
             product = (TextView) itemView.findViewById(R.id.product);
+            category = (TextView) itemView.findViewById(R.id.category);
+            location = (TextView) itemView.findViewById(R.id.location);
             logo = (ImageView) itemView.findViewById(R.id.logo);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,6 +99,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 error.printStackTrace();
             }
         });*/
+        holder.category.setTypeface(robotThin);
+        holder.location.setTypeface(robotThin);
         holder.itemView.setTag(product);
         holder.StoreName.setTypeface(robotMedium);
         holder.StoreName.setTypeface(robotCondensed);
@@ -105,6 +109,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.product.setText(product.getName());
         holder.price.setTypeface(robotBold);
         holder.price.setText(product.getPrice());
+        holder.category.setText(product.getCategory());
+        holder.location.setText(product.getCity());
 
     }
 

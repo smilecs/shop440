@@ -113,6 +113,9 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void GetData(String page){
+        if(page.equals("1")){
+            model.clear();
+        }
 
         feedback.setVisibility(View.GONE);
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS + "?p=" + page, null, new Response.Listener<JSONObject>() {

@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 public class Metrics {
     public static int GetMetrics(RecyclerView list){
         //DisplayMetrics metrics = new DisplayMetrics();
-        int spans = (int) Math.floor(list.getContext().getResources().getDisplayMetrics().widthPixels / (float) 200);
+        int spans = (int) Math.floor(list.getContext().getResources().getDisplayMetrics().widthPixels / (float) 240);
         return spans;
     }
 }

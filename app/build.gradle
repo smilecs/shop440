@@ -34,4 +34,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:10.0.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.github.paolorotolo:appintro:4.1.0'
 }

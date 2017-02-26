@@ -101,6 +101,7 @@ public class ProductView extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         c = this;
         ButterKnife.bind(this);
         fileCache = new FileCache(this);

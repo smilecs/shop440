@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Buy safely and securely"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView3"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginTop="12dp"
+        android:id="@+id/textView3"
+        android:typeface="sans"
+        android:textStyle="normal|bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textAlignment="center"
+        android:layout_margin="12dp"
+        android:text="Simply get directons to the store, or request home delivery by Shopp440"
+        android:fontFamily="sans-serif"
+        android:typeface="monospace" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/ic_shopper_at_store"
+        android:id="@+id/imageView3"
+        android:layout_marginTop="88dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
