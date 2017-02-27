@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     tools:context="com.shop440.Search">
 
@@ -33,12 +34,13 @@
                 android:id="@+id/text"
                 android:layout_marginLeft="12dp"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="or Choose a category to view"/>
+                android:text="or Choose a category"/>
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text"
+                android:layout_marginTop="24dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:id="@+id/recyclerView"/>
             <ProgressBar

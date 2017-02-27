@@ -116,7 +116,7 @@ public class ProductView extends AppCompatActivity {
                 "fonts/RobotoCondensed-Light.ttf");
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
                 "fonts/RobotoCondensed-Bold.ttf");
-        Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-ThinItalic.ttf");
+        Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
         productPrice.setTypeface(robotBold);
         productName.setTypeface(robotMedium);
         productDesc.setTypeface(robotThinItalic);
@@ -167,11 +167,7 @@ public class ProductView extends AppCompatActivity {
                     .setContentTitle(productModel.getName())
                     .setImageUrl(Uri.parse(productModel.getImage()))
                     .build();
-
-
-            final ShareDialog shareDialog = new ShareDialog(this);
-
-
+        final ShareDialog shareDialog = new ShareDialog(this);
         CardView shareCard = (CardView) findViewById(R.id.shareCard);
         shareCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,8 +176,6 @@ public class ProductView extends AppCompatActivity {
                 shareDialog.show(content);
             }
         });
-
-
     }
 
     @Override
@@ -193,7 +187,6 @@ public class ProductView extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
     }
-
 
 
     @Override

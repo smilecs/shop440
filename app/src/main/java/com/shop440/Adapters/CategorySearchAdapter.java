@@ -56,7 +56,7 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
     @Override
     public void onBindViewHolder(CategorySearchAdapter.ViewHolder holder, int position) {
         Typeface robotCondensed = Typeface.createFromAsset(c.getAssets(),
-                "fonts/RobotoCondensed-Light.ttf");
+                "fonts/Roboto-Thin.ttf");
         CategoryModel categoryModel = model.get(position);
         holder.category.setTypeface(robotCondensed);
         holder.category.setText(categoryModel.getName());

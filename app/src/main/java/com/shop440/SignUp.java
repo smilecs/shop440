@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.shop440.Models.User;
 import com.shop440.Utils.Image;
@@ -18,7 +19,6 @@ import com.shop440.Utils.Image;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by SMILECS on 12/26/16.
@@ -29,7 +29,7 @@ public class SignUp extends AppCompatActivity {
     User user;
     Context c;
     private static final int PICK_IMAGE = 1;
-    @BindView(R.id.imageView) CircleImageView profile;
+    @BindView(R.id.imageView) ImageView profile;
     @BindView(R.id.phone) EditText phone;
     @BindView(R.id.name) EditText name;
     @OnClick(R.id.create) void submit(){
