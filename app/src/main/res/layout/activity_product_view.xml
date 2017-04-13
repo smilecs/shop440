@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,9 +25,52 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:layout_below="@+id/productImage"
+                android:id="@+id/shareCard"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shareProgress"
+                        android:visibility="gone"
+                        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shareText"
+                        android:text="Share on Facebook"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textStyle="bold"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:layout_centerHorizontal="true"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/shareText"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="12dp"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:text="let your friends see this item"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/productDescriptionCard"
                 android:layout_marginLeft="12dp"
-                android:layout_below="@+id/productImage"
+               android:layout_below="@+id/shareCard"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="12dp">
                 <RelativeLayout
@@ -134,47 +178,6 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:id="@+id/shareCard"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_below="@+id/vistStore">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ProgressBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/shareProgress"
-                        android:visibility="gone"
-                        android:layout_centerHorizontal="true"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/shareText"
-                        android:text="Share on Facebook"
-                        android:textColor="@android:color/holo_blue_dark"
-                        android:textStyle="bold"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:layout_centerHorizontal="true"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/shareText"
-                        android:layout_centerHorizontal="true"
-                        android:textStyle="italic"
-                        android:layout_marginBottom="12dp"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:text="let your friends see this item"
-                        />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
 
 
         </RelativeLayout>

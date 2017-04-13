@@ -27,6 +27,11 @@
     <item name="background">@android:color/transparent</item>
   </style>
 
+  <style name="AppThemeNoStatus" parent="@style/AppTheme">
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowTranslucentNavigation">true</item>
+  </style>
+
 
   <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
