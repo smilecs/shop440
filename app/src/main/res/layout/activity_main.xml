@@ -12,25 +12,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimaryDark"
-                app:expandedTitleGravity="top"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
-                app:titleEnabled="true"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimaryDark"
-                android:title="Shop440"
                 app:theme="@style/ToolBarStyle"
+                android:title="Shop440"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
-            </android.support.design.widget.CollapsingToolbarLayout>
+
         </android.support.design.widget.AppBarLayout>
     <FrameLayout
         android:layout_width="match_parent"

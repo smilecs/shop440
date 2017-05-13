@@ -116,6 +116,7 @@ public class SearchResult extends AppCompatActivity {
                         store.setCategory(object.getString("Category"));
                         store.setCity(object.getString("City"));
                         store.setCitySlug(object.getString("CitySlug"));
+                        store.setSlug(object.getString("Slug"));
                         store.setOwner(object.getJSONObject("Store").getString("Name"));
                         store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
                         store.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));

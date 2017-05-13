@@ -75,7 +75,6 @@ public class Search extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchView.clearFocus();
                 Intent i = new Intent(Search.this, SearchResult.class);
                 i.putExtra("query", query);
                 i.putExtra("isSearch", true);
