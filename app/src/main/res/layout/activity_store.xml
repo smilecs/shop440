@@ -15,12 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimaryDark"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="?android:textAppearanceSmall"
+            app:theme="@style/ToolBarStyle"
             app:titleEnabled="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

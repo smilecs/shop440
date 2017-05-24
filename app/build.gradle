@@ -35,9 +35,11 @@ dependencies {
         exclude group:  'com.android.support', module: 'support-compat'
     }
 
-    compile ('com.google.android.gms:play-services:10.0.1'){
+    compile ('com.google.android.gms:play-services:10.2.4'){
         exclude group: 'com.android.support', module: 'mediarouter-v7'
     }
+    compile 'com.google.android.gms:play-services-base:10.2.4'
+    compile 'com.google.android.gms:play-services-maps:10.2.4'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile('com.facebook.android:facebook-android-sdk:4.22.0') {

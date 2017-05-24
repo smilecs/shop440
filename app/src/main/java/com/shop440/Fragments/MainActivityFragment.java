@@ -182,6 +182,5 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //GetData("1");
     }
 }

@@ -17,7 +17,7 @@
             android:id="@+id/text"
             android:layout_marginLeft="12dp"
             android:textAppearance="?android:textAppearanceLarge"
-            android:text="Please Select your Product Category to proceed"/>
+            android:text="@string/please_select_your_product_to"/>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

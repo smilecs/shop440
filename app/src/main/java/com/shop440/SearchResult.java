@@ -70,8 +70,7 @@ public class SearchResult extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshLayout.setRefreshing(true);
-                getUrl("1", query);
+                GetData(String.valueOf(page));
             }
         });
         volleySingleton = VolleySingleton.getsInstance();
@@ -90,7 +89,7 @@ public class SearchResult extends AppCompatActivity {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d(TAG, String.valueOf(page));
                 if(next){
-                    getUrl(String.valueOf(page), query);
+                    GetData(String.valueOf(page));
                 }
             }
         });
@@ -98,7 +97,7 @@ public class SearchResult extends AppCompatActivity {
     }
 
     private void GetData(String page){
-        feedback.setVisibility(View.GONE);
+        refreshLayout.setRefreshing(true);
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(getUrl(page, query), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -142,6 +141,7 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                refreshLayout.setRefreshing(false);
                 bar.setVisibility(View.GONE);
                 feedback.setVisibility(View.VISIBLE);
                 Snackbar.make(view, "Oops! Connectivity problems", Snackbar.LENGTH_LONG).show();

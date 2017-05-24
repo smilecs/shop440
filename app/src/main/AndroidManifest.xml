@@ -21,6 +21,12 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:supportsRtl="true">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBU9CTuoBXNg1wdgk956LxLd1ELdFPyfQ4"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
         <provider android:authorities="com.facebook.app.FacebookContentProvider909211035848244"
@@ -61,17 +67,6 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".intro"
             />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".Profile"
@@ -97,7 +92,11 @@
             android:name=".ProductView"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
-            android:theme="@style/AppThemeNoStatus" />
+            android:theme="@style/AppThemeNoStatus">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shop440.MainActivity" />
+            </activity>
         <activity
             android:name=".Search"
             android:label="@string/title_activity_search"

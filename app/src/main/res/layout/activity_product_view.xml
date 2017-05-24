@@ -7,26 +7,25 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
         >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
             <com.android.volley.toolbox.NetworkImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/productImage"
                 android:minHeight="180dp"
-
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
                 />
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:layout_below="@+id/productImage"
+                android:layout_below="@+id/productDescriptionCard"
                 android:id="@+id/shareCard"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -70,9 +69,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/productDescriptionCard"
                 android:layout_marginLeft="12dp"
-               android:layout_below="@+id/shareCard"
+                android:layout_below="@+id/map_layout"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,6 +99,7 @@
                         android:layout_below="@+id/productPrice"
                         android:layout_marginBottom="12dp"
                         android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textAppearance="?android:textAppearanceLarge"
                         />
@@ -108,12 +110,10 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/productDescription"
                         android:layout_below="@+id/productName"
-                        android:layout_centerHorizontal="true"
                         android:text="Product Description"
-                        android:textAlignment="center"
+                        android:textAlignment="viewStart"
                         android:layout_marginBottom="12dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
+                        android:layout_alignStart="@+id/productPrice"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimaryDark"
                         />
@@ -121,12 +121,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/productTags"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginLeft="6dp"
+                        android:layout_alignStart="@+id/productDescription"
                         android:layout_marginBottom="12dp"
                         android:layout_below="@+id/productPrice"
                         android:textColor="@color/colorPrimaryDark"
-                        android:text="toys kids babies"
                         android:visibility="gone"
                         android:textAppearance="?android:textAppearanceSmall"/>
 
@@ -136,11 +134,32 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/productDescriptionCard"
+                android:layout_alignEnd="@+id/productDescriptionCard"
+                android:layout_marginTop="12dp"
+                android:id="@+id/map_layout"
+                android:layout_below="@+id/productImage">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/map"
+                        android:layout_width="match_parent"
+                        android:layout_height="148dp"
+                        app:liteMode="true"
+                        app:mapType="normal" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:id="@+id/vistStore"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:layout_below="@+id/productDescriptionCard">
+                android:layout_below="@+id/shareCard">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -177,70 +196,9 @@
                         android:layout_centerHorizontal="true"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
-
-
-
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-
-
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom"
-        app:theme="@style/AppTheme3"
-        app:popupTheme="@style/AppTheme3"
-        android:elevation="12dp"
-        android:background="#fff"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:paddingTop="12dp"
-                android:id="@+id/like"
-                android:focusable="true"
-                android:visibility="gone"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingBottom="6dp"
-                app:srcCompat="@drawable/ic_thumbs_up"
-                />
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="6dp"
-                android:layout_marginLeft="24dp"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_toRightOf="@+id/like"
-                android:id="@+id/download"
-                app:srcCompat="@drawable/ic_download"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Directions"
-                android:id="@+id/getDirections"
-                android:background="@android:color/black"
-                android:textColor="#fff"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_alignParentRight="true"
-                android:textAlignment="center" />
-
-
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
 <include layout="@layout/toolbar"/>
-
 </FrameLayout>
 
 

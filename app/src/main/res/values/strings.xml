@@ -33,4 +33,7 @@
     <string name="title_activity_product_view">ProductView</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_searchresult">SearchresultActivity</string>
+    <string name="go_to">Goto</string>
+    <string name="download">download</string>
+    <string name="please_select_your_product_to">Please Select your Product Category to proceed</string>
 </resources>

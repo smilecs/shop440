@@ -7,12 +7,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +33,14 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
 import com.shop440.Utils.FileCache;
@@ -46,7 +59,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ProductView extends AppCompatActivity {
+public class ProductView extends AppCompatActivity implements OnMapReadyCallback
+{
     ProgressBar bar;
     String TAG = "ProductView";
     VolleySingleton volleySingleton;
@@ -60,6 +74,12 @@ public class ProductView extends AppCompatActivity {
     SharePhoto.Builder sharePhoto;
     SharePhoto photo;
     Boolean next = true;
+    String[] latlng;
+    private LatLng coord;
+    private ImageLoader imageLoader;
+    private Bundle bundle;
+    private ProductView productView;
+    MapView map;
     @BindView(R.id.shareText) TextView shareText;
     @BindView(R.id.productImage) NetworkImageView imageView;
     @BindView(R.id.productName) TextView productName;
@@ -68,13 +88,6 @@ public class ProductView extends AppCompatActivity {
     @BindView(R.id.productTags) TextView productTags;
     @BindView(R.id.storeName) TextView storeName;
     @BindView(R.id.shareProgress) ProgressBar progressBar;
-    @OnClick(R.id.download) void Download(){
-        try{
-            downloadImage(productModel.getImage());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     @OnClick(R.id.vistStore) void visit(){
         Intent i = new Intent(c, Store.class);
@@ -85,7 +98,7 @@ public class ProductView extends AppCompatActivity {
         i.putExtra("data", storeModel);
         startActivity(i);
     }
-    @OnClick(R.id.getDirections) void GetDirecitons(){
+    @OnClick(R.id.map_layout) void GetDirecitons(){
         //StartGps();
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?daddr="+productModel.getCoordinates()));
@@ -97,7 +110,12 @@ public class ProductView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bundle = savedInstanceState;
+        productView = this;
         setContentView(R.layout.activity_product_view);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        map = (MapView) findViewById(R.id.map);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,40 +124,18 @@ public class ProductView extends AppCompatActivity {
         ButterKnife.bind(this);
         fileCache = new FileCache(this);
         productModel = (ProductModel) getIntent().getSerializableExtra("data");
+        latlng = productModel.getCoordinates().split(",");
+        Log.d("coord", productModel.getCoordinates());
+        coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
-        ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
+        imageLoader = VolleySingleton.getsInstance().getImageLoader();
         bar = (ProgressBar) findViewById(R.id.progressBar);
-        Typeface robotMedium = Typeface.createFromAsset(getAssets(),
-                "fonts/Roboto-Medium.ttf");
-        Typeface robotCondensed = Typeface.createFromAsset(getAssets(),
-                "fonts/RobotoCondensed-Light.ttf");
-        Typeface robotBold = Typeface.createFromAsset(getAssets(),
-                "fonts/RobotoCondensed-Bold.ttf");
-        Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
-        productPrice.setTypeface(robotBold);
-        productName.setTypeface(robotMedium);
-        productDesc.setTypeface(robotThinItalic);
-        productName.setText(productModel.getName());
-        productDesc.setText(productModel.getDescription());
-        productPrice.setText(productModel.getPrice());
-        storeName.setText(productModel.getOwner());
+        initUi();
         sharePhoto = new SharePhoto.Builder();
         byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         imageView.setImageBitmap(bit);
-        imageView.setImageUrl(productModel.getImage(), imageLoader);
-        imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                photo = sharePhoto.setBitmap(response.getBitmap()).setCaption(productModel.getName()).build();
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
@@ -161,12 +157,12 @@ public class ProductView extends AppCompatActivity {
 
             }
         });
-            Log.d(TAG, productModel.getSlug());
-            content = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse("https://shop440.com/products/"+productModel.getSlug()))
-                    .setContentTitle(productModel.getName())
-                    .setImageUrl(Uri.parse(productModel.getImage()))
-                    .build();
+        Log.d(TAG, productModel.getSlug());
+        content = new ShareLinkContent.Builder()
+              .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.getSlug()))
+              .setContentTitle(productModel.getName())
+              .setImageUrl(Uri.parse(productModel.getImage()))
+              .build();
         final ShareDialog shareDialog = new ShareDialog(this);
         CardView shareCard = (CardView) findViewById(R.id.shareCard);
         shareCard.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +172,35 @@ public class ProductView extends AppCompatActivity {
                 shareDialog.show(content);
             }
         });
+
     }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        imageView.setImageUrl(productModel.getImage(), imageLoader);
+        imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                photo = sharePhoto.setBitmap(response.getBitmap()).setCaption(productModel.getName()).build();
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                map.onCreate(bundle);
+                map.getMapAsync(productView);
+            }
+        }, 1800);
+    }
+
+
 
     @Override
     protected void onStart() {
@@ -248,4 +272,55 @@ public class ProductView extends AppCompatActivity {
         return "ok";
     }
 
+    private void initUi(){
+        Typeface robotMedium = Typeface.createFromAsset(getAssets(),
+              "fonts/Roboto-Medium.ttf");
+        Typeface robotCondensed = Typeface.createFromAsset(c.getAssets(),
+              "fonts/Roboto-Thin.ttf");
+        Typeface robotBold = Typeface.createFromAsset(getAssets(),
+              "fonts/RobotoCondensed-Bold.ttf");
+        Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
+        productPrice.setTypeface(robotMedium);
+        productName.setTypeface(robotMedium);
+        productDesc.setTypeface(robotCondensed);
+        productName.setText(productModel.getName());
+        productDesc.setText(productModel.getDescription());
+        productPrice.setText(productModel.getPrice());
+        storeName.setText(productModel.getOwner());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.d("here", "here");
+        LatLngBounds.Builder builder = LatLngBounds.builder();
+        builder.include(coord);
+        googleMap.addMarker(new MarkerOptions().position(coord).title(productModel.getShop()));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15));
+        map.onResume();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.productview, menu);
+        //MenuItem searchItem = menu.findItem(R.id.search);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.download){
+            try{
+                downloadImage(productModel.getImage());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

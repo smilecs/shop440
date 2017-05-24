@@ -171,7 +171,6 @@ public class Store extends AppCompatActivity {
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
-                        //Log.d(TAG, object.getJSONArray("Tags").toString());
                         ProductModel product = new ProductModel();
                         product.setName(object.getString("Name"));
                         product.setSlug(object.getString("Slug"));
@@ -184,12 +183,11 @@ public class Store extends AppCompatActivity {
                         product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
                         product.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
                         product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        product.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0)+","+object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
                         product.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
                             product.setPlaceholder(placeholder[1]);
-                            //Log.d(TAG, placeholder[1]);
-
                         }catch (Exception e){
                             e.printStackTrace();
                             product.setPlaceholder("");
