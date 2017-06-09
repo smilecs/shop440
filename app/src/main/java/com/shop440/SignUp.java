@@ -34,8 +34,8 @@ public class SignUp extends AppCompatActivity {
     @BindView(R.id.phone) EditText phone;
     @BindView(R.id.name) EditText name;
     @OnClick(R.id.create) void submit(){
-        user.setFullname(phone.getText().toString());
-        user.setFullname(name.getText().toString());
+        user.setName(phone.getText().toString());
+        user.setName(name.getText().toString());
         user.setPhone(phone.getText().toString());
         Intent i = new Intent(c, confirm.class);
         i.putExtra("phone", phone.getText().toString());

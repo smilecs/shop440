@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shop440">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.shop440">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,6 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".Utils.Application"
@@ -32,6 +34,16 @@
         <provider android:authorities="com.facebook.app.FacebookContentProvider909211035848244"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true" />
+        <meta-data android:name="com.facebook.accountkit.ApplicationName"
+                   android:value="@string/app_name" />
+        <meta-data android:name="com.facebook.accountkit.ClientToken"
+                   android:value="@string/fb_account_kit" />
+
+        <activity
+            android:name="com.facebook.accountkit.ui.AccountKitActivity"
+            android:theme="@style/AppLoginTheme"
+            tools:replace="android:theme"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -92,7 +104,46 @@
             android:name=".ProductView"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
-            android:theme="@style/AppThemeNoStatus">
+            android:theme="@style/AppTheme"
+            android:exported="true">
+            <!--web and mobile urls differ web client uses /products for requests-->
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
+                      android:host="shop440.com"
+                      android:pathPrefix="/products"
+                    />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
+                      android:host="shop440.com"
+                      android:pathPrefix="/api/products"
+                      />
+                android-app://com.shop440/https/shop440
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
+                      android:host="www.shop440.com"
+                      android:pathPrefix="/products"
+                    />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
+                      android:host="www.shop440.com"
+                      android:pathPrefix="/api/products"
+                    />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shop440.MainActivity" />

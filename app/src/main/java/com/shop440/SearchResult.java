@@ -39,7 +39,6 @@ public class SearchResult extends AppCompatActivity {
     ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     Context c;
-    ProgressBar bar;
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     StaggeredGridLayoutManager layoutManager;
@@ -78,7 +77,6 @@ public class SearchResult extends AppCompatActivity {
         model = new ArrayList<>();
         mainAdapter = new ProductAdapter(c, model);
         list = (RecyclerView) findViewById(R.id.recyclerView);
-        bar = (ProgressBar)   findViewById(R.id.progressBar);
         feedback = (TextView) findViewById(R.id.feedback);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
@@ -103,7 +101,6 @@ public class SearchResult extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     refreshLayout.setRefreshing(false);
-                    bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
@@ -133,6 +130,7 @@ public class SearchResult extends AppCompatActivity {
                     mainAdapter.notifyDataSetChanged();
                 }catch(JSONException e){
                     e.printStackTrace();
+                    refreshLayout.setRefreshing(false);
                     Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_LONG).show();
                 }
 
@@ -142,7 +140,6 @@ public class SearchResult extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 refreshLayout.setRefreshing(false);
-                bar.setVisibility(View.GONE);
                 feedback.setVisibility(View.VISIBLE);
                 Snackbar.make(view, "Oops! Connectivity problems", Snackbar.LENGTH_LONG).show();
             }

@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.shop440.Dialog.LoginFragmentDialog;
 import com.shop440.Fragments.MainActivityFragment;
+import com.shop440.Utils.AppEventsLogger;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
 
@@ -59,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
         }*/
         volleySingleton = VolleySingleton.getsInstance();
 
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        AppEventsLogger.logMainActivityOpenedEvent();
     }
 
     @Override
