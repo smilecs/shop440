@@ -18,6 +18,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/productImage"
                 android:minHeight="180dp"
+                android:maxHeight="600dp"
+                android:layout_alignLeft="@+id/shareCard"
+                android:layout_alignStart="@+id/shareCard"
+                android:layout_alignEnd="@+id/shareCard"
+                android:layout_alignRight="@+id/shareCard"
                 android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
                 />
@@ -89,6 +94,7 @@
                         android:layout_marginBottom="6dp"
                         android:textColor="@color/colorPrimaryDark"
                         android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -112,8 +118,12 @@
                         android:layout_below="@+id/productName"
                         android:text="Product Description"
                         android:textAlignment="viewStart"
+                        android:layout_gravity="start"
                         android:layout_marginBottom="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginEnd="12dp"
                         android:layout_alignStart="@+id/productPrice"
+                        android:layout_alignLeft="@+id/productPrice"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimaryDark"
                         />
@@ -122,6 +132,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/productTags"
                         android:layout_alignStart="@+id/productDescription"
+                        android:layout_alignLeft="@+id/productDescription"
                         android:layout_marginBottom="12dp"
                         android:layout_below="@+id/productPrice"
                         android:textColor="@color/colorPrimaryDark"
@@ -136,6 +147,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/productDescriptionCard"
                 android:layout_alignEnd="@+id/productDescriptionCard"
+                android:layout_alignLeft="@+id/productDescriptionCard"
+                android:layout_alignRight="@+id/productDescriptionCard"
                 android:layout_marginTop="12dp"
                 android:id="@+id/map_layout"
                 android:layout_below="@+id/productImage">

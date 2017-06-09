@@ -45,7 +45,6 @@ public class MainActivityFragment extends Fragment {
     ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     Context c;
-    ProgressBar bar;
     String TAG = "MainActivityFragment";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
@@ -86,13 +85,10 @@ public class MainActivityFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshLayout.setRefreshing(true);
                 GetData("1");
-                //Refresh("1");
             }
         });
         list = (RecyclerView) view.findViewById(R.id.recyclerView);
-        bar = (ProgressBar) view.findViewById(R.id.progressBar);
         feedback = (TextView) view.findViewById(R.id.feedback);
         layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list), StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
@@ -116,14 +112,13 @@ public class MainActivityFragment extends Fragment {
         if(page.equals("1")){
             model.clear();
         }
-
+        refreshLayout.setRefreshing(true);
         feedback.setVisibility(View.GONE);
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS + "?p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
                     refreshLayout.setRefreshing(false);
-                    bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
@@ -144,8 +139,6 @@ public class MainActivityFragment extends Fragment {
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
                             store.setPlaceholder(placeholder[1]);
-                            //Log.d(TAG, placeholder[1]);
-
                         }catch (ArrayIndexOutOfBoundsException e){
                             e.printStackTrace();
                             store.setPlaceholder(" ");
@@ -161,6 +154,7 @@ public class MainActivityFragment extends Fragment {
                     mainAdapter.notifyDataSetChanged();
                 }catch(JSONException e){
                     e.printStackTrace();
+                    refreshLayout.setRefreshing(false);
                     Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_LONG).show();
                 }
 
@@ -169,9 +163,9 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                bar.setVisibility(View.GONE);
                 feedback.setVisibility(View.VISIBLE);
                 Snackbar.make(view, "Oops! Connectivity problems", Snackbar.LENGTH_LONG).show();
+                refreshLayout.setRefreshing(false);
 
             }
         });

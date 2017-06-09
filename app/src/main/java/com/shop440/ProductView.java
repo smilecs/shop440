@@ -1,5 +1,6 @@
 package com.shop440;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,9 +23,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -43,8 +48,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
+import com.shop440.Utils.AppEventsLogger;
 import com.shop440.Utils.FileCache;
+import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -61,7 +71,6 @@ import butterknife.OnClick;
 
 public class ProductView extends AppCompatActivity implements OnMapReadyCallback
 {
-    ProgressBar bar;
     String TAG = "ProductView";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
@@ -79,6 +88,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
     private ImageLoader imageLoader;
     private Bundle bundle;
     private ProductView productView;
+    private String data;
     MapView map;
     @BindView(R.id.shareText) TextView shareText;
     @BindView(R.id.productImage) NetworkImageView imageView;
@@ -107,6 +117,13 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         startActivity(intent);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        bundle = outState;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,19 +140,13 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         c = this;
         ButterKnife.bind(this);
         fileCache = new FileCache(this);
-        productModel = (ProductModel) getIntent().getSerializableExtra("data");
-        latlng = productModel.getCoordinates().split(",");
-        Log.d("coord", productModel.getCoordinates());
-        coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        data = intent.getDataString();
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
         imageLoader = VolleySingleton.getsInstance().getImageLoader();
-        bar = (ProgressBar) findViewById(R.id.progressBar);
-        initUi();
         sharePhoto = new SharePhoto.Builder();
-        byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
-        Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-        imageView.setImageBitmap(bit);
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
@@ -157,47 +168,12 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
-        Log.d(TAG, productModel.getSlug());
-        content = new ShareLinkContent.Builder()
-              .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.getSlug()))
-              .setContentTitle(productModel.getName())
-              .setImageUrl(Uri.parse(productModel.getImage()))
-              .build();
-        final ShareDialog shareDialog = new ShareDialog(this);
-        CardView shareCard = (CardView) findViewById(R.id.shareCard);
-        shareCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                shareDialog.show(content);
-            }
-        });
-
+     loadData();
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        imageView.setImageUrl(productModel.getImage(), imageLoader);
-        imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                photo = sharePhoto.setBitmap(response.getBitmap()).setCaption(productModel.getName()).build();
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                map.onCreate(bundle);
-                map.getMapAsync(productView);
-            }
-        }, 1800);
     }
 
 
@@ -216,7 +192,6 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "here");
         progressBar.setVisibility(View.GONE);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
@@ -227,6 +202,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                AppEventsLogger.logItemDownloadEvent(productModel.getName(), productModel.getShop(), productModel.getCategory());
                 Toast.makeText(c, "Saving image.......", Toast.LENGTH_LONG).show();
             }
         });
@@ -280,6 +256,10 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
               "fonts/RobotoCondensed-Bold.ttf");
         Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
+        latlng = productModel.getCoordinates().split(",");
+        Log.d("coord", productModel.getCoordinates());
+        Log.d("slug", productModel.getSlug());
+        coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
         productPrice.setTypeface(robotMedium);
         productName.setTypeface(robotMedium);
         productDesc.setTypeface(robotCondensed);
@@ -287,6 +267,45 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         productDesc.setText(productModel.getDescription());
         productPrice.setText(productModel.getPrice());
         storeName.setText(productModel.getOwner());
+        byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
+        Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+        imageView.setImageBitmap(bit);
+        content = new ShareLinkContent.Builder()
+              .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.getSlug()))
+              .setContentTitle(productModel.getName())
+              .setImageUrl(Uri.parse(productModel.getImage()))
+              .build();
+        final ShareDialog shareDialog = new ShareDialog(this);
+        CardView shareCard = (CardView) findViewById(R.id.shareCard);
+        shareCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppEventsLogger.logItemShareEvent();
+                progressBar.setVisibility(View.VISIBLE);
+                shareDialog.show(content);
+            }
+        });
+        imageView.setImageUrl(productModel.getImage(), imageLoader);
+        imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                photo = sharePhoto.setBitmap(response.getBitmap()).setCaption(productModel.getName()).build();
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                map.onCreate(bundle);
+                map.getMapAsync(productView);
+            }
+        }, 1800);
     }
 
     @Override
@@ -322,5 +341,63 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadData(){
+        if(data != null){
+            String resolvedUrl = data.substring(data.lastIndexOf("/") + 1);
+            Log.i("URI", resolvedUrl);
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(getString(R.string.loader_text));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.GETPRODUCT + resolvedUrl, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject object) {
+                    try{
+                        productModel = new ProductModel();
+                        productModel.setName(object.getString("Name"));
+                        productModel.setDescription(object.getString("Description"));
+                        productModel.setPrice(object.getString("Price"));
+                        productModel.setCategory(object.getString("Category"));
+                        productModel.setCity(object.getString("City"));
+                        productModel.setSlug(object.getString("Slug"));
+                        productModel.setCitySlug(object.getString("CitySlug"));
+                        productModel.setOwner(object.getJSONObject("Store").getString("Name"));
+                        productModel.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        productModel.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
+                        productModel.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        productModel.setImage(object.getJSONObject("Image").getString("Path"));
+                        String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
+                        try{
+                            productModel.setPlaceholder(placeholder[1]);
+                        }catch (ArrayIndexOutOfBoundsException e){
+                            e.printStackTrace();
+                            productModel.setPlaceholder(" ");
+
+                        }
+                        try{
+                            productModel.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0)+","+object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
+                        }catch (ArrayIndexOutOfBoundsException a){
+                            a.printStackTrace();
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    initUi();
+                    progressDialog.dismiss();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }).setRetryPolicy(new DefaultRetryPolicy(6000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
+
+        }else {
+            productModel = (ProductModel) getIntent().getSerializableExtra("data");
+            initUi();
+        }
     }
 }

@@ -31,7 +31,6 @@ public class Category extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     CategoryAdapter categoryAdapter;
-    ProgressBar bar;
     SwipeRefreshLayout refreshLayout;
 
     @Override
@@ -42,7 +41,6 @@ public class Category extends AppCompatActivity {
         model = new ArrayList<>();
         categoryAdapter = new CategoryAdapter(this, model, storeModel);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        bar = (ProgressBar) findViewById(R.id.progressBar);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -52,7 +50,6 @@ public class Category extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshLayout.setRefreshing(true);
                 GetCategories();
                 //Refresh("1");
             }
@@ -67,11 +64,11 @@ public class Category extends AppCompatActivity {
     }
 
     private void GetCategories(){
+        refreshLayout.setRefreshing(true);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Urls.BASE_URL + Urls.GETCATEGORIES, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 refreshLayout.setRefreshing(false);
-                bar.setVisibility(View.GONE);
                 for(int i = 0; i < response.length(); i++){
                     try{
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -92,7 +89,7 @@ public class Category extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                bar.setVisibility(View.GONE);
+               refreshLayout.setRefreshing(false);
                 //Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
 
             }

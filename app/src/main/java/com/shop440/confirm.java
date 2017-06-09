@@ -37,10 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class confirm extends AppCompatActivity {
-    private String phone;
-    private String serverCode;
     RequestQueue queue;
-    private String query;
     JSONObject json, login;
     String TAG = "confirm.java";
     User user;
@@ -48,28 +45,42 @@ public class confirm extends AppCompatActivity {
     SharedPreferences.Editor editor;
     VolleySingleton volleySingleton;
     String compare;
-    @BindView(R.id.editText) EditText passcode;
-    @BindView(R.id.textView2) TextView feedback;
-    @BindView(R.id.progressBar) ProgressBar bar;
-    @BindView(R.id.button) Button continueButton;
-    @BindView(R.id.retry) Button retrybut;
-    @OnClick(R.id.textView3) void resend(){
-       GetPasscode(phone);
+    @BindView(R.id.editText)
+    EditText passcode;
+    @BindView(R.id.textView2)
+    TextView feedback;
+    @BindView(R.id.progressBar)
+    ProgressBar bar;
+    @BindView(R.id.button)
+    Button continueButton;
+    @BindView(R.id.retry)
+    Button retrybut;
+    private String phone;
+    private String serverCode;
+    private String query;
+
+    @OnClick(R.id.textView3)
+    void resend() {
+        GetPasscode(phone);
 
     }
-    @OnClick(R.id.button) void submit(){
-        if(ComparePasscode(passcode.getText().toString(), compare)){
+
+    @OnClick(R.id.button)
+    void submit() {
+        if (ComparePasscode(passcode.getText().toString(), compare)) {
             user.setPasscode(compare);
             register();
 
-        }else {
+        } else {
             feedback.setVisibility(View.VISIBLE);
             feedback.setTextColor(Color.parseColor("Red"));
             feedback.setText("Incorrect Passcode!");
         }
 
     }
-    @OnClick(R.id.retry) void retry(){
+
+    @OnClick(R.id.retry)
+    void retry() {
         register();
     }
 
@@ -85,17 +96,17 @@ public class confirm extends AppCompatActivity {
         //phone = "";
         json = new JSONObject();
         login = new JSONObject();
-        Log.d(TAG, user.getFullname());
+        Log.d(TAG, user.getName());
         volleySingleton = VolleySingleton.getsInstance();
         queue = volleySingleton.getmRequestQueue();
         SmsReciever.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
-                Log.d("Text",messageText);
-                Toast.makeText(confirm.this,"Loading Passcode",Toast.LENGTH_LONG).show();
+                Log.d("Text", messageText);
+                Toast.makeText(confirm.this, "Loading Passcode", Toast.LENGTH_LONG).show();
                 String[] newString = messageText.split(" ");
-                if(ComparePasscode(newString[newString.length -1], compare)){
-                    Log.d("Passcode", newString[newString.length -1]);
+                if (ComparePasscode(newString[newString.length - 1], compare)) {
+                    Log.d("Passcode", newString[newString.length - 1]);
                     user.setPasscode(compare);
                     register();
                 }
@@ -115,8 +126,8 @@ public class confirm extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d("text", String.valueOf(i));
-                if(i >= 1){
-                   continueButton.setEnabled(true);
+                if (i >= 1) {
+                    continueButton.setEnabled(true);
                 }
             }
 
@@ -127,19 +138,18 @@ public class confirm extends AppCompatActivity {
         });
     }
 
-    private void GetPasscode(String q){
-        try{
+    private void GetPasscode(String q) {
+        try {
             q = URLEncoder.encode(phone, "UTF-8");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         StringRequest ObjectRequest = new StringRequest(Request.Method.GET, Urls.BASE_URL + Urls.PASSCODE + "?phone=" + URLEncoder.encode(q), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try{
+                try {
                     compare = new JSONObject(response).getString("Passcode");
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -155,22 +165,22 @@ public class confirm extends AppCompatActivity {
         queue.add(ObjectRequest);
     }
 
-    private Boolean ComparePasscode(String fromSms, String fromServer){
-        if(fromSms.equals(fromServer)){
-            try{
+    private Boolean ComparePasscode(String fromSms, String fromServer) {
+        if (fromSms.equals(fromServer)) {
+            try {
                 bar.setVisibility(View.VISIBLE);
                 feedback.setVisibility(View.VISIBLE);
                 feedback.setText("Authenticating.....");
                 continueButton.setVisibility(View.GONE);
                 passcode.setVisibility(View.GONE);
                 json.put("Phone", user.getPhone());
-                json.put("Name", user.getFullname());
+                json.put("Name", user.getName());
                 json.put("Image", user.getImage());
                 json.put("Passcode", fromSms);
                 login.put("Phone", user.getPhone());
                 login.put("Passcode", fromSms);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -179,21 +189,21 @@ public class confirm extends AppCompatActivity {
         return false;
     }
 
-    private void get_token(){
+    private void get_token() {
         feedback.setText("Loading token");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.GET_TOKEN, login ,new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.UPDATE_USER, login, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
+                try {
                     Log.d("response", response.toString());
                     editor.putString(Urls.TOKEN, response.getString("Token"));
                     editor.putString(getResources().getString(R.string.profileImage), user.getImage());
-                    editor.putString(getResources().getString(R.string.username), user.getFullname());
+                    editor.putString(getResources().getString(R.string.username), user.getName());
                     editor.commit();
                     Intent i = new Intent(confirm.this, MainActivity.class);
                     startActivity(i);
                     finish();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -208,7 +218,7 @@ public class confirm extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    private void register(){
+    private void register() {
         bar.setVisibility(View.VISIBLE);
         continueButton.setVisibility(View.GONE);
         feedback.setText("Creating Account!");

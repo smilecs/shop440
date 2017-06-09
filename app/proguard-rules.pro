@@ -38,6 +38,14 @@
   public <methods>;
 }
 
+-keep class com.facebook.FacebookSdk {
+   boolean isInitialized();
+}
+-keep class com.facebook.appevents.AppEventsLogger {
+   com.facebook.appevents.AppEventsLogger newLogger(android.content.Context);
+   void logSdkEvent(java.lang.String, java.lang.Double, android.os.Bundle);
+}
+
 -dontwarn android.security.NetworkSecurityPolicy
 
 # If your project uses WebView with JS, uncomment the following
