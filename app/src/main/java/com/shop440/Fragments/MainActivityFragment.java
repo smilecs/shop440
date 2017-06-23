@@ -68,7 +68,6 @@ public class MainActivityFragment extends Fragment {
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
         model = new ArrayList<>();
-        mainAdapter = new ProductAdapter(c, model);
     }
 
     @Override
@@ -82,6 +81,7 @@ public class MainActivityFragment extends Fragment {
                 android.R.color.holo_red_light
                 );
 
+        mainAdapter = new ProductAdapter(c, model);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,7 +90,7 @@ public class MainActivityFragment extends Fragment {
         });
         list = (RecyclerView) view.findViewById(R.id.recyclerView);
         feedback = (TextView) view.findViewById(R.id.feedback);
-        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list), StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, getActivity()), StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
         list.setAdapter(mainAdapter);
@@ -114,7 +114,7 @@ public class MainActivityFragment extends Fragment {
         }
         refreshLayout.setRefreshing(true);
         feedback.setVisibility(View.GONE);
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS + "?p=" + page, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETPRODUCTS() + "?p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{

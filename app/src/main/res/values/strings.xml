@@ -48,4 +48,17 @@
     <string name="sign_up">Sign up</string>
     <string name="ok">OK!</string>
     <string name="loader_text">Just a moment...</string>
+    <string name="purchases">PURCHASES</string>
+    <string name="likes">LIKES</string>
+    <string name="stores">STORES</string>
+    <string name="my_stores">My Stores</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="sign_out">Sign out</string>
+    <string name="see_more_from_store">See more from store</string>
+    <string name="loading">Loading</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="price_display">%1$s %2$s</string>
+    <string name="share_on_facebook">Share on Facebook</string>
+    <string name="let_your_friends_see_this_item">let your friends see this item</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.shop440.Utils;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
@@ -23,6 +24,12 @@ public class Application extends android.app.Application {
 
     public static AppEventsLogger logger(){
         return logger;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override

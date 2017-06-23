@@ -1,5 +1,7 @@
 package com.shop440.Models;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -22,6 +24,15 @@ public class ProductModel implements Serializable {
     public String Specialisation;
     public String Owner;
     public String OwnerLogo;
+    private Bitmap productImage;
+
+    public Bitmap getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(Bitmap productImage) {
+        this.productImage = productImage;
+    }
 
     public String getOwnerLogo() {
         return OwnerLogo;
@@ -159,7 +170,7 @@ public class ProductModel implements Serializable {
     }
 
     public String getPrice() {
-        return Price;
+        return "₦" +  Price;
     }
 
     public void setPrice(String price) {

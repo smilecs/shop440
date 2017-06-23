@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -83,7 +85,7 @@ public class Profile extends AppCompatActivity {
         //getSupportActionBar().setTitle("Profile");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        token = sharedPreferences.getString(Urls.TOKEN, "null");
+        token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
         String Image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
         name.setTypeface(robotMedium);
@@ -113,7 +115,7 @@ public class Profile extends AppCompatActivity {
     }
 
     public void GetProfile(){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.ME, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getME(), null, new Response.Listener<JSONObject>() {
 
 
             @Override
@@ -150,8 +152,21 @@ public class Profile extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        editor.clear().apply();
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
+
     public void Get_Stores(){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.MyStores, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getMyStores(), null, new Response.Listener<JSONObject>() {
 
 
             @Override

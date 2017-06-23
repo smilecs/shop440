@@ -6,12 +6,12 @@
     <item
         android:id="@+id/search"
         android:icon="@drawable/search"
-        android:title="Search"
+        android:title="@string/search"
         app:showAsAction="always"
         />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/profile"
-        android:title="Profile"
+        android:title="@string/profile"
         app:showAsAction="ifRoom|collapseActionView"/>
 </menu>

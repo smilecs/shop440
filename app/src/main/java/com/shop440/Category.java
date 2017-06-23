@@ -65,7 +65,7 @@ public class Category extends AppCompatActivity {
 
     private void GetCategories(){
         refreshLayout.setRefreshing(true);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Urls.BASE_URL + Urls.GETCATEGORIES, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETCATEGORIES(), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 refreshLayout.setRefreshing(false);

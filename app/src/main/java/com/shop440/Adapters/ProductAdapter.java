@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.shop440.Models.ProductModel;
@@ -69,7 +70,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
         Typeface robotMedium = Typeface.createFromAsset(c.getAssets(),
                 "fonts/Roboto-Medium.ttf");
         Typeface robotThin = Typeface.createFromAsset(c.getAssets(),
@@ -78,7 +78,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 "fonts/RobotoCondensed-Light.ttf");
         Typeface robotBold = Typeface.createFromAsset(c.getAssets(),
                 "fonts/RobotoCondensed-Bold.ttf");
-        ProductModel product = model.get(position);
+        final ProductModel product = model.get(position);
         byte[] imageByte = Base64.decode(product.getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         holder.productDisplay.setImageBitmap(bit);
@@ -89,16 +89,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             //holder.productDisplay.setMinimumHeight(bit.getHeight());
         }
         holder.productDisplay.setImageUrl(product.getImage(), imageLoader);
-        /*imageLoader.get(product.getImage(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                holder.productDisplay.setImageBitmap(response.getBitmap());
-            }
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });*/
         holder.category.setTypeface(robotThin);
         holder.location.setTypeface(robotThin);
         holder.itemView.setTag(product);

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        printKeyHash(this);
+        //printKeyHash(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        Log.d("token", sharedPreferences.getString(Urls.TOKEN, "null"));
+        Log.d("token", sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null"));
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static String printKeyHash(Activity context) {
+   /* public static String printKeyHash(Activity context) {
         PackageInfo packageInfo;
         String key = null;
         try {
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return key;
-    }
+    }*/
 
 
 }

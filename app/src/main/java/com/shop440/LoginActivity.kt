@@ -1,5 +1,6 @@
 package com.shop440
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,9 +16,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.facebook.accountkit.*
-import com.facebook.accountkit.ui.AccountKitActivity
-import com.facebook.accountkit.ui.AccountKitConfiguration
-import com.facebook.accountkit.ui.LoginType
+import com.facebook.accountkit.ui.*
 import com.shop440.Utils.Urls
 import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.sign_in.*
@@ -39,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var queue: RequestQueue
     var email: String = ""
     var name: String = ""
-    var newUser: Boolean = false
+    var newUser: Boolean = true
     val APP_REQUEST_CODE: Int = 104
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
         login_activity_signup_button.setOnClickListener(signUplistener())
         login_activity_signup_button_ok.setOnClickListener(confirmSignUp())
-
-
+        login_activity_sign_in_button.setOnClickListener(login())
         queue = volleySingleton.getmRequestQueue()
     }
 
@@ -61,6 +59,8 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, AccountKitActivity::class.java)
         val configBuilder = AccountKitConfiguration.AccountKitConfigurationBuilder(LoginType.PHONE,
                 AccountKitActivity.ResponseType.CODE)
+        var uiManager: UIManager = SkinManager(SkinManager.Skin.TRANSLUCENT, R.color.colorPrimaryDark)
+        configBuilder.setUIManager(uiManager)
         intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
                 configBuilder.build())
         startActivityForResult(intent, APP_REQUEST_CODE)
@@ -79,43 +79,33 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun userAuthFinished() {
-        if(newUser){
-            val login: JSONObject = JSONObject()
+        val login: JSONObject = JSONObject()
+        var url: String
+        if (newUser) {
+            url = Urls.NEW_USER
             login.put("Name", name)
             login.put("Email", email)
-            AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
-                override fun onSuccess(account: Account?) {
-                    login.put("Phone", account?.phoneNumber)
-                }
-
-                override fun onError(error: AccountKitError?) {
-                   Log.i("LoginActivity", error.toString())
-                }
-            })
-            val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.UPDATE_USER, login, Response.Listener<JSONObject> { response ->
-                try {
-                    Log.d("response", response.getString("Token"))
-                    val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
-                    editor = sharedPreferences.edit()
-                    editor.putString(Urls.TOKEN, response.getString("Token"))
-                    editor.apply()
-                    val i = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(i)
-                    finish()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }, Response.ErrorListener { error -> error.printStackTrace() })
-            jsonObjectRequest.retryPolicy = DefaultRetryPolicy(3 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-            queue.add(jsonObjectRequest)
-        } else{
-
+        } else {
+            url = Urls.LOGIN
         }
+        AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
+            override fun onSuccess(account: Account?) {
+                login.put("Phone", account?.phoneNumber)
+            }
+
+            override fun onError(error: AccountKitError?) {
+                Log.i("LoginActivity", error.toString())
+            }
+        })
+        getTokenHandler(login, url)
     }
 
     private fun signUplistener(): View.OnClickListener {
         return View.OnClickListener {
-            Log.i("tag", "taggggg")
+            newUser = true
+            val layoutTransition: LayoutTransition = sign_up_button_container.layoutTransition
+            layoutTransition.setDuration(400)
+            layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             if (sign_up_form.visibility == View.VISIBLE) {
                 sign_up_form.visibility = View.GONE
             } else {
@@ -133,6 +123,31 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun getTokenHandler(login: JSONObject, url: String) {
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + url, login, Response.Listener<JSONObject> { response ->
+            try {
+                Log.d("response", response.getString("Token"))
+                val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
+                editor = sharedPreferences.edit()
+                editor.putString(Urls.TOKEN, response.getString("Token"))
+                editor.apply()
+                val i = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(i)
+                finish()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { error -> error.printStackTrace() })
+        jsonObjectRequest.retryPolicy = DefaultRetryPolicy(3 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        queue.add(jsonObjectRequest)
+    }
 
+    private fun login(): View.OnClickListener{
+        return View.OnClickListener {
+            newUser = false
+            sign_up_form.visibility = View.GONE
+            phoneLogin()
+        }
+    }
 }
 

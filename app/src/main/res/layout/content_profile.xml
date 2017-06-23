@@ -3,11 +3,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="8dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Stores"
+        android:text="@string/my_stores"
         android:id="@+id/storet"
         android:textAppearance="?android:textAppearanceLarge"
         android:layout_centerHorizontal="true"
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/storet"
         android:id="@+id/storeList"
+        android:layout_margin="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
     <ProgressBar

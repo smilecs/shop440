@@ -78,7 +78,7 @@ public class MyStore extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
-        token = sharedPreferences.getString(Urls.TOKEN, "null");
+        token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
         if(getIntent().getBooleanExtra("reload", false)){
             Get_Store();
         }
@@ -114,7 +114,7 @@ public class MyStore extends AppCompatActivity {
         });
         list = (RecyclerView) findViewById(R.id.recyclerView);
         bar = (ProgressBar) findViewById(R.id.progressBar);
-        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list), StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, this), StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
         list.setAdapter(mainAdapter);
@@ -164,7 +164,7 @@ public class MyStore extends AppCompatActivity {
             model.clear();
         }
         feedback.setVisibility(View.GONE);
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETSTOREPRODUCTS + store.getSlug() + "/products?p=" + page, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETSTOREPRODUCTS() + store.getSlug() + "/products?p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -226,7 +226,7 @@ public class MyStore extends AppCompatActivity {
     }
 
     public void Get_Store(){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.SINGLESTORE + store.getSlug(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getSINGLESTORE() + store.getSlug(), null, new Response.Listener<JSONObject>() {
 
 
             @Override
