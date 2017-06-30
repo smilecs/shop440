@@ -121,6 +121,7 @@ public class MainActivityFragment extends Fragment {
                     refreshLayout.setRefreshing(false);
                     JSONArray array = response.getJSONArray("Data");
                     next = response.getJSONObject("Page").getBoolean("Next");
+                    Log.i("data", array.getJSONObject(1).toString());
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
                         ProductModel store = new ProductModel();

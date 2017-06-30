@@ -274,8 +274,10 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
               "fonts/RobotoCondensed-Bold.ttf");
         Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
-        latlng = productModel.getCoordinates().split(",");
-        coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
+        if(!productModel.getCoordinates().isEmpty()){
+            latlng = productModel.getCoordinates().split(",");
+            coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
+        }
         productPrice.setTypeface(robotMedium);
         productName.setTypeface(robotMedium);
         productDesc.setTypeface(robotThinItalic);
@@ -297,8 +299,12 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 AppEventsLogger.logItemShareEvent();
-                progressBar.setVisibility(View.VISIBLE);
-                shareDialog.show(content);
+                //progressBar.setVisibility(View.VISIBLE);
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, Uri.parse("https://shop440.com/products/" + productModel.getSlug()).toString());
+                startActivity(Intent.createChooser(share, productModel.getImage()));
+                //shareDialog.show(content);
             }
         });
         imageView.setImageUrl(productModel.getImage(), imageLoader);

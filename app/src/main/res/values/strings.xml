@@ -59,6 +59,7 @@
     <string name="loading">Loading</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="price_display">%1$s %2$s</string>
-    <string name="share_on_facebook">Share on Facebook</string>
+    <string name="share_on_facebook">Share Item</string>
     <string name="let_your_friends_see_this_item">let your friends see this item</string>
+    <string name="error_results">Cannot fetch results at the moment!</string>
 </resources>

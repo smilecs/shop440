@@ -6,7 +6,7 @@ package com.shop440.Utils
 
 object Urls {
     var BASE_URL = "https://shop440.com"
-    var NEW_USER = "/api/new_user"
+    var NEW_USER = "/api/update_name_and_email"
     var PASSCODE = "/api/get_passcode"
     var UPDATE_USER = "/api/update_name_and_email"
     //public static String BASE_URL = "http://192.168.43.126:8080";

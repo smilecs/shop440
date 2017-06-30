@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
     fun phoneLogin() {
         val intent = Intent(this, AccountKitActivity::class.java)
         val configBuilder = AccountKitConfiguration.AccountKitConfigurationBuilder(LoginType.PHONE,
-                AccountKitActivity.ResponseType.CODE)
+                AccountKitActivity.ResponseType.TOKEN)
         var uiManager: UIManager = SkinManager(SkinManager.Skin.TRANSLUCENT, R.color.colorPrimaryDark)
         configBuilder.setUIManager(uiManager)
         intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
@@ -70,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == APP_REQUEST_CODE) {
             val loginResult: AccountKitLoginResult = data!!.getParcelableExtra(AccountKitLoginResult.RESULT_KEY)
+            Log.i("AccountKit", "accountkit")
             if (loginResult.error != null) {
                 Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_SHORT).show()
                 return
@@ -108,7 +109,9 @@ class LoginActivity : AppCompatActivity() {
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             if (sign_up_form.visibility == View.VISIBLE) {
                 sign_up_form.visibility = View.GONE
+                sign_in_container.visibility = View.VISIBLE
             } else {
+                sign_in_container.visibility = View.INVISIBLE
                 sign_up_form.visibility = View.VISIBLE
             }
         }
@@ -126,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
     private fun getTokenHandler(login: JSONObject, url: String) {
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + url, login, Response.Listener<JSONObject> { response ->
             try {
-                Log.d("response", response.getString("Token"))
+                Log.d("response", response.toString())
                 val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
                 editor = sharedPreferences.edit()
                 editor.putString(Urls.TOKEN, response.getString("Token"))
