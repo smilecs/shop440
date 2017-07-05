@@ -37,7 +37,7 @@ public class SignUp extends AppCompatActivity {
         user.setName(phone.getText().toString());
         user.setName(name.getText().toString());
         user.setPhone(phone.getText().toString());
-        Intent i = new Intent(c, confirm.class);
+        Intent i = new Intent(c, Confirm.class);
         i.putExtra("phone", phone.getText().toString());
         i.putExtra("user", user);
         startActivity(i);

@@ -61,7 +61,7 @@
             android:name=".SignUp"
             android:exported="true"
             android:label="Sign Up" />
-        <activity android:name=".confirm" />
+        <activity android:name=".Confirm" />
 
         <receiver
             android:name=".Receiver.SmsReciever"
