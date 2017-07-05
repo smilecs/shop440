@@ -3,13 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/stats"
-            android:layout_below="@+id/profile"
+            android:layout_below="@+id/name"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp">
             <LinearLayout
@@ -22,25 +21,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="12dp"
+                    android:layout_gravity="center"
                     android:textColor="@color/text"
                     android:id="@+id/storesNumber"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="0"/>
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:textColor="@color/text"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="STORES"/>
+                    android:text="@string/stores"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_centerHorizontal="true"
-
-                android:layout_marginLeft="28dp"
                 android:id="@+id/likeNumberText"
                 >
                 <TextView
@@ -48,15 +45,15 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/likeNumber"
                     android:textColor="@color/text"
-                    android:paddingLeft="12dp"
+                    android:layout_gravity="center"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="0"/>
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="LIKES"/>
+                    android:text="@string/likes"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -72,14 +69,16 @@
                     android:paddingLeft="12dp"
                     android:textColor="@color/text"
                     android:id="@+id/purchaseNumber"
+                    android:layout_gravity="center"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="0"/>
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text"
+                    android:layout_gravity="center"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:text="PURCHASES"/>
+                    android:text="@string/purchases"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -89,22 +88,26 @@
         android:layout_height="126dp"
         android:src="@drawable/img"
         android:id="@+id/profile"
+        android:visibility="gone"
         android:layout_marginTop="44dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="14dp"
         android:layout_marginEnd="14dp" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:id="@+id/name"
         android:textColor="@color/colorPrimaryDark"
         android:textAppearance="?android:textAppearanceLarge"
         android:textAllCaps="true"
         android:layout_alignTop="@+id/profile"
+        android:layout_toLeftOf="@+id/profile"
         android:layout_toStartOf="@+id/profile"
+        android:layout_marginRight="27dp"
         android:layout_marginEnd="27dp"
         android:layout_marginTop="49dp" />
 

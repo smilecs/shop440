@@ -15,10 +15,14 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,12 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdChoicesView;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdListener;
+import com.facebook.ads.MediaView;
+import com.facebook.ads.NativeAd;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
@@ -63,6 +73,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,6 +101,8 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
     private Bundle bundle;
     private ProductView productView;
     private String data;
+    private ProgressDialog progressDialog;
+    private NativeAd nativeAd;
     MapView map;
     @BindView(R.id.shareText) TextView shareText;
     @BindView(R.id.productImage) NetworkImageView imageView;
@@ -168,12 +182,16 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
-     loadData();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.loading));
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        loadData();
     }
 
 
@@ -252,17 +270,17 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         Typeface robotMedium = Typeface.createFromAsset(getAssets(),
               "fonts/Roboto-Medium.ttf");
         Typeface robotCondensed = Typeface.createFromAsset(c.getAssets(),
-              "fonts/Roboto-Thin.ttf");
+              "fonts/RobotoCondensed-Regular.ttf");
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
               "fonts/RobotoCondensed-Bold.ttf");
         Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
-        latlng = productModel.getCoordinates().split(",");
-        Log.d("coord", productModel.getCoordinates());
-        Log.d("slug", productModel.getSlug());
-        coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
+        if(!productModel.getCoordinates().isEmpty()){
+            latlng = productModel.getCoordinates().split(",");
+            coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
+        }
         productPrice.setTypeface(robotMedium);
         productName.setTypeface(robotMedium);
-        productDesc.setTypeface(robotCondensed);
+        productDesc.setTypeface(robotThinItalic);
         productName.setText(productModel.getName());
         productDesc.setText(productModel.getDescription());
         productPrice.setText(productModel.getPrice());
@@ -281,8 +299,12 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 AppEventsLogger.logItemShareEvent();
-                progressBar.setVisibility(View.VISIBLE);
-                shareDialog.show(content);
+                //progressBar.setVisibility(View.VISIBLE);
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, Uri.parse("https://shop440.com/products/" + productModel.getSlug()).toString());
+                startActivity(Intent.createChooser(share, productModel.getImage()));
+                //shareDialog.show(content);
             }
         });
         imageView.setImageUrl(productModel.getImage(), imageLoader);
@@ -297,6 +319,8 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
+        showNativeAd();
+        progressDialog.show();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -316,7 +340,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
         googleMap.addMarker(new MarkerOptions().position(coord).title(productModel.getShop()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15));
         map.onResume();
-
+        progressDialog.dismiss();
     }
 
     @Override
@@ -352,7 +376,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
             progressDialog.setMessage(getString(R.string.loader_text));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.show();
-            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.GETPRODUCT + resolvedUrl, null, new Response.Listener<JSONObject>() {
+            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETPRODUCT() + resolvedUrl, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject object) {
                     try{
@@ -399,5 +423,75 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
             productModel = (ProductModel) getIntent().getSerializableExtra("data");
             initUi();
         }
+    }
+
+    private void showNativeAd() {
+        nativeAd = new NativeAd(this, "909211035848244_1018000754969271");
+        nativeAd.setAdListener(new AdListener() {
+
+            @Override
+            public void onError(Ad ad, AdError error) {
+                // Ad error callback
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                if (nativeAd != null) {
+                    nativeAd.unregisterView();
+                }
+
+                // Add the Ad view into the ad container.
+                LinearLayout nativeAdContainer = (LinearLayout) findViewById(R.id.native_ad_container);
+                LayoutInflater inflater = LayoutInflater.from(ProductView.this);
+                // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
+                View adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false);
+                nativeAdContainer.addView(adView);
+
+                // Create native UI using the ad metadata.
+                ImageView nativeAdIcon = (ImageView) adView.findViewById(R.id.native_ad_icon);
+                TextView nativeAdTitle = (TextView) adView.findViewById(R.id.native_ad_title);
+                MediaView nativeAdMedia = (MediaView) adView.findViewById(R.id.native_ad_media);
+                TextView nativeAdSocialContext = (TextView) adView.findViewById(R.id.native_ad_social_context);
+                TextView nativeAdBody = (TextView) adView.findViewById(R.id.native_ad_body);
+                Button nativeAdCallToAction = (Button) adView.findViewById(R.id.native_ad_call_to_action);
+
+                // Set the Text.
+                nativeAdTitle.setText(nativeAd.getAdTitle());
+                nativeAdSocialContext.setText(nativeAd.getAdSocialContext());
+                nativeAdBody.setText(nativeAd.getAdBody());
+                nativeAdCallToAction.setText(nativeAd.getAdCallToAction());
+
+                // Download and display the ad icon.
+                NativeAd.Image adIcon = nativeAd.getAdIcon();
+                NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon);
+
+                // Download and display the cover image.
+                nativeAdMedia.setNativeAd(nativeAd);
+
+                // Add the AdChoices icon
+                LinearLayout adChoicesContainer = (LinearLayout) findViewById(R.id.ad_choices_container);
+                AdChoicesView adChoicesView = new AdChoicesView(ProductView.this, nativeAd, true);
+                adChoicesContainer.addView(adChoicesView);
+
+                // Register the Title and CTA button to listen for clicks.
+                List<View> clickableViews = new ArrayList<>();
+                clickableViews.add(nativeAdTitle);
+                clickableViews.add(nativeAdCallToAction);
+                nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews);
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+                // Ad clicked callback
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
+            }
+        });
+
+        // Request an ad
+        nativeAd.loadAd(NativeAd.MediaCacheFlag.ALL);
     }
 }

@@ -40,6 +40,7 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
                     CategoryModel toPass = (CategoryModel) itemView.getTag();
                     Intent i = new Intent(view.getContext(), SearchResult.class);
                     i.putExtra("query", toPass.getSlug());
+                    i.putExtra("title", toPass.getName());
                     i.putExtra("isSearch", false);
                     view.getContext().startActivity(i);
                 }

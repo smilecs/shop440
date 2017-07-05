@@ -30,7 +30,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder>{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title;
+        TextView title, description;
         ImageView image;
         Context context;
         public ViewHolder(final View itemView) {
@@ -38,6 +38,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder>{
             context = itemView.getContext();
             title = (TextView) itemView.findViewById(R.id.storeName);
             image = (ImageView) itemView.findViewById(R.id.store_image);
+            description = (TextView) itemView.findViewById(R.id.profile_store_description_card);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

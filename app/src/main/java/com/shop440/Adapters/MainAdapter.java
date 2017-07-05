@@ -18,9 +18,11 @@ import com.shop440.Models.ProductModel;
 import com.shop440.ProductView;
 import com.shop440.R;
 import com.shop440.Utils.AppEventsLogger;
+import com.shop440.Utils.Texts;
 import com.shop440.Utils.VolleySingleton;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by SMILECS on 1/21/17.
@@ -86,10 +88,10 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
         holder.itemView.setTag(store);
         holder.ProductName.setTypeface(robotMedium);
         holder.product.setTypeface(robotCondensed);
-        holder.ProductName.setText(store.getOwner());
-        holder.product.setText(store.getName());
+        holder.ProductName.setText(store.getOwner().trim());
+        holder.product.setText(store.getName().trim());
         holder.price.setTypeface(robotBold);
-        holder.price.setText(store.getPrice());
+        holder.price.setText(c.getString(R.string.price_display, Texts.NIGERIA_CURRENCY_CODE, store.getPrice()));
     }
 
     @Override

@@ -16,8 +16,9 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimaryDark"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="36dp"
+            app:expandedTitleMarginStart="36dp"
+            app:expandedTitleMarginBottom="124dp"
             app:titleEnabled="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
             <RelativeLayout
@@ -32,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:theme="@style/AppTheme"
                 app:layout_scrollFlags="scroll|enterAlways"
                 />
 

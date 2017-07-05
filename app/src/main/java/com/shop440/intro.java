@@ -27,7 +27,7 @@ public class intro extends AppIntro {
 
         // OPTIONAL METHODS
         // Override bar/separator color.
-        setBarColor(Color.LTGRAY);
+        setBarColor(Color.GRAY);
         setSeparatorColor(Color.parseColor("#ffffff"));
 
         // Hide Skip/Done button.

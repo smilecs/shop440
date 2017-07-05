@@ -10,8 +10,8 @@ android {
         applicationId "com.shop440"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "1.7"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -59,6 +59,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:10.2.4'
     compile 'com.google.android.gms:play-services-maps:10.2.4'
     compile 'com.facebook.android:account-kit-sdk:4.23.0'
+    compile 'com.facebook.android:audience-network-sdk:4.23.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
 repositories {
