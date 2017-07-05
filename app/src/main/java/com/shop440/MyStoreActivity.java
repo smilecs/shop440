@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,11 +37,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Store extends AppCompatActivity {
+public class MyStoreActivity extends AppCompatActivity {
     ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
     ProgressBar bar;
@@ -125,11 +128,11 @@ public class Store extends AppCompatActivity {
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
+        if(token.equals("null")) fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Store.this, Category.class);
+                Intent i = new Intent(MyStoreActivity.this, NewItemCategoryActivity.class);
                 //i.putExtra("data", productModel);
                 i.putExtra("backtrack", store);
                 startActivity(i);
@@ -166,27 +169,30 @@ public class Store extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     refreshLayout.setRefreshing(false);
+                    bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
+                        Log.d(TAG, object.getJSONArray("Tags").toString());
                         ProductModel product = new ProductModel();
                         product.setName(object.getString("Name"));
                         product.setSlug(object.getString("Slug"));
                         product.setDescription(object.getString("Description"));
                         product.setPrice(object.getString("Price"));
-                        product.setCategory(object.getString("Category"));
+                        product.setCategory(object.getString("NewItemCategoryActivity"));
                         product.setCity(object.getString("City"));
                         product.setCitySlug(object.getString("CitySlug"));
-                        product.setOwner(object.getJSONObject("Store").getString("Name"));
-                        product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
-                        product.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
-                        product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
-                        product.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0)+","+object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
+                        product.setOwner(object.getJSONObject("StoreActivity").getString("Name"));
+                        product.setOwnerSlug(object.getJSONObject("StoreActivity").getString("Slug"));
+                        product.setOwnerLogo(object.getJSONObject("StoreActivity").getString("Logo"));
+                        product.setSpecialisation(object.getJSONObject("StoreActivity").getString("Specialisation"));
                         product.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
                             product.setPlaceholder(placeholder[1]);
+                            //Log.d(TAG, placeholder[1]);
+
                         }catch (Exception e){
                             e.printStackTrace();
                             product.setPlaceholder("");
@@ -203,6 +209,7 @@ public class Store extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                bar.setVisibility(View.GONE);
                 feedback.setVisibility(View.VISIBLE);
                 //Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
 
@@ -219,8 +226,9 @@ public class Store extends AppCompatActivity {
     }
 
     public void Get_Store(){
-        Log.d(TAG, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getSINGLESTORE());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getSINGLESTORE() + store.getSlug(), null, new Response.Listener<JSONObject>() {
+
+
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -251,9 +259,17 @@ public class Store extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                Log.d(TAG, "bad url");
+               // progressBar.setVisibility(View.GONE);
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("X-AUTH-TOKEN", token);
+                return map;
+            }
+        };
         requestQueue.add(jsonObjectRequest);
     }
 

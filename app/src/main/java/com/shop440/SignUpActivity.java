@@ -25,7 +25,7 @@ import butterknife.OnClick;
  * Created by SMILECS on 12/26/16.
  */
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     private Uri fileUri;
     User user;
     Context c;

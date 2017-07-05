@@ -43,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewProduct extends AppCompatActivity {
+public class NewProductActivity extends AppCompatActivity {
     ProductModel productModel;
     GalleryAdapter galleryAdapter;
     private Uri fileUri;
@@ -91,7 +91,7 @@ public class NewProduct extends AppCompatActivity {
             jsonObject.put("Description", productModel.getDescription());
             jsonObject.put("Price", Integer.valueOf(productModel.getPrice()));
             jsonObject.put("Tags", new JSONArray(productModel.getTags()));
-            jsonObject.put("Category", catModel.getSlug());
+            jsonObject.put("NewItemCategoryActivity", catModel.getSlug());
             jsonObject.put("RawImages", jsonArray.toString());
 
         }catch (JSONException j){
@@ -101,7 +101,7 @@ public class NewProduct extends AppCompatActivity {
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.POST, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getADDPRODUCT() + productModel.getShop() + "/add", jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Intent i = new Intent(c, com.shop440.Store.class);
+                Intent i = new Intent(c, StoreActivity.class);
                 i.putExtra("data", storeModel);
                 i.putExtra("reload", true);
                 startActivity(i);

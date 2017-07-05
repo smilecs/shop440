@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.shop440.NewProduct">
+        tools:context="com.shop440.NewProductActivity">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

@@ -62,4 +62,6 @@
     <string name="share_on_facebook">Share Item</string>
     <string name="let_your_friends_see_this_item">let your friends see this item</string>
     <string name="error_results">Cannot fetch results at the moment!</string>
+    <string name="accessing_store_service">Accessing store service</string>
+    <string name="location_help_text">Ensure to accept the location so we can get your current location to aid in directing your customers</string>
 </resources>

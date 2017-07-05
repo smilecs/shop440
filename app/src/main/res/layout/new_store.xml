@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
 
-    tools:context="com.shop440.NewStore">
+    tools:context="com.shop440.NewStoreActivity">
 
     <ImageView
         android:layout_width="100dp"

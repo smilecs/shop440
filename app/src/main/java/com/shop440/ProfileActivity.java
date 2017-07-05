@@ -42,13 +42,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     RecyclerView list;
     StoreAdapter storeAdapter;
     ArrayList<StoreModel> model;
     StoreModel store;
     Context c;
-    String TAG = "Profile.class";
+    String TAG = "ProfileActivity.class";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     SharedPreferences sharedPreferences;
@@ -64,7 +64,7 @@ public class Profile extends AppCompatActivity {
     @BindView(R.id.name) TextView name;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @OnClick(R.id.fab) void newStore(){
-        Intent i = new Intent(c, NewStore.class);
+        Intent i = new Intent(c, NewStoreActivity.class);
         startActivity(i);
     }
     @Override
@@ -82,7 +82,7 @@ public class Profile extends AppCompatActivity {
                 "fonts/RobotoCondensed-Light.ttf");
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setTitle("Profile");
+        //getSupportActionBar().setTitle("ProfileActivity");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");

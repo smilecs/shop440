@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.shop440.Models.ProductModel;
-import com.shop440.ProductView;
+import com.shop440.ProductViewActivity;
 import com.shop440.R;
 import com.shop440.Utils.VolleySingleton;
 
@@ -53,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(itemView.getContext(), ProductView.class);
+                    Intent i = new Intent(itemView.getContext(), ProductViewActivity.class);
                     i.putExtra("data", (ProductModel) itemView.getTag());
                     itemView.getContext().startActivity(i);
                 }

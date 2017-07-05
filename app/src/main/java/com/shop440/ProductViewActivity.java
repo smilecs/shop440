@@ -52,7 +52,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -81,9 +80,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ProductView extends AppCompatActivity implements OnMapReadyCallback
+public class ProductViewActivity extends AppCompatActivity implements OnMapReadyCallback
 {
-    String TAG = "ProductView";
+    String TAG = "ProductViewActivity";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     Context c;
@@ -99,7 +98,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
     private LatLng coord;
     private ImageLoader imageLoader;
     private Bundle bundle;
-    private ProductView productView;
+    private ProductViewActivity productView;
     private String data;
     private ProgressDialog progressDialog;
     private NativeAd nativeAd;
@@ -114,7 +113,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
     @BindView(R.id.shareProgress) ProgressBar progressBar;
 
     @OnClick(R.id.vistStore) void visit(){
-        Intent i = new Intent(c, Store.class);
+        Intent i = new Intent(c, StoreActivity.class);
         StoreModel storeModel = new StoreModel();
         storeModel.setSlug(productModel.OwnerSlug);
         storeModel.setName(productModel.getOwner());
@@ -384,14 +383,14 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
                         productModel.setName(object.getString("Name"));
                         productModel.setDescription(object.getString("Description"));
                         productModel.setPrice(object.getString("Price"));
-                        productModel.setCategory(object.getString("Category"));
+                        productModel.setCategory(object.getString("NewItemCategoryActivity"));
                         productModel.setCity(object.getString("City"));
                         productModel.setSlug(object.getString("Slug"));
                         productModel.setCitySlug(object.getString("CitySlug"));
-                        productModel.setOwner(object.getJSONObject("Store").getString("Name"));
-                        productModel.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
-                        productModel.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
-                        productModel.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        productModel.setOwner(object.getJSONObject("StoreActivity").getString("Name"));
+                        productModel.setOwnerSlug(object.getJSONObject("StoreActivity").getString("Slug"));
+                        productModel.setOwnerLogo(object.getJSONObject("StoreActivity").getString("Logo"));
+                        productModel.setSpecialisation(object.getJSONObject("StoreActivity").getString("Specialisation"));
                         productModel.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
@@ -442,7 +441,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
 
                 // Add the Ad view into the ad container.
                 LinearLayout nativeAdContainer = (LinearLayout) findViewById(R.id.native_ad_container);
-                LayoutInflater inflater = LayoutInflater.from(ProductView.this);
+                LayoutInflater inflater = LayoutInflater.from(ProductViewActivity.this);
                 // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
                 View adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false);
                 nativeAdContainer.addView(adView);
@@ -470,7 +469,7 @@ public class ProductView extends AppCompatActivity implements OnMapReadyCallback
 
                 // Add the AdChoices icon
                 LinearLayout adChoicesContainer = (LinearLayout) findViewById(R.id.ad_choices_container);
-                AdChoicesView adChoicesView = new AdChoicesView(ProductView.this, nativeAd, true);
+                AdChoicesView adChoicesView = new AdChoicesView(ProductViewActivity.this, nativeAd, true);
                 adChoicesContainer.addView(adChoicesView);
 
                 // Register the Title and CTA button to listen for clicks.

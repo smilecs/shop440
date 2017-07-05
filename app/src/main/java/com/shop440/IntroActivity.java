@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.shop440.Fragments.SampleSlide;
 
-public class intro extends AppIntro {
+public class IntroActivity extends AppIntro {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 

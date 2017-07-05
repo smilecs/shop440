@@ -30,7 +30,7 @@ public class AppEventsLogger {
         Bundle params = new Bundle();
         params.putString("Item_name", item_name);
         params.putString("Shop_name", shop_name);
-        params.putString("Category", category);
+        params.putString("NewItemCategoryActivity", category);
         Application.logger().logEvent("Item download", params);
     }
 

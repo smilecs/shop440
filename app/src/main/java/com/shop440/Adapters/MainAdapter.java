@@ -15,14 +15,13 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.ProductModel;
-import com.shop440.ProductView;
+import com.shop440.ProductViewActivity;
 import com.shop440.R;
 import com.shop440.Utils.AppEventsLogger;
 import com.shop440.Utils.Texts;
 import com.shop440.Utils.VolleySingleton;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by SMILECS on 1/21/17.
@@ -56,7 +55,7 @@ public class MainAdapter  extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
                 public void onClick(View view) {
                     ProductModel productModel = (ProductModel) itemView.getTag();
                     AppEventsLogger.logItemSelectedEvent(productModel.getName(), productModel.getShop());
-                    Intent i = new Intent(itemView.getContext(), ProductView.class);
+                    Intent i = new Intent(itemView.getContext(), ProductViewActivity.class);
                     i.putExtra("data", productModel);
                     itemView.getContext().startActivity(i);
                 }

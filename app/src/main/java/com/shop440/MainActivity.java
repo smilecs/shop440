@@ -1,30 +1,21 @@
 package com.shop440;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.shop440.Dialog.LoginFragmentDialog;
 import com.shop440.Fragments.MainActivityFragment;
 import com.shop440.Utils.AppEventsLogger;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
@@ -40,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
         if(sharedPreferences.getBoolean("isnotlogged", true)){
-            Intent intent = new Intent(this, intro.class);
+            Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
             finish();
         }
@@ -49,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, NewStore.class);
+                Intent i = new Intent(MainActivity.this, NewStoreActivity.class);
                 startActivity(i);
             }
         });
@@ -86,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.profile) {
             if(!sharedPreferences.getString("tokens", "Null").equals("Null")){
-                Intent i = new Intent(this, Profile.class);
+                Intent i = new Intent(this, ProfileActivity.class);
                 startActivity(i);
             }else {
                 Intent i = new Intent(this, LoginActivity.class);
@@ -97,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(id == R.id.search){
-            Intent i = new Intent(this, Search.class);
+            Intent i = new Intent(this, SearchActivity.class);
             startActivity(i);
         }
 

@@ -58,7 +58,7 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".SignUp"
+            android:name=".SignUpActivity"
             android:exported="true"
             android:label="Sign Up" />
         <activity android:name=".Confirm" />
@@ -72,16 +72,16 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".NewStore" />
+        <activity android:name=".NewStoreActivity" />
         <activity
-            android:name=".GetLocation"
+            android:name=".GetLocationActivity"
             android:label="@string/title_activity_get_location"
             android:theme="@style/AppTheme" />
-        <activity android:name=".intro"
+        <activity android:name=".IntroActivity"
             />
 
         <activity
-            android:name=".Profile"
+            android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme">
             <meta-data
@@ -90,18 +90,18 @@
                 android:value="com.shop440.MainActivity" />
         </activity>
         <activity
-            android:name=".Store"
+            android:name=".StoreActivity"
             android:label="@string/title_activity_store"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.Profile" />
+                android:value="com.shop440.ProfileActivity" />
         </activity>
-        <activity android:name=".NewProduct" />
-        <activity android:name=".Category" />
+        <activity android:name=".NewProductActivity" />
+        <activity android:name=".NewItemCategoryActivity" />
         <activity
-            android:name=".ProductView"
+            android:name=".ProductViewActivity"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"
@@ -149,7 +149,7 @@
                 android:value="com.shop440.MainActivity" />
             </activity>
         <activity
-            android:name=".Search"
+            android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme">
             <meta-data
@@ -157,12 +157,12 @@
                 android:value="com.shop440.MainActivity" />
         </activity>
         <activity
-            android:name=".SearchResult"
+            android:name=".SearchResultActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.Search" />
+                android:value="com.shop440.SearchActivity" />
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"

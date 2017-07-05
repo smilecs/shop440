@@ -11,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewStore extends AppCompatActivity {
+public class NewStoreActivity extends AppCompatActivity {
     StoreModel store;
     @BindView(R.id.store_name) EditText storeName;
     @BindView(R.id.description) EditText description;
@@ -22,7 +22,7 @@ public class NewStore extends AppCompatActivity {
         store.setDescription(description.getText().toString());
         store.setSpecialisation(specialisation.getText().toString());
         store.setName(storeName.getText().toString());
-        Intent i = new Intent(NewStore.this, GetLocation.class);
+        Intent i = new Intent(NewStoreActivity.this, GetLocationActivity.class);
         i.putExtra("data", store);
         startActivity(i);
     }

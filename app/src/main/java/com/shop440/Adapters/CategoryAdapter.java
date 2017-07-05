@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.shop440.Models.CategoryModel;
 import com.shop440.Models.StoreModel;
-import com.shop440.NewProduct;
+import com.shop440.NewProductActivity;
 import com.shop440.R;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(view.getContext(), NewProduct.class);
+                    Intent i = new Intent(view.getContext(), NewProductActivity.class);
                     i.putExtra("data", (CategoryModel) itemView.getTag());
                     i.putExtra("backtrack", (StoreModel) category.getTag());
                     view.getContext().startActivity(i);

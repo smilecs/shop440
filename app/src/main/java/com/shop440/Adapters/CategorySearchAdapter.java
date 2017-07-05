@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shop440.Models.CategoryModel;
-import com.shop440.NewProduct;
 import com.shop440.R;
-import com.shop440.SearchResult;
+import com.shop440.SearchResultActivity;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,7 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
                 @Override
                 public void onClick(View view) {
                     CategoryModel toPass = (CategoryModel) itemView.getTag();
-                    Intent i = new Intent(view.getContext(), SearchResult.class);
+                    Intent i = new Intent(view.getContext(), SearchResultActivity.class);
                     i.putExtra("query", toPass.getSlug());
                     i.putExtra("title", toPass.getName());
                     i.putExtra("isSearch", false);

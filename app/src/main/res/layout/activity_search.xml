@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
-    tools:context="com.shop440.Search">
+    tools:context="com.shop440.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

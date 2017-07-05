@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.StoreModel;
+import com.shop440.MyStoreActivity;
 import com.shop440.R;
 import com.shop440.Utils.VolleySingleton;
 
@@ -42,7 +43,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, com.shop440.Store.class);
+                    Intent i = new Intent(context, MyStoreActivity.class);
                     i.putExtra("data", (StoreModel) itemView.getTag());
                     context.startActivity(i);
                 }

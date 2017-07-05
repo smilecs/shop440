@@ -53,7 +53,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GetLocation extends AppCompatActivity implements
+public class GetLocationActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -80,11 +80,11 @@ public class GetLocation extends AppCompatActivity implements
         Address.setVisibility(View.GONE);
         if(Address.getText().length() > 4){
             loading.setVisibility(View.VISIBLE);
-            feedback.setText("Accessing store service");
+            feedback.setText(R.string.accessing_store_service);
             StartGps();
             //SaveStore(jsonObject);
         }else {
-            feedback.setText("Ensure to accept the location so we can get your current location to aid in directing your customers");
+            feedback.setText(R.string.location_help_text);
 
         }
 
@@ -228,7 +228,7 @@ public class GetLocation extends AppCompatActivity implements
 
     //get location data and save
     public void SaveData(){
-        Log.d("GetLocation", currentLatitude + " WORKS " + currentLongitude);
+        Log.d("GetLocationActivity", currentLatitude + " WORKS " + currentLongitude);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             runOnUiThread(new Runnable() {
@@ -239,14 +239,14 @@ public class GetLocation extends AppCompatActivity implements
             });
 
         }else {
-            Log.d("GetLocation", currentLatitude + " WORKS2" + currentLongitude);
+            Log.d("GetLocationActivity", currentLatitude + " WORKS2" + currentLongitude);
             location = LocationServices.FusedLocationApi.getLastLocation(
                     mGoogleApiClient);
 
             if (location != null) {
                 currentLatitude = location.getLatitude();
                 currentLongitude = location.getLongitude();
-                Log.d("GetLocation", currentLatitude + " WORKS3" + currentLongitude);
+                Log.d("GetLocationActivity", currentLatitude + " WORKS3" + currentLongitude);
                 store.setCoordinates(String.valueOf(currentLatitude)+","+String.valueOf(currentLongitude));
                 AttachValues();
 
@@ -263,8 +263,8 @@ public class GetLocation extends AppCompatActivity implements
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("GetLocation", response.toString());
-                Intent i = new Intent(GetLocation.this, Profile.class);
+                Log.d("GetLocationActivity", response.toString());
+                Intent i = new Intent(GetLocationActivity.this, ProfileActivity.class);
                 startActivity(i);
             }
         }, new Response.ErrorListener() {
@@ -305,7 +305,7 @@ public class GetLocation extends AppCompatActivity implements
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
                             status.startResolutionForResult(
-                                    GetLocation.this,
+                                    GetLocationActivity.this,
                                     313);
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -343,7 +343,7 @@ public class GetLocation extends AppCompatActivity implements
             jsonObject.put("Phone", store.getPhone());
             jsonObject.put("Coordinates", store.getCoordinates());
             jsonObject.put("Address", Address.getText().toString());
-            Log.d("GetLocation", jsonObject.toString());
+            Log.d("GetLocationActivity", jsonObject.toString());
         }catch (JSONException j){
             j.printStackTrace();
         }
