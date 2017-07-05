@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun userAuthFinished() {
         val login: JSONObject = JSONObject()
-        var url: String
+        val url: String
         if (newUser) {
             url = Urls.NEW_USER
             login.put("Name", name)
