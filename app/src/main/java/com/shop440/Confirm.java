@@ -36,10 +36,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class confirm extends AppCompatActivity {
+public class Confirm extends AppCompatActivity {
     RequestQueue queue;
     JSONObject json, login;
-    String TAG = "confirm.java";
+    String TAG = "Confirm.java";
     User user;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -103,7 +103,7 @@ public class confirm extends AppCompatActivity {
             @Override
             public void messageReceived(String messageText) {
                 Log.d("Text", messageText);
-                Toast.makeText(confirm.this, "Loading Passcode", Toast.LENGTH_LONG).show();
+                Toast.makeText(Confirm.this, "Loading Passcode", Toast.LENGTH_LONG).show();
                 String[] newString = messageText.split(" ");
                 if (ComparePasscode(newString[newString.length - 1], compare)) {
                     Log.d("Passcode", newString[newString.length - 1]);
@@ -200,7 +200,7 @@ public class confirm extends AppCompatActivity {
                     editor.putString(getResources().getString(R.string.profileImage), user.getImage());
                     editor.putString(getResources().getString(R.string.username), user.getName());
                     editor.commit();
-                    Intent i = new Intent(confirm.this, MainActivity.class);
+                    Intent i = new Intent(Confirm.this, MainActivity.class);
                     startActivity(i);
                     finish();
                 } catch (Exception e) {
