@@ -73,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
             Log.i("AccountKit", "accountkit")
             if (loginResult.error != null) {
                 Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_SHORT).show()
+                finish()
                 return
             }
             userAuthFinished()
@@ -84,21 +85,23 @@ class LoginActivity : AppCompatActivity() {
         val url: String
         if (newUser) {
             url = Urls.NEW_USER
-            login.put("Name", name)
-            login.put("Email", email)
+            login.put("name", name)
+            login.put("email", email)
         } else {
             url = Urls.LOGIN
         }
         AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
             override fun onSuccess(account: Account?) {
-                login.put("Phone", account?.phoneNumber)
+                Log.i("LoginActivity", account?.phoneNumber.toString())
+                login.put("phone", account?.phoneNumber.toString())
+                Log.i("Loginactivity", login.toString())
+                getTokenHandler(login, url)
             }
 
             override fun onError(error: AccountKitError?) {
                 Log.i("LoginActivity", error.toString())
             }
         })
-        getTokenHandler(login, url)
     }
 
     private fun signUplistener(): View.OnClickListener {
@@ -134,8 +137,6 @@ class LoginActivity : AppCompatActivity() {
                 editor = sharedPreferences.edit()
                 editor.putString(Urls.TOKEN, response.getString("Token"))
                 editor.apply()
-                val i = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(i)
                 finish()
             } catch (e: Exception) {
                 e.printStackTrace()

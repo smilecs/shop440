@@ -3,19 +3,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    android:background="@android:color/white">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/my_stores"
-        android:id="@+id/storet"
+        android:id="@+id/stores"
         android:textAppearance="?android:textAppearanceLarge"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/storet"
+        android:layout_below="@+id/stores"
         android:id="@+id/storeList"
         android:layout_margin="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -24,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
-        android:layout_below="@+id/storet"
+        android:layout_below="@+id/stores"
         android:layout_centerHorizontal="true"
         />
 

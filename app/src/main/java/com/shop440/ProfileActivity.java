@@ -63,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.purchaseNumber) TextView purchaseNumber;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.stores) TextView myStores;
     @OnClick(R.id.fab) void newStore(){
         Intent i = new Intent(c, NewStoreActivity.class);
         startActivity(i);
@@ -89,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
         String Image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
         name.setTypeface(robotMedium);
+        myStores.setTypeface(robotMedium);
         name.setText(sharedPreferences.getString(getResources().getString(R.string.username), " "));
         getSupportActionBar().setTitle(sharedPreferences.getString(getResources().getString(R.string.username), " "));
         if(!Image.equals(" ")){
@@ -122,7 +124,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     Log.d(TAG, response.toString());
-                    name.setText(response.getString("Name"));
+                    //name.setText(response.getString("Name"));
+                    getSupportActionBar().setTitle(response.getString("Name"));
                     editor.putString(getResources().getString(R.string.username), response.getString("Name"));
                     editor.apply();
                     //editor.commit();

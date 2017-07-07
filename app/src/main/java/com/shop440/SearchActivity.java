@@ -31,13 +31,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
-    VolleySingleton volleySingleton;
-    RequestQueue requestQueue;
-    ArrayList<CategoryModel> model;
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    CategorySearchAdapter categoryAdapter;
-    ProgressBar bar;
+    private VolleySingleton volleySingleton;
+    private RequestQueue requestQueue;
+    private ArrayList<CategoryModel> model;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private CategorySearchAdapter categoryAdapter;
+    private ProgressBar bar;
+    private MenuItem searchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
         //MenuItem searchItem = menu.findItem(R.id.search);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         int searchEditId = android.support.v7.appcompat.R.id.search_src_text;
         searchItem.expandActionView();
@@ -90,6 +91,18 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.action_search){
+            searchItem.expandActionView();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void GetCategories(){
