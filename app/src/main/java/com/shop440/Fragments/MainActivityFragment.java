@@ -56,9 +56,6 @@ public class MainActivityFragment extends Fragment {
     SwipeRefreshLayout refreshLayout;
     Boolean next = true;
 
-    public MainActivityFragment() {
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,8 +101,13 @@ public class MainActivityFragment extends Fragment {
 
             }
         });
-        GetData("1");
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        GetData("1");
     }
 
     private void GetData(String page){
@@ -128,14 +130,14 @@ public class MainActivityFragment extends Fragment {
                         store.setName(object.getString("Name"));
                         store.setDescription(object.getString("Description"));
                         store.setPrice(object.getString("Price"));
-                        store.setCategory(object.getString("NewItemCategoryActivity"));
+                        store.setCategory(object.getString("Category"));
                         store.setCity(object.getString("City"));
                         store.setSlug(object.getString("Slug"));
                         store.setCitySlug(object.getString("CitySlug"));
-                        store.setOwner(object.getJSONObject("StoreActivity").getString("Name"));
-                        store.setOwnerSlug(object.getJSONObject("StoreActivity").getString("Slug"));
-                        store.setOwnerLogo(object.getJSONObject("StoreActivity").getString("Logo"));
-                        store.setSpecialisation(object.getJSONObject("StoreActivity").getString("Specialisation"));
+                        store.setOwner(object.getJSONObject("Store").getString("Name"));
+                        store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        store.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
+                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
                         store.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{

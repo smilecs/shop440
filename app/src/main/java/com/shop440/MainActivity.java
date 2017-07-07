@@ -30,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
-        if(sharedPreferences.getBoolean("isnotlogged", true)){
+        if(!sharedPreferences.getBoolean("islogged", false)){
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
             finish();
+            return;
         }
         Log.d("token", sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null"));
         fab = (FloatingActionButton) findViewById(R.id.fab);
