@@ -113,7 +113,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
                       android:host="shop440.com"
-                      android:pathPrefix="/products"
+                      android:pathPrefix="/product"
                     />
             </intent-filter>
             <intent-filter android:label="@string/app_name">
@@ -122,7 +122,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
                       android:host="shop440.com"
-                      android:pathPrefix="/api/products"
+                      android:pathPrefix="/api/product"
                       />
             </intent-filter>
             <intent-filter android:label="@string/app_name">
@@ -131,7 +131,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
                       android:host="www.shop440.com"
-                      android:pathPrefix="/products"
+                      android:pathPrefix="/product"
                     />
             </intent-filter>
             <intent-filter android:label="@string/app_name">
@@ -140,7 +140,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
                       android:host="www.shop440.com"
-                      android:pathPrefix="/api/products"
+                      android:pathPrefix="/api/product"
                     />
             </intent-filter>
             <meta-data

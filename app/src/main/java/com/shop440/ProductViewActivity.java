@@ -301,7 +301,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
                 //progressBar.setVisibility(View.VISIBLE);
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, Uri.parse("https://shop440.com/products/" + productModel.getSlug()).toString());
+                share.putExtra(Intent.EXTRA_TEXT, Uri.parse("https://shop440.com/product/" + productModel.getSlug()).toString());
                 startActivity(Intent.createChooser(share, productModel.getImage()));
                 //shareDialog.show(content);
             }
@@ -383,14 +383,14 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
                         productModel.setName(object.getString("Name"));
                         productModel.setDescription(object.getString("Description"));
                         productModel.setPrice(object.getString("Price"));
-                        productModel.setCategory(object.getString("NewItemCategoryActivity"));
+                        productModel.setCategory(object.getString("Category"));
                         productModel.setCity(object.getString("City"));
                         productModel.setSlug(object.getString("Slug"));
                         productModel.setCitySlug(object.getString("CitySlug"));
-                        productModel.setOwner(object.getJSONObject("StoreActivity").getString("Name"));
-                        productModel.setOwnerSlug(object.getJSONObject("StoreActivity").getString("Slug"));
-                        productModel.setOwnerLogo(object.getJSONObject("StoreActivity").getString("Logo"));
-                        productModel.setSpecialisation(object.getJSONObject("StoreActivity").getString("Specialisation"));
+                        productModel.setOwner(object.getJSONObject("Store").getString("Name"));
+                        productModel.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        productModel.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
+                        productModel.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
                         productModel.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{

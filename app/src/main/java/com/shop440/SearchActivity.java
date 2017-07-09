@@ -73,6 +73,7 @@ public class SearchActivity extends AppCompatActivity {
         et.setHintTextColor(Color.GRAY);
         et.requestFocus();
         searchView.setIconified(false);
+        searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -80,7 +81,6 @@ public class SearchActivity extends AppCompatActivity {
                 i.putExtra("query", query);
                 i.putExtra("isSearch", true);
                 startActivity(i);
-
                 return true;
             }
 
@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -103,7 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private void GetCategories(){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETCATEGORIES(), new Response.Listener<JSONArray>() {
