@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="28dp"
-    android:layout_marginRight="28dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginRight="16dp"
     android:layout_marginBottom="12dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,27 +13,32 @@
         android:gravity="center"
         android:orientation="vertical">
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
             android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="6dp"
+
+
             android:background="@color/cardview_dark_background"
             android:id="@+id/store_image"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/storeName"
-            android:layout_toRightOf="@+id/store_image"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:textAlignment="center"
             android:textAppearance="?android:textAppearanceLarge"
-            android:layout_marginLeft="12dp"
-            android:layout_centerVertical="true"/>
+            android:layout_gravity="center"
+            android:textSize="14sp"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="12dp"
             android:textAlignment="center"
+            android:textSize="12sp"
+            android:layout_gravity="center"
             android:id="@+id/profile_store_description_card"
             />
     </LinearLayout>

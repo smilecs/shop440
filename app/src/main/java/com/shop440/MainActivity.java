@@ -49,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivityFragment mn = new MainActivityFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.container, mn).commit();
         }
-       /* if(sharedPreferences.getString(R.string.state, "no token")){
-
-        }*/
+      
         volleySingleton = VolleySingleton.getsInstance();
 
     }
