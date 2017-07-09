@@ -14,6 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.StoreModel;
 import com.shop440.MyStoreActivity;
 import com.shop440.R;
+import com.shop440.StoreActivity;
 import com.shop440.Utils.VolleySingleton;
 
 import java.util.ArrayList;
@@ -22,33 +23,11 @@ import java.util.ArrayList;
  * Created by SMILECS on 1/15/17.
  */
 
-public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder>{
-    ArrayList<StoreModel> stores;
-    Context c;
-    public StoreAdapter(Context c, ArrayList<StoreModel> stores){
-        this.stores = stores;
-        this.c = c;
-    }
+public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> {
+    private ArrayList<StoreModel> stores;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, description;
-        ImageView image;
-        Context context;
-        public ViewHolder(final View itemView) {
-            super(itemView);
-            context = itemView.getContext();
-            title = (TextView) itemView.findViewById(R.id.storeName);
-            image = (ImageView) itemView.findViewById(R.id.store_image);
-            description = (TextView) itemView.findViewById(R.id.profile_store_description_card);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, MyStoreActivity.class);
-                    i.putExtra("data", (StoreModel) itemView.getTag());
-                    context.startActivity(i);
-                }
-            });
-        }
+    public StoreAdapter(ArrayList<StoreModel> stores) {
+        this.stores = stores;
     }
 
     @Override
@@ -81,5 +60,27 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder>{
     @Override
     public int getItemCount() {
         return stores.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title, description;
+        ImageView image;
+        Context context;
+
+        public ViewHolder(final View itemView) {
+            super(itemView);
+            context = itemView.getContext();
+            title = (TextView) itemView.findViewById(R.id.storeName);
+            image = (ImageView) itemView.findViewById(R.id.store_image);
+            description = (TextView) itemView.findViewById(R.id.profile_store_description_card);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, MyStoreActivity.class);
+                    i.putExtra("data", (StoreModel) itemView.getTag());
+                    context.startActivity(i);
+                }
+            });
+        }
     }
 }

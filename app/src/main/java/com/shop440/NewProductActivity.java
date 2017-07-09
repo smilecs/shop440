@@ -90,7 +90,7 @@ public class NewProductActivity extends AppCompatActivity {
             jsonObject.put("Name", productModel.getName());
             jsonObject.put("Description", productModel.getDescription());
             jsonObject.put("Price", Integer.valueOf(productModel.getPrice()));
-            jsonObject.put("Tags", new JSONArray(productModel.getTags()));
+            jsonObject.put("Tags", productModel.getTags());
             jsonObject.put("NewItemCategoryActivity", catModel.getSlug());
             jsonObject.put("RawImages", jsonArray.toString());
 
@@ -111,7 +111,7 @@ public class NewProductActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                feedback.setText("Network error check connectivity");
+                feedback.setText(R.string.network_error);
                 bar.setVisibility(View.GONE);
                 layout.setVisibility(View.VISIBLE);
             }

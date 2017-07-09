@@ -64,4 +64,5 @@
     <string name="error_results">Cannot fetch results at the moment!</string>
     <string name="accessing_store_service">Accessing store service</string>
     <string name="location_help_text">Ensure to accept the location so we can get your current location to aid in directing your customers</string>
+    <string name="network_error">Network error check connectivity</string>
 </resources>
