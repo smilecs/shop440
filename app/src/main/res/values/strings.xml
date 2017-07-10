@@ -65,4 +65,9 @@
     <string name="accessing_store_service">Accessing store service</string>
     <string name="location_help_text">Ensure to accept the location so we can get your current location to aid in directing your customers</string>
     <string name="network_error">Network error check connectivity</string>
+    <string name="select_store_logo">Select Store Logo</string>
+    <string name="store_name">Store Name</string>
+    <string name="description">Description</string>
+    <string name="specialisation">Specialisation</string>
+    <string name="store_phone">Store Phone</string>
 </resources>
