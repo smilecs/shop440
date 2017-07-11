@@ -38,7 +38,7 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        editor.putBoolean("isnotlogged", false);
+        editor.putBoolean("islogged", true);
         editor.apply();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

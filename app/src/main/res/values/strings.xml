@@ -70,4 +70,13 @@
     <string name="description">Description</string>
     <string name="specialisation">Specialisation</string>
     <string name="store_phone">Store Phone</string>
+    <string name="create_store">Create Store</string>
+    <string-array name="fonts">
+        <item>Roboto-Medium.ttf</item>
+        <item>Roboto-Thin.ttf</item>
+        <item>Roboto-ThinItalic.ttf</item>
+        <item>RobotoCondensed-Bold.ttf</item>
+        <item>RobotoCondensed-Light.ttf</item>
+        <item>RobotoCondensed-Regular.ttf</item>
+    </string-array>
 </resources>

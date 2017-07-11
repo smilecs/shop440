@@ -58,9 +58,6 @@ public class MyStoreActivity extends AppCompatActivity {
     Boolean next = true;
     StoreModel store;
     @BindView(R.id.profile) ImageView imageView;
-    TextView productNumber;
-    TextView lkeNumber;
-    TextView purchaseNumber;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.description) TextView description;
     @BindView(R.id.recyclerView) RecyclerView list;
@@ -82,79 +79,7 @@ public class MyStoreActivity extends AppCompatActivity {
         if(getIntent().getBooleanExtra("reload", false)){
             Get_Store();
         }
-        Typeface robotBold = Typeface.createFromAsset(getAssets(),
-                "fonts/RobotoCondensed-Bold.ttf");
-        purchaseNumber = (TextView) findViewById(R.id.purchaseNumber);
-        lkeNumber = (TextView) findViewById(R.id.likeNumber);
-        productNumber = (TextView) findViewById(R.id.storesNumber);
-        productNumber.setTypeface(robotBold);
-        lkeNumber.setTypeface(robotBold);
-        purchaseNumber.setTypeface(robotBold);
-        //Log.d(TAG, store.getProductsNumber());
-        //productNumber.setText(store.getProductsNumber());
-        //lkeNumber.setText(store.getLikes());
-        //purchaseNumber.setText(store.getPurchases());
-        name.setText(store.getName());
-        description.setText(store.getDescription());
-        model = new ArrayList<>();
-        mainAdapter = new ProductAdapter(this, model);
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light
-        );
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshLayout.setRefreshing(true);
-                GetData("1");
-            }
-        });
-        list = (RecyclerView) findViewById(R.id.recyclerView);
-        bar = (ProgressBar) findViewById(R.id.progressBar);
-        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, this), StaggeredGridLayoutManager.VERTICAL);
-        list.setHasFixedSize(true);
-        list.setLayoutManager(layoutManager);
-        list.setAdapter(mainAdapter);
-        list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if(next){
-                    GetData(String.valueOf(page));
-                }
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if(token.equals("null")) fab.setVisibility(View.GONE);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MyStoreActivity.this, NewItemCategoryActivity.class);
-                //i.putExtra("data", productModel);
-                i.putExtra("backtrack", store);
-                startActivity(i);
-            }
-        });
-
-        volleySingleton = VolleySingleton.getsInstance();
-        requestQueue = volleySingleton.getmRequestQueue();
-        volleySingleton.getImageLoader().get(store.getLogo(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                imageView.setImageBitmap(response.getBitmap());
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_online_store));
-
-            }
-        });
-
+        initUi();
         GetData("1");
         Get_Store();
     }
@@ -243,9 +168,6 @@ public class MyStoreActivity extends AppCompatActivity {
                         store.setPurchases(response.getJSONObject("Analytics").getString("Purchases"));
                         store.setLikes(response.getJSONObject("Analytics").getString("Likes"));
                         store.setLogo(response.getString("Logo"));
-                        productNumber.setText(store.getProductsNumber());
-                        lkeNumber.setText(store.getLikes());
-                        purchaseNumber.setText(store.getPurchases());
                         name.setText(store.getName());
                         description.setText(store.getDescription());
                         //model.add(store);
@@ -272,5 +194,67 @@ public class MyStoreActivity extends AppCompatActivity {
         };
         requestQueue.add(jsonObjectRequest);
     }
+    private void initUi(){
+        name.setText(store.getName());
+        description.setText(store.getDescription());
+        model = new ArrayList<>();
+        mainAdapter = new ProductAdapter(this, model);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+              android.R.color.holo_green_light,
+              android.R.color.holo_orange_light,
+              android.R.color.holo_red_light
+        );
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                GetData("1");
+            }
+        });
+        list = (RecyclerView) findViewById(R.id.recyclerView);
+        bar = (ProgressBar) findViewById(R.id.progressBar);
+        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, this), StaggeredGridLayoutManager.VERTICAL);
+        list.setHasFixedSize(true);
+        list.setLayoutManager(layoutManager);
+        list.setAdapter(mainAdapter);
+        list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if(next){
+                    GetData(String.valueOf(page));
+                }
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if(token.equals("null")) fab.setVisibility(View.GONE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MyStoreActivity.this, NewItemCategoryActivity.class);
+                //i.putExtra("data", productModel);
+                i.putExtra("backtrack", store);
+                startActivity(i);
+            }
+        });
+
+        volleySingleton = VolleySingleton.getsInstance();
+        requestQueue = volleySingleton.getmRequestQueue();
+        volleySingleton.getImageLoader().get(store.getLogo(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                imageView.setImageBitmap(response.getBitmap());
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_online_store));
+
+            }
+        });
+
+    }
 }

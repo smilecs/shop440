@@ -80,8 +80,6 @@ public class StoreActivity extends AppCompatActivity {
         }
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
                 "fonts/RobotoCondensed-Bold.ttf");
-        purchaseNumber = (TextView) findViewById(R.id.purchaseNumber);
-        lkeNumber = (TextView) findViewById(R.id.likeNumber);
         productNumber = (TextView) findViewById(R.id.storesNumber);
         productNumber.setTypeface(robotBold);
         lkeNumber.setTypeface(robotBold);
