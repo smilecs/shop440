@@ -1,116 +1,53 @@
-<RelativeLayout
+<LinearLayout
     android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/stats"
-            android:visibility="gone"
-            android:layout_below="@+id/name"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="28dp"
-                android:id="@+id/storesLayoutText"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/text"
-                    android:id="@+id/storesNumber"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/text"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:text="@string/stores"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/likeNumberText"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/likeNumber"
-                    android:textColor="@color/text"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:text="@string/likes"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginRight="16dp"
-                android:layout_alignParentRight="true"
-                android:id="@+id/purchaseNumberLayout"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="12dp"
-                    android:textColor="@color/text"
-                    android:id="@+id/purchaseNumber"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:text="@string/purchases"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    <de.hdodenhof.circleimageview.CircleImageView
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
         android:layout_width="126dp"
         android:layout_height="126dp"
-        android:src="@drawable/img"
+        app:srcCompat="@drawable/ic_profile_placeholder"
         android:id="@+id/profile"
-        android:visibility="gone"
         android:layout_marginTop="44dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
         android:layout_marginRight="14dp"
         android:layout_marginEnd="14dp" />
 
 
-    <TextView
+    <com.shop440.Widgets.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/name"
         android:textColor="@color/colorPrimaryDark"
         android:textAppearance="?android:textAppearanceLarge"
         android:textAllCaps="true"
-        android:layout_alignTop="@+id/profile"
-        android:layout_toLeftOf="@+id/profile"
-        android:layout_toStartOf="@+id/profile"
-        android:layout_marginRight="27dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginTop="49dp" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        app:fontName="RobotoMedium"/>
+    <com.shop440.Widgets.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/storesNumber"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:fontName="RobotoMedium"
+        />
+    <com.shop440.Widgets.FontTextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/text"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/stores"
+        app:fontName="RobotoMedium"
+        />
 
 
-</RelativeLayout>
+
+</LinearLayout>
