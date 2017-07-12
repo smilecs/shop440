@@ -80,14 +80,6 @@ public class StoreActivity extends AppCompatActivity {
         }
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
                 "fonts/RobotoCondensed-Bold.ttf");
-        productNumber = (TextView) findViewById(R.id.storesNumber);
-        productNumber.setTypeface(robotBold);
-        lkeNumber.setTypeface(robotBold);
-        purchaseNumber.setTypeface(robotBold);
-        //Log.d(TAG, store.getProductsNumber());
-        //productNumber.setText(store.getProductsNumber());
-        //lkeNumber.setText(store.getLikes());
-        //purchaseNumber.setText(store.getPurchases());
         name.setText(store.getName());
         description.setText(store.getDescription());
         model = new ArrayList<>();
@@ -135,19 +127,21 @@ public class StoreActivity extends AppCompatActivity {
 
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_online_store));
         volleySingleton.getImageLoader().get(store.getLogo(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                imageView.setImageBitmap(response.getBitmap());
+                if(response.getBitmap() != null){
+                    imageView.setImageBitmap(response.getBitmap());
+                }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_online_store));
-
             }
         });
+
 
         GetData("1");
         Get_Store();
@@ -172,13 +166,13 @@ public class StoreActivity extends AppCompatActivity {
                         product.setSlug(object.getString("Slug"));
                         product.setDescription(object.getString("Description"));
                         product.setPrice(object.getString("Price"));
-                        product.setCategory(object.getString("NewItemCategoryActivity"));
+                        product.setCategory(object.getString("Category"));
                         product.setCity(object.getString("City"));
                         product.setCitySlug(object.getString("CitySlug"));
-                        product.setOwner(object.getJSONObject("StoreActivity").getString("Name"));
-                        product.setOwnerSlug(object.getJSONObject("StoreActivity").getString("Slug"));
-                        product.setOwnerLogo(object.getJSONObject("StoreActivity").getString("Logo"));
-                        product.setSpecialisation(object.getJSONObject("StoreActivity").getString("Specialisation"));
+                        product.setOwner(object.getJSONObject("Store").getString("Name"));
+                        product.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
+                        product.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
+                        product.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
                         product.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0)+","+object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
                         product.setImage(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
