@@ -15,27 +15,30 @@
         />
 
 
-    <TextView
+    <com.shop440.Widgets.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:id="@+id/name"
+        android:id="@+id/store_header_name"
         android:textColor="@color/colorPrimaryDark"
         android:textAppearance="?android:textAppearanceLarge"
         android:textAllCaps="true"
         android:layout_below="@+id/profile"
         android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
+        app:fontName="RobotoMedium"
          />
-    <TextView
+    <com.shop440.Widgets.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/description"
+        android:id="@+id/store_header_description"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/store_header_name"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
         android:textAppearance="?android:textAppearanceSmall"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        app:fontName="RobotoThinItalic"/>
 
 
 </RelativeLayout>
