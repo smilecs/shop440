@@ -41,12 +41,15 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         StoreModel store = stores.get(position);
         holder.title.setText(store.getName());
+        holder.description.setText(store.getDescription());
         holder.itemView.setTag(store);
         ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
         imageLoader.get(store.getLogo(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                holder.image.setImageBitmap(response.getBitmap());
+                if(response.getBitmap() != null){
+                    holder.image.setImageBitmap(response.getBitmap());
+                }
             }
 
             @Override

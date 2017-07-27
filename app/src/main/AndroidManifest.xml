@@ -82,13 +82,14 @@
 
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_activity_profile"
+            android:label=""
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:launchMode="singleTop"
                 android:value="com.shop440.MainActivity" />
         </activity>
+        <activity android:name=".MyStoreActivity"/>
         <activity
             android:name=".StoreActivity"
             android:label="@string/title_activity_store"

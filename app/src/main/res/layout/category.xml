@@ -11,11 +11,12 @@
         android:layout_height="match_parent"
         android:paddingTop="6dp"
         >
-        <TextView
+        <com.shop440.Widgets.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/text"
             android:layout_marginLeft="12dp"
+            app:fontName="RobotoMedium"
             android:textAppearance="?android:textAppearanceLarge"
             android:text="@string/please_select_your_product_to"/>
 
@@ -26,12 +27,5 @@
             android:layout_marginTop="12dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/recyclerView"/>
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/progressBar"/>
-
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -16,27 +16,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimaryDark"
+            app:contentScrim="@android:color/white"
             app:expandedTitleMarginEnd="36dp"
             app:expandedTitleMarginStart="36dp"
             app:expandedTitleTextAppearance="?android:textAppearanceLarge"
-            app:expandedTitleGravity="top"
-            app:titleEnabled="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:minHeight="160dp">
+            app:expandedTitleGravity="center_horizontal"
+            app:theme="@style/ToolBarStyle"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+
                 <include layout="@layout/fragment_profile"/>
-            </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:title=""
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:theme="@style/ToolBarStyle"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
                 />
 
 

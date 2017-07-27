@@ -46,7 +46,6 @@ import butterknife.ButterKnife;
 public class MyStoreActivity extends AppCompatActivity {
     ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
-    ProgressBar bar;
     String TAG = "StoreModel";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
@@ -58,8 +57,8 @@ public class MyStoreActivity extends AppCompatActivity {
     Boolean next = true;
     StoreModel store;
     @BindView(R.id.profile) ImageView imageView;
-    @BindView(R.id.name) TextView name;
-    @BindView(R.id.description) TextView description;
+    @BindView(R.id.store_header_name) TextView name;
+    @BindView(R.id.store_header_description) TextView description;
     @BindView(R.id.recyclerView) RecyclerView list;
     @BindView(R.id.feedback) TextView feedback;
 
@@ -73,6 +72,7 @@ public class MyStoreActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(store.getName());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
         token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
@@ -94,7 +94,6 @@ public class MyStoreActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     refreshLayout.setRefreshing(false);
-                    bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
@@ -134,7 +133,7 @@ public class MyStoreActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                bar.setVisibility(View.GONE);
+                refreshLayout.setRefreshing(false);
                 feedback.setVisibility(View.VISIBLE);
                 //Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
 
@@ -151,12 +150,14 @@ public class MyStoreActivity extends AppCompatActivity {
     }
 
     public void Get_Store(){
+        refreshLayout.setRefreshing(true);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getSINGLESTORE() + store.getSlug(), null, new Response.Listener<JSONObject>() {
 
 
             @Override
             public void onResponse(JSONObject response) {
                 try{
+                    refreshLayout.setRefreshing(false);
                     Log.d(TAG, response.toString());
                     //progressBar.setVisibility(View.GONE);
                     //JSONArray jsonArray = response.getJSONArray("Stores");
@@ -181,6 +182,7 @@ public class MyStoreActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                refreshLayout.setRefreshing(false);
                // progressBar.setVisibility(View.GONE);
             }
         }){
@@ -214,7 +216,6 @@ public class MyStoreActivity extends AppCompatActivity {
             }
         });
         list = (RecyclerView) findViewById(R.id.recyclerView);
-        bar = (ProgressBar) findViewById(R.id.progressBar);
         layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, this), StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
@@ -245,7 +246,9 @@ public class MyStoreActivity extends AppCompatActivity {
         volleySingleton.getImageLoader().get(store.getLogo(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                imageView.setImageBitmap(response.getBitmap());
+                if(response.getBitmap() != null){
+                    imageView.setImageBitmap(response.getBitmap());
+                }
             }
 
             @Override

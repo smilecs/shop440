@@ -59,7 +59,6 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     String token;
     Toolbar toolbar;
-    @BindView(R.id.profile) ImageView imageView;
     @BindView(R.id.storesNumber) TextView storeNumber;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.progressBar) ProgressBar progressBar;
@@ -81,13 +80,12 @@ public class ProfileActivity extends AppCompatActivity {
         String image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
 
-        name.setText(sharedPreferences.getString(getResources().getString(R.string.username), " "));
-        getSupportActionBar().setTitle(sharedPreferences.getString(getResources().getString(R.string.username), " "));
-        if(!image.equals(" ")){
+        name.setText(sharedPreferences.getString(getResources().getString(R.string.username), ""));
+        /*if(!image.equals(" ")){
             byte[] bytes = Base64.decode(image, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             imageView.setImageDrawable(com.shop440.Utils.Image.roundedBitmapDrawable(this, bitmap));
-        }
+        }*/
         model = new ArrayList<>();
         list = (RecyclerView) findViewById(R.id.storeList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, Metrics.GetMetrics(list, this));
@@ -112,7 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
                 try{
                     Log.d(TAG, response.toString());
                     //// TODO: 11/07/2017 collect image from server and save to sharedPreferences
-                    getSupportActionBar().setTitle(response.getString("Name"));
                     editor.putString(getResources().getString(R.string.username), response.getString("Name"));
                     editor.apply();
                     JSONObject object = response.getJSONObject("Analytics");

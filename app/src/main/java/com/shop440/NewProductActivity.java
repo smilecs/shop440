@@ -64,7 +64,6 @@ public class NewProductActivity extends AppCompatActivity {
     @BindView(R.id.price) EditText price;
     @BindView(R.id.tag) EditText tags;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @BindView(R.id.progressBar) ProgressBar bar;
     @BindView(R.id.lay) LinearLayout layout;
     @BindView(R.id.feedback) TextView feedback;
     @OnClick(R.id.add) void AddImage(){
@@ -78,7 +77,6 @@ public class NewProductActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.next) void next(){
-        bar.setVisibility(View.VISIBLE);
         layout.setVisibility(View.GONE);
         productModel.setName(name.getText().toString());
         productModel.setDescription(description.getText().toString());
@@ -112,7 +110,6 @@ public class NewProductActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 feedback.setText(R.string.network_error);
-                bar.setVisibility(View.GONE);
                 layout.setVisibility(View.VISIBLE);
             }
         }){
