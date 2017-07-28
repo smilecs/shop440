@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.StoreAdapter;
 import com.shop440.Models.StoreModel;
+import com.shop440.Utils.Image;
 import com.shop440.Utils.Metrics;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
@@ -58,15 +59,9 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     String token;
     Toolbar toolbar;
-    @BindView(R.id.profile)
-    ImageView imageView;
-    @BindView(R.id.storesNumber)
-    TextView storeNumber;
-    @BindView(R.id.likeNumber) TextView lkeNumber;
-    @BindView(R.id.purchaseNumber) TextView purchaseNumber;
+    @BindView(R.id.storesNumber) TextView storeNumber;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @BindView(R.id.stores) TextView myStores;
     @OnClick(R.id.fab) void newStore(){
         Intent i = new Intent(c, NewStoreActivity.class);
         startActivity(i);
@@ -78,32 +73,19 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         c = this;
-        Typeface robotMedium = Typeface.createFromAsset(c.getAssets(),
-                "fonts/Roboto-Medium.ttf");
-        Typeface robotThin = Typeface.createFromAsset(c.getAssets(),
-                "fonts/Roboto-Thin.ttf");
-        Typeface robotCondensed = Typeface.createFromAsset(c.getAssets(),
-                "fonts/RobotoCondensed-Light.ttf");
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setTitle("ProfileActivity");
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
-        String Image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
+        String image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
-        name.setTypeface(robotMedium);
-        myStores.setTypeface(robotMedium);
-        name.setText(sharedPreferences.getString(getResources().getString(R.string.username), " "));
-        getSupportActionBar().setTitle(sharedPreferences.getString(getResources().getString(R.string.username), " "));
-        if(!Image.equals(" ")){
-            byte[] bytes = Base64.decode(Image, Base64.DEFAULT);
+
+        name.setText(sharedPreferences.getString(getResources().getString(R.string.username), ""));
+        /*if(!image.equals(" ")){
+            byte[] bytes = Base64.decode(image, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            imageView.setImageBitmap(bitmap);
-        }
-        lkeNumber.setTypeface(robotMedium);
-        purchaseNumber.setTypeface(robotMedium);
-        storeNumber.setTypeface(robotMedium);
+            imageView.setImageDrawable(com.shop440.Utils.Image.roundedBitmapDrawable(this, bitmap));
+        }*/
         model = new ArrayList<>();
         list = (RecyclerView) findViewById(R.id.storeList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, Metrics.GetMetrics(list, this));
@@ -127,16 +109,11 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     Log.d(TAG, response.toString());
-                    //name.setText(response.getString("Name"));
-                    getSupportActionBar().setTitle(response.getString("Name"));
+                    //// TODO: 11/07/2017 collect image from server and save to sharedPreferences
                     editor.putString(getResources().getString(R.string.username), response.getString("Name"));
                     editor.apply();
-                    //editor.commit();
-                    //toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
                     JSONObject object = response.getJSONObject("Analytics");
                     storeNumber.setText(object.getString("Stores"));
-                    purchaseNumber.setText(object.getString("Purchases"));
-                    lkeNumber.setText(object.getString("Likes"));
                 }catch (Exception e){
                     e.printStackTrace();
                 }

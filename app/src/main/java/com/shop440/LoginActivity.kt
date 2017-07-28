@@ -135,6 +135,7 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("response", response.toString())
                 val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
                 editor = sharedPreferences.edit()
+                editor.putString(resources.getString(R.string.username), name)
                 editor.putString(Urls.TOKEN, response.getString("Token"))
                 editor.apply()
                 finish()

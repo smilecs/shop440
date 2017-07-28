@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/addresslayout"
         android:layout_below="@+id/textView5"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="27dp">
         <EditText
             android:id="@+id/address"
@@ -41,7 +40,6 @@
             android:hint="Address"
             android:inputType="textMultiLine"
             />
-
     </android.support.design.widget.TextInputLayout>
 
 
@@ -75,7 +73,6 @@
         android:layout_marginTop="48dp"
         android:layout_below="@+id/addresslayout"
         android:background="@drawable/button_bg_rounded"
-        android:layout_marginEnd="21dp"
         android:id="@+id/save" />
 
 </RelativeLayout>

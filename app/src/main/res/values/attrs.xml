@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="fontName" format="enum">
+    <enum name="RobotoMedium" value="0"/>
+    <enum name="RobotoThin" value="1"/>
+    <enum name="RobotoThinItalic" value="2"/>
+    <enum name="RobotoCondensedBold" value="3"/>
+    <enum name="RobotoCondensedLight" value="4"/>
+    <enum name="RobotoCondensedRegular" value="5"/>
+    </attr>
+    <declare-styleable name="FontTextView">
+    <attr name="fontName" />
+    </declare-styleable>
+</resources>

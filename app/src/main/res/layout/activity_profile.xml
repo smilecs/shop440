@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.shop440.ProfileActivity">
+    tools:context="com.shop440.ProfileActivity"
+    android:background="@android:color/white">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -15,26 +16,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimaryDark"
+            app:contentScrim="@android:color/white"
             app:expandedTitleMarginEnd="36dp"
             app:expandedTitleMarginStart="36dp"
-            app:expandedTitleMarginBottom="124dp"
-            app:titleEnabled="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:minHeight="160dp">
+            app:expandedTitleTextAppearance="?android:textAppearanceLarge"
+            app:expandedTitleGravity="center_horizontal"
+            app:theme="@style/ToolBarStyle"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+
                 <include layout="@layout/fragment_profile"/>
-            </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:title=""
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:theme="@style/AppTheme"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:theme="@style/ToolBarStyle"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
                 />
 
 
@@ -51,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/add" />
+        android:src="@drawable/add"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

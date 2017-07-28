@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -70,6 +71,8 @@ public class GetLocationActivity extends AppCompatActivity implements
     private double currentLongitude;
     String token;
     StoreModel store;
+    @BindView(R.id.addresslayout)
+    TextInputLayout addressContainer;
     @BindView(R.id.address) EditText Address;
     @BindView(R.id.progressBar2) ProgressBar loading;
     @BindView(R.id.textView5) TextView feedback;
@@ -77,7 +80,7 @@ public class GetLocationActivity extends AppCompatActivity implements
     @OnClick(R.id.save) void save(){
         //feedback.setVisibility(View.VISIBLE);
         saveButton.setVisibility(View.GONE);
-        Address.setVisibility(View.GONE);
+        addressContainer.setVisibility(View.GONE);
         if(Address.getText().length() > 4){
             loading.setVisibility(View.VISIBLE);
             feedback.setText(R.string.accessing_store_service);

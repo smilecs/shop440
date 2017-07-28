@@ -46,7 +46,6 @@ import butterknife.ButterKnife;
 public class MyStoreActivity extends AppCompatActivity {
     ProductAdapter mainAdapter;
     ArrayList<ProductModel> model;
-    ProgressBar bar;
     String TAG = "StoreModel";
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
@@ -58,11 +57,8 @@ public class MyStoreActivity extends AppCompatActivity {
     Boolean next = true;
     StoreModel store;
     @BindView(R.id.profile) ImageView imageView;
-    TextView productNumber;
-    TextView lkeNumber;
-    TextView purchaseNumber;
-    @BindView(R.id.name) TextView name;
-    @BindView(R.id.description) TextView description;
+    @BindView(R.id.store_header_name) TextView name;
+    @BindView(R.id.store_header_description) TextView description;
     @BindView(R.id.recyclerView) RecyclerView list;
     @BindView(R.id.feedback) TextView feedback;
 
@@ -76,85 +72,14 @@ public class MyStoreActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(store.getName());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), MODE_PRIVATE);
         token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
         if(getIntent().getBooleanExtra("reload", false)){
             Get_Store();
         }
-        Typeface robotBold = Typeface.createFromAsset(getAssets(),
-                "fonts/RobotoCondensed-Bold.ttf");
-        purchaseNumber = (TextView) findViewById(R.id.purchaseNumber);
-        lkeNumber = (TextView) findViewById(R.id.likeNumber);
-        productNumber = (TextView) findViewById(R.id.storesNumber);
-        productNumber.setTypeface(robotBold);
-        lkeNumber.setTypeface(robotBold);
-        purchaseNumber.setTypeface(robotBold);
-        //Log.d(TAG, store.getProductsNumber());
-        //productNumber.setText(store.getProductsNumber());
-        //lkeNumber.setText(store.getLikes());
-        //purchaseNumber.setText(store.getPurchases());
-        name.setText(store.getName());
-        description.setText(store.getDescription());
-        model = new ArrayList<>();
-        mainAdapter = new ProductAdapter(this, model);
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light
-        );
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshLayout.setRefreshing(true);
-                GetData("1");
-            }
-        });
-        list = (RecyclerView) findViewById(R.id.recyclerView);
-        bar = (ProgressBar) findViewById(R.id.progressBar);
-        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, this), StaggeredGridLayoutManager.VERTICAL);
-        list.setHasFixedSize(true);
-        list.setLayoutManager(layoutManager);
-        list.setAdapter(mainAdapter);
-        list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if(next){
-                    GetData(String.valueOf(page));
-                }
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if(token.equals("null")) fab.setVisibility(View.GONE);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MyStoreActivity.this, NewItemCategoryActivity.class);
-                //i.putExtra("data", productModel);
-                i.putExtra("backtrack", store);
-                startActivity(i);
-            }
-        });
-
-        volleySingleton = VolleySingleton.getsInstance();
-        requestQueue = volleySingleton.getmRequestQueue();
-        volleySingleton.getImageLoader().get(store.getLogo(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                imageView.setImageBitmap(response.getBitmap());
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_online_store));
-
-            }
-        });
-
+        initUi();
         GetData("1");
         Get_Store();
     }
@@ -169,7 +94,6 @@ public class MyStoreActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try{
                     refreshLayout.setRefreshing(false);
-                    bar.setVisibility(View.GONE);
                     JSONArray array = response.getJSONArray("Data");
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
@@ -209,7 +133,7 @@ public class MyStoreActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                bar.setVisibility(View.GONE);
+                refreshLayout.setRefreshing(false);
                 feedback.setVisibility(View.VISIBLE);
                 //Snackbar.make(view, "Error Getting Results", Snackbar.LENGTH_SHORT);
 
@@ -226,12 +150,14 @@ public class MyStoreActivity extends AppCompatActivity {
     }
 
     public void Get_Store(){
+        refreshLayout.setRefreshing(true);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getSINGLESTORE() + store.getSlug(), null, new Response.Listener<JSONObject>() {
 
 
             @Override
             public void onResponse(JSONObject response) {
                 try{
+                    refreshLayout.setRefreshing(false);
                     Log.d(TAG, response.toString());
                     //progressBar.setVisibility(View.GONE);
                     //JSONArray jsonArray = response.getJSONArray("Stores");
@@ -243,9 +169,6 @@ public class MyStoreActivity extends AppCompatActivity {
                         store.setPurchases(response.getJSONObject("Analytics").getString("Purchases"));
                         store.setLikes(response.getJSONObject("Analytics").getString("Likes"));
                         store.setLogo(response.getString("Logo"));
-                        productNumber.setText(store.getProductsNumber());
-                        lkeNumber.setText(store.getLikes());
-                        purchaseNumber.setText(store.getPurchases());
                         name.setText(store.getName());
                         description.setText(store.getDescription());
                         //model.add(store);
@@ -259,6 +182,7 @@ public class MyStoreActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                refreshLayout.setRefreshing(false);
                // progressBar.setVisibility(View.GONE);
             }
         }){
@@ -272,5 +196,68 @@ public class MyStoreActivity extends AppCompatActivity {
         };
         requestQueue.add(jsonObjectRequest);
     }
+    private void initUi(){
+        name.setText(store.getName());
+        description.setText(store.getDescription());
+        model = new ArrayList<>();
+        mainAdapter = new ProductAdapter(this, model);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+              android.R.color.holo_green_light,
+              android.R.color.holo_orange_light,
+              android.R.color.holo_red_light
+        );
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                GetData("1");
+            }
+        });
+        list = (RecyclerView) findViewById(R.id.recyclerView);
+        layoutManager = new StaggeredGridLayoutManager(Metrics.GetMetrics(list, this), StaggeredGridLayoutManager.VERTICAL);
+        list.setHasFixedSize(true);
+        list.setLayoutManager(layoutManager);
+        list.setAdapter(mainAdapter);
+        list.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if(next){
+                    GetData(String.valueOf(page));
+                }
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if(token.equals("null")) fab.setVisibility(View.GONE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MyStoreActivity.this, NewItemCategoryActivity.class);
+                //i.putExtra("data", productModel);
+                i.putExtra("backtrack", store);
+                startActivity(i);
+            }
+        });
+
+        volleySingleton = VolleySingleton.getsInstance();
+        requestQueue = volleySingleton.getmRequestQueue();
+        volleySingleton.getImageLoader().get(store.getLogo(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                if(response.getBitmap() != null){
+                    imageView.setImageBitmap(response.getBitmap());
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_online_store));
+
+            }
+        });
+
+    }
 }

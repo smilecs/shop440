@@ -29,7 +29,7 @@
                 android:layout_marginTop="6dp"
                 android:minHeight="160dp"
                 >
-                <include layout="@layout/store_header"/>
+                <include layout="@layout/store_header" android:id="@+id/store_head"/>
             </RelativeLayout>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
