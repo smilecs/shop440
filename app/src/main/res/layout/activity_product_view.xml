@@ -131,10 +131,11 @@
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"/>
 
-                    <TextView
+                    <com.shop440.Widgets.FontTextView
                         android:id="@+id/shareText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:fontName="RobotoMedium"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="12dp"
@@ -144,10 +145,11 @@
                         android:textStyle="bold"
                         />
 
-                    <TextView
+                    <com.shop440.Widgets.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/shareText"
+                        app:fontName="RobotoThinItalic"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="12dp"
                         android:text="@string/let_your_friends_see_this_item"
@@ -188,7 +190,7 @@
                         android:paddingTop="12dp"
                         app:srcCompat="@drawable/ic_online_store"/>
 
-                    <TextView
+                    <com.shop440.Widgets.FontTextView
                         android:id="@+id/storeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -197,18 +199,20 @@
                         android:layout_marginBottom="12dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
+                        app:fontName="RobotoMedium"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
                         />
 
-                    <TextView
+                    <com.shop440.Widgets.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/storeName"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="6dp"
                         android:text="@string/see_more_from_store"
+                        app:fontName="RobotoThinItalic"
                         android:textColor="@android:color/holo_green_dark"
                         android:textStyle="italic"/>
                 </RelativeLayout>
