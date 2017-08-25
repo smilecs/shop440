@@ -45,7 +45,9 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
 import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareMediaContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -297,23 +299,21 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
               .setContentTitle(productModel.getName())
               .setImageUrl(Uri.parse(productModel.getImage()))
               .build();
+       // SharePhoto.Builder sharePhoto = new SharePhoto.Builder();
+        sharePhoto.setImageUrl(Uri.parse(productModel.getImage()));
         final ShareDialog shareDialog = new ShareDialog(this);
         CardView shareCard = (CardView) findViewById(R.id.shareCard);
+       // ShareContent shareContent = new ShareMediaContent.Builder().addMedium(sharePhoto.build()).build();
         shareCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppEventsLogger.logItemShareEvent();
-                //progressBar.setVisibility(View.VISIBLE);
-                try {
-                    MediaStore.Images.Media.insertImage(getContentResolver(), Uri.parse("https://shop440.com/product/" + productModel.getSlug()).toString(), productModel.getName(), null);
-                } catch (FileNotFoundException fn) {
-
-                }
-                Intent share = new Intent(Intent.ACTION_SEND);
+                progressBar.setVisibility(View.VISIBLE);
+                /*Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_STREAM, Uri.parse("https://shop440.com/product/" + productModel.getSlug()).toString());
-                startActivity(Intent.createChooser(share, productModel.getName()));
-                //shareDialog.show(content);
+                startActivity(Intent.createChooser(share, productModel.getName()));*/
+                shareDialog.show(content);
             }
         });
         imageView.setImageUrl(productModel.getImage(), imageLoader);
@@ -385,7 +385,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
             progressDialog.setMessage(getString(R.string.loader_text));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.show();
-            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETPRODUCT() + resolvedUrl, null, new Response.Listener<JSONObject>() {
+            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.GETPRODUCT + resolvedUrl, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject object) {
                     try {

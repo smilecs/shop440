@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.shop440.Fragments.MainActivityFragment;
+import com.shop440.Login.LoginActivity;
 import com.shop440.Utils.AppEventsLogger;
 import com.shop440.Utils.Urls;
 import com.shop440.Utils.VolleySingleton;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
-        Log.d("token", sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null"));
+        Log.d("token", sharedPreferences.getString(Urls.TOKEN, "null"));
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivityFragment mn = new MainActivityFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.container, mn).commit();
         }
-      
+
         volleySingleton = VolleySingleton.getsInstance();
 
     }

@@ -1,9 +1,7 @@
 package com.shop440.Dialog
 
 
-import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatDialogFragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +20,7 @@ class LoginFragmentDialog : AppCompatDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view = inflater!!.inflate(R.layout.fragment_login_fragment_dialog, container, false)
+        val view = inflater?.inflate(R.layout.fragment_login_fragment_dialog, container, false)
 
         return view
     }
