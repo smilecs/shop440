@@ -1,10 +1,11 @@
-package com.shop440
+package com.shop440.Login
 
 import android.animation.LayoutTransition
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -17,6 +18,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.facebook.accountkit.*
 import com.facebook.accountkit.ui.*
+import com.shop440.R
 import com.shop440.Utils.Urls
 import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.sign_in.*
@@ -25,7 +27,7 @@ import org.json.JSONObject
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -33,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
      */
 
     // UI references.
+    override lateinit var presenter: LoginContract.Presenter
     lateinit var editor: SharedPreferences.Editor
     lateinit var volleySingleton: VolleySingleton
     lateinit var queue: RequestQueue
@@ -48,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         volleySingleton = VolleySingleton.getsInstance()
         // Set up the login form.
-
+        LoginPresenter(this)
         login_activity_signup_button.setOnClickListener(signUplistener())
         login_activity_signup_button_ok.setOnClickListener(confirmSignUp())
         login_activity_sign_in_button.setOnClickListener(login())
@@ -59,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, AccountKitActivity::class.java)
         val configBuilder = AccountKitConfiguration.AccountKitConfigurationBuilder(LoginType.PHONE,
                 AccountKitActivity.ResponseType.TOKEN)
-        var uiManager: UIManager = SkinManager(SkinManager.Skin.TRANSLUCENT, R.color.colorPrimaryDark)
+        val uiManager: UIManager = SkinManager(SkinManager.Skin.TRANSLUCENT, R.color.colorPrimaryDark)
         configBuilder.setUIManager(uiManager)
         intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
                 configBuilder.build())
@@ -147,12 +150,19 @@ class LoginActivity : AppCompatActivity() {
         queue.add(jsonObjectRequest)
     }
 
-    private fun login(): View.OnClickListener{
+    private fun login(): View.OnClickListener {
         return View.OnClickListener {
             newUser = false
             sign_up_form.visibility = View.GONE
             phoneLogin()
         }
+    }
+
+    override fun toggleProgressBar() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showFeedBack() {
     }
 }
 

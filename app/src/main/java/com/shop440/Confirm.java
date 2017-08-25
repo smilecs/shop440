@@ -144,7 +144,7 @@ public class Confirm extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        StringRequest ObjectRequest = new StringRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getPASSCODE() + "?phone=" + URLEncoder.encode(q), new Response.Listener<String>() {
+        StringRequest ObjectRequest = new StringRequest(Request.Method.GET, Urls.BASE_URL + Urls.PASSCODE + "?phone=" + URLEncoder.encode(q), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -191,12 +191,12 @@ public class Confirm extends AppCompatActivity {
 
     private void get_token() {
         feedback.setText("Loading token");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getUPDATE_USER(), login, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.UPDATE_USER, login, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     Log.d("response", response.toString());
-                    editor.putString(Urls.INSTANCE.getTOKEN(), response.getString("Token"));
+                    editor.putString(Urls.TOKEN, response.getString("Token"));
                     editor.putString(getResources().getString(R.string.profileImage), user.getImage());
                     editor.putString(getResources().getString(R.string.username), user.getName());
                     editor.commit();
@@ -222,7 +222,7 @@ public class Confirm extends AppCompatActivity {
         bar.setVisibility(View.VISIBLE);
         continueButton.setVisibility(View.GONE);
         feedback.setText("Creating Account!");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getNEW_USER(), json, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEW_USER, json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("NewUser", "success");

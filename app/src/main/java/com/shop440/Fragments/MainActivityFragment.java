@@ -116,7 +116,7 @@ public class MainActivityFragment extends Fragment {
         }
         refreshLayout.setRefreshing(true);
         feedback.setVisibility(View.GONE);
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETPRODUCTS() + "?p=" + page, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Urls.BASE_URL + Urls.GETPRODUCTS + "?p=" + page, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{

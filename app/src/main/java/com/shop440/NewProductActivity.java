@@ -96,7 +96,7 @@ public class NewProductActivity extends AppCompatActivity {
             j.printStackTrace();
         }
 
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.POST, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getADDPRODUCT() + productModel.getShop() + "/add", jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.ADDPRODUCT + productModel.getShop() + "/add", jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Intent i = new Intent(c, StoreActivity.class);
@@ -136,7 +136,7 @@ public class NewProductActivity extends AppCompatActivity {
         catModel = (CategoryModel) getIntent().getSerializableExtra("data");
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
-        token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
+        token = sharedPreferences.getString(Urls.TOKEN, "null");
         jsonArray = new JSONArray();
         jsonObject = new JSONObject();
         model = new ArrayList<>();

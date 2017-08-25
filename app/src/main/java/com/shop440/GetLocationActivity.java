@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -104,7 +105,7 @@ public class GetLocationActivity extends AppCompatActivity implements
         store = (StoreModel) getIntent().getSerializableExtra("data");
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
-        token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
+        token = sharedPreferences.getString(Urls.TOKEN, "null");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 // The next two lines tell the new client that “this” current class will handle connection stuff
                 .addConnectionCallbacks(this)
@@ -182,7 +183,7 @@ public class GetLocationActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-
+        storeCoordinates(location);
 
     }
 
@@ -247,21 +248,16 @@ public class GetLocationActivity extends AppCompatActivity implements
                     mGoogleApiClient);
 
             if (location != null) {
-                currentLatitude = location.getLatitude();
-                currentLongitude = location.getLongitude();
-                Log.d("GetLocationActivity", currentLatitude + " WORKS3" + currentLongitude);
-                store.setCoordinates(String.valueOf(currentLatitude)+","+String.valueOf(currentLongitude));
-                AttachValues();
-
+               storeCoordinates(location);
             }else{
-                AttachValues();
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             }
         }
     }
 
     //Send data to server after getting all neccessary values
     private void SaveStore(JSONObject jsonObject){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getNEWSTORE(), jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEWSTORE, jsonObject, new Response.Listener<JSONObject>() {
 
 
             @Override
@@ -315,7 +311,7 @@ public class GetLocationActivity extends AppCompatActivity implements
                         }
                         break;
                     case LocationSettingsStatusCodes.CANCELED:
-                        new Asynct().execute();
+                        Toast.makeText(GetLocationActivity.this, "Location needs to be enabled inorder to provide users with directions to your store", Toast.LENGTH_LONG).show();
                         break;
 
                 }
@@ -350,6 +346,14 @@ public class GetLocationActivity extends AppCompatActivity implements
         }catch (JSONException j){
             j.printStackTrace();
         }
+    }
+
+    private void storeCoordinates(Location location){
+        currentLatitude = location.getLatitude();
+        currentLongitude = location.getLongitude();
+        Log.d("GetLocationActivity", currentLatitude + " WORKS3" + currentLongitude);
+        store.setCoordinates(String.valueOf(currentLatitude)+","+String.valueOf(currentLongitude));
+        AttachValues();
     }
 
 

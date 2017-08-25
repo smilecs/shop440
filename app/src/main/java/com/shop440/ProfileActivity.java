@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        token = sharedPreferences.getString(Urls.INSTANCE.getTOKEN(), "null");
+        token = sharedPreferences.getString(Urls.TOKEN, "null");
         String image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
 
@@ -102,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void GetProfile(){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getME(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.ME, null, new Response.Listener<JSONObject>() {
 
 
             @Override
@@ -149,7 +149,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void Get_Stores(){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getMyStores(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Urls.BASE_URL + Urls.MyStores, null, new Response.Listener<JSONObject>() {
 
 
             @Override

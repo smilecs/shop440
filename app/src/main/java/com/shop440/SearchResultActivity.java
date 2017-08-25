@@ -1,16 +1,15 @@
 package com.shop440;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -161,13 +160,13 @@ public class SearchResultActivity extends AppCompatActivity {
     public String getUrl(String page, String q){
         if(getIntent().getBooleanExtra("isSearch", true)){
             try{
-                URI = Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETPRODUCTS() +"?query=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
+                URI = Urls.BASE_URL + Urls.GETPRODUCTS +"?query=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
             }catch (UnsupportedEncodingException un){
                 un.printStackTrace();
             }
         }else {
             try{
-                URI = Urls.INSTANCE.getBASE_URL() + Urls.INSTANCE.getGETPRODUCTS() +"?category=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
+                URI = Urls.BASE_URL + Urls.GETPRODUCTS +"?category=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
             }catch (UnsupportedEncodingException un){
                 un.printStackTrace();
             }
