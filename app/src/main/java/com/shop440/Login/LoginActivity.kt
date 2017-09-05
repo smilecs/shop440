@@ -11,51 +11,49 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.facebook.accountkit.*
 import com.facebook.accountkit.ui.*
+import com.shop440.Api.NetModule
+import com.shop440.Models.User
 import com.shop440.R
+import com.shop440.Utils.ProgressDialog
 import com.shop440.Utils.Urls
 import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.sign_in.*
 import org.json.JSONObject
+import retrofit2.Retrofit
 
 /**
  * A login screen that offers login via email/password.
  */
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-
     // UI references.
     override lateinit var presenter: LoginContract.Presenter
     lateinit var editor: SharedPreferences.Editor
     lateinit var volleySingleton: VolleySingleton
     lateinit var queue: RequestQueue
+    lateinit var progressDialog:android.app.ProgressDialog
     var email: String = ""
     var name: String = ""
     var newUser: Boolean = true
     val APP_REQUEST_CODE: Int = 104
-
+    lateinit var retrofit: Retrofit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sign_in)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         volleySingleton = VolleySingleton.getsInstance()
+        retrofit = NetModule.provideRetrofit()
         // Set up the login form.
-        LoginPresenter(this)
+        LoginPresenter(this, retrofit)
         login_activity_signup_button.setOnClickListener(signUplistener())
         login_activity_signup_button_ok.setOnClickListener(confirmSignUp())
         login_activity_sign_in_button.setOnClickListener(login())
         queue = volleySingleton.getmRequestQueue()
+        progressDialog = ProgressDialog.progressDialog(this)
     }
 
     fun phoneLogin() {
@@ -73,10 +71,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == APP_REQUEST_CODE) {
             val loginResult: AccountKitLoginResult = data!!.getParcelableExtra(AccountKitLoginResult.RESULT_KEY)
-            Log.i("AccountKit", "accountkit")
             if (loginResult.error != null) {
                 Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_SHORT).show()
-                finish()
                 return
             }
             userAuthFinished()
@@ -86,25 +82,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     private fun userAuthFinished() {
         val login: JSONObject = JSONObject()
         val url: String
+        val user:User = User()
         if (newUser) {
             url = Urls.NEW_USER
-            login.put("name", name)
-            login.put("email", email)
-        } else {
-            url = Urls.LOGIN
+            user.name = name
+            user.email = email
         }
-        AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
-            override fun onSuccess(account: Account?) {
-                Log.i("LoginActivity", account?.phoneNumber.toString())
-                login.put("phone", account?.phoneNumber.toString())
-                Log.i("Loginactivity", login.toString())
-                getTokenHandler(login, url)
-            }
-
-            override fun onError(error: AccountKitError?) {
-                Log.i("LoginActivity", error.toString())
-            }
-        })
+        getCurrentAccountFromKit(user)
     }
 
     private fun signUplistener(): View.OnClickListener {
@@ -132,37 +116,55 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-    private fun getTokenHandler(login: JSONObject, url: String) {
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + url, login, Response.Listener<JSONObject> { response ->
-            try {
-                Log.d("response", response.toString())
-                val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
-                editor = sharedPreferences.edit()
-                editor.putString(resources.getString(R.string.username), name)
-                editor.putString(Urls.TOKEN, response.getString("Token"))
-                editor.apply()
-                finish()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }, Response.ErrorListener { error -> error.printStackTrace() })
-        jsonObjectRequest.retryPolicy = DefaultRetryPolicy(3 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        queue.add(jsonObjectRequest)
-    }
-
     private fun login(): View.OnClickListener {
         return View.OnClickListener {
             newUser = false
             sign_up_form.visibility = View.GONE
+            val user:User = User()
+            user.phone = "07033383068"
+            user.name = "name"
+            user.email = "mumene@gmail.com"
             phoneLogin()
         }
     }
 
     override fun toggleProgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if(progressDialog.isShowing){
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
     }
 
-    override fun showFeedBack() {
+    override fun showFeedBack(feedback: Int) {
+        Snackbar.make(sign_in_rootView, feedback, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun saveUser(user: User) {
+        val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+        editor.putString(resources.getString(R.string.username), user.name)
+        editor.putString(Urls.TOKEN, user.token)
+        editor.apply()
+        finish()
+    }
+
+    fun getCurrentAccountFromKit(user: User){
+        AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
+            override fun onSuccess(account: Account?) {
+                Log.i("LoginActivity", account?.phoneNumber.toString())
+                user.phone = account?.phoneNumber.toString()
+                if(newUser){
+                    presenter.signUp(user)
+                }else{
+                    presenter.login(user)
+                }
+            }
+
+            override fun onError(error: AccountKitError?) {
+                Log.i("LoginActivity", error.toString())
+            }
+        })
     }
 }
 

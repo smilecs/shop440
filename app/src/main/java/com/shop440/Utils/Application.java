@@ -1,6 +1,7 @@
 package com.shop440.Utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -52,10 +53,16 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AccountKit.initialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         logger = AppEventsLogger.newLogger(this);
+    }
+
+    public static String getAuthToken(){
+        SharedPreferences preferences = getsInstance().getSharedPreferences(getsInstance().getString(R.string.shop440), Context.MODE_PRIVATE);
+        return preferences.getString(Urls.TOKEN, "null");
     }
 
 }

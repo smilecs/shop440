@@ -71,6 +71,7 @@
     <string name="specialisation">Specialisation</string>
     <string name="store_phone">Store Phone</string>
     <string name="create_store">Create Store</string>
+    <string name="signup_request_error">Error processing request</string>
     <string-array name="fonts">
         <item>Roboto-Medium.ttf</item>
         <item>Roboto-Thin.ttf</item>

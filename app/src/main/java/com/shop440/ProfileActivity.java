@@ -80,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
         String image = sharedPreferences.getString(getResources().getString(R.string.profileImage), " ");
         ButterKnife.bind(this);
 
-        name.setText(sharedPreferences.getString(getResources().getString(R.string.username), ""));
+       // name.setText(sharedPreferences.getString(getResources().getString(R.string.username), ""));
         /*if(!image.equals(" ")){
             byte[] bytes = Base64.decode(image, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
