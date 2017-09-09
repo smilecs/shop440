@@ -1,15 +1,15 @@
-package com.shop440.Utils
+package com.shop440.Api
 
 /**
  * Created by SMILECS on 12/27/16.
  */
 
 object Urls {
-    //const val BASE_URL = "https://shop440.com"
+    const val BASE_URL = "https://shop440.com"
     const val NEW_USER = "/api/sign_up"
     const val PASSCODE = "/api/get_passcode"
     const val UPDATE_USER = "/api/update_name_and_email"
-    const val BASE_URL = "http://192.168.1.59:8080"
+    //const val BASE_URL = "http://192.168.1.59:8080"
     const val ME = "/api/me"
     const val LOGIN = "/api/login/phone"
     const val MyStores = "/api/me/stores"

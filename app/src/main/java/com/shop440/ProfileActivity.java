@@ -3,22 +3,15 @@ package com.shop440;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,11 +21,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.shop440.Adapters.StoreAdapter;
 import com.shop440.Models.StoreModel;
-import com.shop440.Utils.Image;
 import com.shop440.Utils.Metrics;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -48,7 +39,6 @@ import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
     RecyclerView list;
-    StoreAdapter storeAdapter;
     ArrayList<StoreModel> model;
     StoreModel store;
     Context c;
@@ -91,8 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, Metrics.GetMetrics(list, this));
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);
-        storeAdapter = new StoreAdapter(model);
-        list.setAdapter(storeAdapter);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         volleySingleton = VolleySingleton.getsInstance();
         requestQueue = volleySingleton.getmRequestQueue();
@@ -169,7 +158,6 @@ public class ProfileActivity extends AppCompatActivity {
                         store.setLogo(jsonArray.getJSONObject(i).getString("Logo"));
                         model.add(store);
                     }
-                    storeAdapter.notifyDataSetChanged();
 
                 }catch (Exception e){
                     e.printStackTrace();

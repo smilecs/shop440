@@ -1,11 +1,10 @@
 package com.shop440.Login;
 
 import com.shop440.Models.User;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**

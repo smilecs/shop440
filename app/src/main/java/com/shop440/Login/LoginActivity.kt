@@ -18,10 +18,9 @@ import com.shop440.Api.NetModule
 import com.shop440.Models.User
 import com.shop440.R
 import com.shop440.Utils.ProgressDialog
-import com.shop440.Utils.Urls
+import com.shop440.Api.Urls
 import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.sign_in.*
-import org.json.JSONObject
 import retrofit2.Retrofit
 
 /**
@@ -80,11 +79,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     private fun userAuthFinished() {
-        val login: JSONObject = JSONObject()
-        val url: String
         val user:User = User()
         if (newUser) {
-            url = Urls.NEW_USER
             user.name = name
             user.email = email
         }
@@ -128,18 +124,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-    override fun toggleProgressBar() {
-        if(progressDialog.isShowing){
-            progressDialog.hide()
-            return
-        }
-        progressDialog.show()
-    }
-
-    override fun showFeedBack(feedback: Int) {
-        Snackbar.make(sign_in_rootView, feedback, Snackbar.LENGTH_LONG).show()
-    }
-
     override fun saveUser(user: User) {
         val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
@@ -147,6 +131,18 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         editor.putString(Urls.TOKEN, user.token)
         editor.apply()
         finish()
+    }
+
+    override fun onDataLoading() {
+        if(progressDialog.isShowing){
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
+    }
+
+    override fun onError(errorMessage: Int) {
+        Snackbar.make(sign_in_rootView, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 
     fun getCurrentAccountFromKit(user: User){

@@ -45,7 +45,7 @@
             tools:replace="android:theme"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity.MainActivity"
             android:label="@string/app_name"
             >
             <intent-filter>
@@ -87,9 +87,8 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:launchMode="singleTop"
-                android:value="com.shop440.MainActivity" />
+                android:value="com.shop440.MainActivity.MainActivity" />
         </activity>
-        <activity android:name=".MyStoreActivity"/>
         <activity
             android:name=".StoreActivity"
             android:label="@string/title_activity_store"
@@ -146,7 +145,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity" />
+                android:value="com.shop440.MainActivity.MainActivity" />
             </activity>
         <activity
             android:name=".SearchActivity"
@@ -154,7 +153,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity" />
+                android:value="com.shop440.MainActivity.MainActivity" />
         </activity>
         <activity
             android:name=".SearchResultActivity"

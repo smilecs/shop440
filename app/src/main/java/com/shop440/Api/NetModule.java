@@ -1,21 +1,14 @@
 package com.shop440.Api;
 
-import android.app.Application;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.shop440.Utils.Urls;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

@@ -42,7 +42,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.shop440.Models.StoreModel;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONException;

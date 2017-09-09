@@ -7,7 +7,9 @@ package com.shop440.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Analytics {
+import java.io.Serializable;
+
+public class Analytics implements Serializable{
 
     @SerializedName("Stores")
     @Expose

@@ -20,40 +20,46 @@ class LoginPresenter(val loginView:LoginContract.View, val retrofit: Retrofit):L
     }
 
     override fun login(user: User) {
+        loginView.onDataLoading()
         val posts: Call<User> = retrofit.create(ApiRequest::class.java).login(user)
         posts.enqueue(object : Callback<User>{
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                if(response.isSuccessful){
+            override fun onResponse(call: Call<User>?, response: Response<User>?) {
+                loginView.onDataLoading()
+                if(response!!.isSuccessful){
                     if(response.body() != null){
                         loginView.saveUser(response.body()!!)
                         return
                     }
-                    loginView.showFeedBack(R.string.signup_request_error)
+                    loginView.onError(R.string.signup_request_error)
                 }
             }
 
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                loginView.showFeedBack(R.string.signup_request_error)
-                t.printStackTrace()
+            override fun onFailure(call: Call<User>?, t: Throwable?) {
+                loginView.onError(R.string.signup_request_error)
+                loginView.onDataLoading()
+                t?.printStackTrace()
             }
         })
     }
 
     override fun signUp(user: User) {
         val posts: Call<User> = retrofit.create(ApiRequest::class.java).createUser(user)
+        loginView.onDataLoading()
         posts.enqueue(object : Callback<User>{
             override fun onResponse(call: Call<User>, response: Response<User>) {
+                loginView.onDataLoading()
                 if(response.isSuccessful){
                     if(response.body() != null){
                         loginView.saveUser(response.body()!!)
                         return
                     }
-                    loginView.showFeedBack(R.string.signup_request_error)
+                    loginView.onError(R.string.signup_request_error)
                 }
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                loginView.showFeedBack(R.string.signup_request_error)
+                loginView.onError(R.string.signup_request_error)
+                loginView.onDataLoading()
                 t.printStackTrace()
             }
         })

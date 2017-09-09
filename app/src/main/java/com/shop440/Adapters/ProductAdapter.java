@@ -15,22 +15,24 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.shop440.Models.Datum;
 import com.shop440.Models.ProductModel;
 import com.shop440.ProductViewActivity;
 import com.shop440.R;
 import com.shop440.Utils.VolleySingleton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SMILECS on 1/24/17.
  */
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
-    ArrayList<ProductModel> model;
+    List<Datum> model;
     Context c;
     ImageLoader imageLoader;
-    public ProductAdapter(Context c, ArrayList<ProductModel> model){
+    public ProductAdapter(Context c, List<Datum> model){
         this.model = model;
         this.c = c;
         imageLoader = VolleySingleton.getsInstance().getImageLoader();
@@ -53,7 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(itemView.getContext(), ProductViewActivity.class);
-                    i.putExtra("data", (ProductModel) itemView.getTag());
+                    i.putExtra("data", (Datum) itemView.getTag());
                     itemView.getContext().startActivity(i);
                 }
             });
@@ -77,27 +79,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 "fonts/RobotoCondensed-Light.ttf");
         Typeface robotBold = Typeface.createFromAsset(c.getAssets(),
                 "fonts/RobotoCondensed-Bold.ttf");
-        final ProductModel product = model.get(position);
-        byte[] imageByte = Base64.decode(product.getPlaceholder(), Base64.DEFAULT);
+        final Datum product = model.get(position);
+        byte[] imageByte = Base64.decode(product.getImage().getPlaceholder(), Base64.DEFAULT);
         Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         holder.productDisplay.setImageBitmap(bit);
         try{
             holder.productDisplay.setMinimumHeight(bit.getHeight());
         }catch (NullPointerException npe){
             npe.printStackTrace();
-            //holder.productDisplay.setMinimumHeight(bit.getHeight());
         }
-        holder.productDisplay.setImageUrl(product.getImage(), imageLoader);
+        holder.productDisplay.setImageUrl(product.getImage().getPath(), imageLoader);
         holder.category.setTypeface(robotThin);
         holder.location.setTypeface(robotThin);
         holder.itemView.setTag(product);
         holder.StoreName.setTypeface(robotMedium);
         holder.StoreName.setTypeface(robotCondensed);
         holder.product.setTypeface(robotThin);
-        holder.StoreName.setText(product.getOwner());
+        holder.StoreName.setText(product.getStore().getName());
         holder.product.setText(product.getName());
         holder.price.setTypeface(robotBold);
-        holder.price.setText(product.getPrice());
+        holder.price.setText(String.valueOf(product.getPrice()));
         holder.category.setText(product.getCategory());
         holder.location.setText(product.getCity());
 

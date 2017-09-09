@@ -9,6 +9,7 @@ import android.util.Log;
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.appevents.AppEventsLogger;
+import com.shop440.Api.Urls;
 import com.shop440.R;
 
 /**

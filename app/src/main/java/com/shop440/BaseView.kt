@@ -6,4 +6,6 @@ package com.shop440
 
 interface BaseView<T> {
     var presenter: T
+    fun onError(errorMessage: Int)
+    fun onDataLoading()
 }

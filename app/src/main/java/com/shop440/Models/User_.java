@@ -7,7 +7,9 @@ package com.shop440.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User_ {
+import java.io.Serializable;
+
+public class User_ implements Serializable{
 
     @SerializedName("Name")
     @Expose

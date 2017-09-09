@@ -1,7 +1,6 @@
 package com.shop440;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,9 +44,7 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
 import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.ShareMediaContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,13 +54,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.shop440.Models.Datum;
+import com.shop440.Models.Image;
+import com.shop440.Models.Location;
 import com.shop440.Models.ProductModel;
+import com.shop440.Models.Store;
 import com.shop440.Models.StoreModel;
 import com.shop440.Utils.AppEventsLogger;
 import com.shop440.Utils.FileCache;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,7 +89,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
     FileCache fileCache;
-    ProductModel productModel;
+    Datum productModel;
     ShareLinkContent content;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
@@ -124,9 +126,9 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
     void visit() {
         Intent i = new Intent(ProductViewActivity.this, StoreActivity.class);
         StoreModel storeModel = new StoreModel();
-        storeModel.setSlug(productModel.OwnerSlug);
-        storeModel.setName(productModel.getOwner());
-        storeModel.setLogo(productModel.getOwnerLogo());
+        storeModel.setSlug(productModel.getStore().getSlug());
+        storeModel.setName(productModel.getStore().getName());
+        storeModel.setLogo(productModel.getStore().getLogo());
         i.putExtra("data", storeModel);
         startActivity(i);
     }
@@ -135,7 +137,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
     void GetDirecitons() {
         //StartGps();
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-              Uri.parse("http://maps.google.com/maps?daddr=" + productModel.getCoordinates()));
+              Uri.parse("http://maps.google.com/maps?daddr=" + productModel.getLocation().getCoordinates().get(0)+ ","+productModel.getLocation().getCoordinates().get(1)));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
@@ -228,7 +230,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                AppEventsLogger.logItemDownloadEvent(productModel.getName(), productModel.getShop(), productModel.getCategory());
+                AppEventsLogger.logItemDownloadEvent(productModel.getName(), productModel.getStore().getName(), productModel.getCategory());
                 Toast.makeText(ProductViewActivity.this, "Saving image.......", Toast.LENGTH_LONG).show();
             }
         });
@@ -280,9 +282,8 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
         Typeface robotBold = Typeface.createFromAsset(getAssets(),
               "fonts/RobotoCondensed-Bold.ttf");
         Typeface robotThinItalic = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Thin.ttf");
-        if (!productModel.getCoordinates().isEmpty()) {
-            latlng = productModel.getCoordinates().split(",");
-            coord = new LatLng(Double.valueOf(latlng[0]), Double.valueOf(latlng[1]));
+        if (productModel.getLocation() != null) {
+            coord = new LatLng(productModel.getLocation().getCoordinates().get(0), productModel.getLocation().getCoordinates().get(1));
         }
         productPrice.setTypeface(robotMedium);
         productName.setTypeface(robotMedium);
@@ -290,17 +291,17 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
         productName.setText(productModel.getName());
         productDesc.setText(productModel.getDescription());
         productPrice.setText(productModel.getPrice());
-        storeName.setText(productModel.getOwner());
-        byte[] imageByte = Base64.decode(productModel.getPlaceholder(), Base64.DEFAULT);
+        storeName.setText(productModel.getStore().getName());
+        byte[] imageByte = Base64.decode(productModel.getImage().getPlaceholder(), Base64.DEFAULT);
         final Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         imageView.setImageBitmap(bit);
         content = new ShareLinkContent.Builder()
               .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.getSlug()))
               .setContentTitle(productModel.getName())
-              .setImageUrl(Uri.parse(productModel.getImage()))
+              .setImageUrl(Uri.parse(productModel.getImage().getPath()))
               .build();
        // SharePhoto.Builder sharePhoto = new SharePhoto.Builder();
-        sharePhoto.setImageUrl(Uri.parse(productModel.getImage()));
+        sharePhoto.setImageUrl(Uri.parse(productModel.getImage().getPath()));
         final ShareDialog shareDialog = new ShareDialog(this);
         CardView shareCard = (CardView) findViewById(R.id.shareCard);
        // ShareContent shareContent = new ShareMediaContent.Builder().addMedium(sharePhoto.build()).build();
@@ -316,8 +317,8 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
                 shareDialog.show(content);
             }
         });
-        imageView.setImageUrl(productModel.getImage(), imageLoader);
-        imageLoader.get(productModel.getImage(), new ImageLoader.ImageListener() {
+        imageView.setImageUrl(productModel.getImage().getPath(), imageLoader);
+        imageLoader.get(productModel.getImage().getPath(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 photo = sharePhoto.setBitmap(response.getBitmap()).setCaption(productModel.getName()).build();
@@ -346,7 +347,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
         Log.d("here", "here");
         LatLngBounds.Builder builder = LatLngBounds.builder();
         builder.include(coord);
-        googleMap.addMarker(new MarkerOptions().position(coord).title(productModel.getShop()));
+        googleMap.addMarker(new MarkerOptions().position(coord).title(productModel.getStore().getName()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15));
         map.onResume();
         progressDialog.dismiss();
@@ -367,7 +368,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
 
         if (id == R.id.download) {
             try {
-                downloadImage(productModel.getImage());
+                downloadImage(productModel.getImage().getPath());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -389,29 +390,39 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
                 @Override
                 public void onResponse(JSONObject object) {
                     try {
-                        productModel = new ProductModel();
+                        productModel = new Datum();
+                        Store store = new Store();
+                        productModel.setStore(store);
+                        productModel.setImage(new Image());
                         productModel.setName(object.getString("Name"));
                         productModel.setDescription(object.getString("Description"));
-                        productModel.setPrice(object.getString("Price"));
+                        productModel.setPrice(object.getInt("Price"));
                         productModel.setCategory(object.getString("Category"));
                         productModel.setCity(object.getString("City"));
                         productModel.setSlug(object.getString("Slug"));
                         productModel.setCitySlug(object.getString("CitySlug"));
-                        productModel.setOwner(object.getJSONObject("Store").getString("Name"));
-                        productModel.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
-                        productModel.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
-                        productModel.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
-                        productModel.setImage(object.getJSONObject("Image").getString("Path"));
+                        productModel.getStore().setName(object.getJSONObject("Store").getString("Name"));
+                        productModel.getStore().setSlug(object.getJSONObject("Store").getString("Slug"));
+                        productModel.getStore().setLogo(object.getJSONObject("Store").getString("Logo"));
+                        productModel.getStore().setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        productModel.getImage().setPath(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try {
-                            productModel.setPlaceholder(placeholder[1]);
+                            productModel.getImage().setPlaceholder(placeholder[1]);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
-                            productModel.setPlaceholder(" ");
+                            productModel.getImage().setPlaceholder(" ");
 
                         }
                         try {
-                            productModel.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0) + "," + object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
+                            Location location = new Location();
+                            JSONArray coord = object.getJSONObject("Location").getJSONArray("Coordinates");
+                            List<Double> doubleList = new ArrayList<>();
+                            for(int k = 0; k<coord.length(); k++){
+                                doubleList.add(coord.getDouble(k));
+                            }
+                            location.setCoordinates(doubleList);
+                            productModel.setLocation(location);
                         } catch (ArrayIndexOutOfBoundsException a) {
                             a.printStackTrace();
                         }
@@ -429,7 +440,7 @@ public class ProductViewActivity extends AppCompatActivity implements OnMapReady
             }).setRetryPolicy(new DefaultRetryPolicy(6000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
 
         } else {
-            productModel = (ProductModel) getIntent().getSerializableExtra("data");
+            productModel = (Datum) getIntent().getSerializableExtra("data");
             initUi();
         }
     }

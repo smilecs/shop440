@@ -5,8 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -16,7 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.shop440.Adapters.CategoryAdapter;
 import com.shop440.Models.CategoryModel;
 import com.shop440.Models.StoreModel;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONArray;
