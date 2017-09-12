@@ -101,7 +101,7 @@
         <activity android:name=".NewProductActivity" />
         <activity android:name=".NewItemCategoryActivity" />
         <activity
-            android:name=".ProductViewActivity"
+            android:name=".ProductView.ProductViewActivity"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"
