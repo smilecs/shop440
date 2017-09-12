@@ -18,9 +18,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.shop440.Adapters.ProductAdapter;
+import com.shop440.Models.Datum;
+import com.shop440.Models.Image;
+import com.shop440.Models.Location;
 import com.shop440.Models.ProductModel;
+import com.shop440.Models.Store;
 import com.shop440.Utils.EndlessRecyclerViewScrollListener;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -30,13 +34,14 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
     String query;
     String page;
     RecyclerView list;
     ProductAdapter mainAdapter;
-    ArrayList<ProductModel> model;
+    ArrayList<Datum> model;
     Context c;
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
@@ -107,32 +112,43 @@ public class SearchResultActivity extends AppCompatActivity {
                     next = response.getJSONObject("Page").getBoolean("Next");
                     for(int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
-                        ProductModel store = new ProductModel();
+                        Datum store = new Datum();
+                        Store productStore = new Store();
+                        Image image = new Image();
                         store.setName(object.getString("Name"));
                         store.setDescription(object.getString("Description"));
-                        store.setPrice(object.getString("Price"));
+                        store.setPrice(object.getInt("Price"));
                         store.setCategory(object.getString("Category"));
                         store.setCity(object.getString("City"));
                         store.setCitySlug(object.getString("CitySlug"));
                         store.setSlug(object.getString("Slug"));
-                        store.setOwner(object.getJSONObject("Store").getString("Name"));
-                        store.setOwnerSlug(object.getJSONObject("Store").getString("Slug"));
-                        store.setOwnerLogo(object.getJSONObject("Store").getString("Logo"));
-                        store.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
-                        store.setImage(object.getJSONObject("Image").getString("Path"));
+                        productStore.setName(object.getJSONObject("Store").getString("Name"));
+                        store.setSlug(object.getJSONObject("Store").getString("Slug"));
+                        productStore.setLogo(object.getJSONObject("Store").getString("Logo"));
+                        productStore.setSpecialisation(object.getJSONObject("Store").getString("Specialisation"));
+                        image.setPath(object.getJSONObject("Image").getString("Path"));
                         String[] placeholder = object.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,");
                         try{
-                            store.setPlaceholder(placeholder[1]);
+                            image.setPlaceholder(placeholder[1]);
                         }catch (ArrayIndexOutOfBoundsException e){
                             e.printStackTrace();
-                            store.setPlaceholder(" ");
+                            image.setPlaceholder(" ");
 
                         }
                         try{
-                            store.setCoordinates(object.getJSONObject("Location").getJSONArray("Coordinates").getString(0)+","+object.getJSONObject("Location").getJSONArray("Coordinates").getString(1));
+                            Location location = new Location();
+                            JSONArray coord = object.getJSONObject("Location").getJSONArray("Coordinates");
+                            List<Double> doubleList = new ArrayList<>();
+                            for(int k = 0; k<coord.length(); k++){
+                                doubleList.add(coord.getDouble(k));
+                            }
+                            location.setCoordinates(doubleList);
+                            store.setLocation(location);
                         }catch (ArrayIndexOutOfBoundsException a){
                             a.printStackTrace();
                         }
+                        store.setStore(productStore);
+                        store.setImage(image);
                         model.add(store);
                     }
 

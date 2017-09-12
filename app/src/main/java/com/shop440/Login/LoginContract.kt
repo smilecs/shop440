@@ -9,8 +9,7 @@ import com.shop440.Models.User
  */
 interface LoginContract {
     interface View : BaseView<Presenter> {
-        fun toggleProgressBar()
-        fun showFeedBack()
+        fun saveUser(user: User)
     }
 
     interface Presenter : BasePresenter {

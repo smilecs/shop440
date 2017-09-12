@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -28,7 +27,7 @@ import com.shop440.Models.CategoryModel;
 import com.shop440.Models.ProductModel;
 import com.shop440.Models.StoreModel;
 import com.shop440.Utils.Image;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -78,21 +77,21 @@ public class NewProductActivity extends AppCompatActivity {
 
     @OnClick(R.id.next) void next(){
         layout.setVisibility(View.GONE);
-        productModel.setName(name.getText().toString());
+       /* productModel.setName(name.getText().toString());
         productModel.setDescription(description.getText().toString());
         productModel.setPrice(price.getText().toString());
         String[] tagTmp = tags.getText().toString().split(" ");
         productModel.setTags(tagTmp);
-        Log.d("data", productModel.getTags().toString());
-        try{
-            jsonObject.put("Name", productModel.getName());
+        Log.d("data", productModel.getTags().toString());*/
+       /* try{
+            /*jsonObject.put("Name", productModel.getName());
             jsonObject.put("Description", productModel.getDescription());
             jsonObject.put("Price", Integer.valueOf(productModel.getPrice()));
             jsonObject.put("Tags", productModel.getTags());
             jsonObject.put("NewItemCategoryActivity", catModel.getSlug());
-            jsonObject.put("RawImages", jsonArray.toString());
+            jsonObject.put("RawImages", jsonArray.toString());*/
 
-        }catch (JSONException j){
+       /* }catch (JSONException j){
             j.printStackTrace();
         }
 
@@ -122,7 +121,7 @@ public class NewProductActivity extends AppCompatActivity {
             }
         };
         jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(9000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(jsonArrayRequest);
+        requestQueue.add(jsonArrayRequest);*/
     }
 
     @Override
@@ -132,7 +131,7 @@ public class NewProductActivity extends AppCompatActivity {
         c = this;
         storeModel = (StoreModel) getIntent().getSerializableExtra("backtrack");
         productModel = new ProductModel();
-        productModel.setShop(storeModel.getSlug());
+       // productModel.setShop(storeModel.getSlug());
         catModel = (CategoryModel) getIntent().getSerializableExtra("data");
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.shop440), Context.MODE_PRIVATE);
@@ -160,7 +159,7 @@ public class NewProductActivity extends AppCompatActivity {
             Image image = new Image(this, fileUri);
             String base = Base64.encodeToString(image.bitmapToByteArray(image.getBitmapFromUri()), Base64.DEFAULT);
             ProductModel forImage = new ProductModel();
-            forImage.setImage(base);
+            //forImage.setImage(base);
             jsonArray.put(base);
             model.add(forImage);
             galleryAdapter.notifyDataSetChanged();

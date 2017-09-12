@@ -3,9 +3,7 @@ package com.shop440
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Typeface
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -13,7 +11,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import com.android.volley.*
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.JsonObjectRequest
@@ -22,7 +19,8 @@ import com.shop440.Models.ProductModel
 import com.shop440.Models.StoreModel
 import com.shop440.Utils.EndlessRecyclerViewScrollListener
 import com.shop440.Utils.Metrics
-import com.shop440.Utils.Urls
+import com.shop440.Api.Urls
+import com.shop440.Models.Datum
 import com.shop440.Utils.VolleySingleton
 import org.json.JSONException
 import org.json.JSONObject
@@ -34,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_store.*
 
 class StoreActivity : AppCompatActivity() {
     lateinit var mainAdapter: ProductAdapter
-    lateinit var model: ArrayList<ProductModel>
+    lateinit var model: MutableList<Datum>
     var TAG = "StoreModel"
     lateinit var volleySingleton: VolleySingleton
     lateinit var requestQueue: RequestQueue
@@ -61,7 +59,7 @@ class StoreActivity : AppCompatActivity() {
         }
         store_header_name.text = store.name
         store_header_description.text = store.description
-        model = ArrayList<ProductModel>()
+        model = ArrayList()
         mainAdapter = ProductAdapter(this, model)
         refreshLayout = findViewById(R.id.swipeContainer) as SwipeRefreshLayout
         refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -127,26 +125,26 @@ class StoreActivity : AppCompatActivity() {
                 next = response.getJSONObject("Page").getBoolean("Next")
                 for (i in 0..array.length() - 1) {
                     val obj = array.getJSONObject(i)
-                    val product = ProductModel()
+                    val product = Datum()
                     product.name = obj.getString("Name")
                     product.slug = obj.getString("Slug")
                     product.description = obj.getString("Description")
-                    product.price = obj.getString("Price")
+                    product.price = obj.getInt("Price")
                     product.category = obj.getString("Category")
                     product.city = obj.getString("City")
                     product.citySlug = obj.getString("CitySlug")
-                    product.owner = obj.getJSONObject("Store").getString("Name")
+                   /* product.owner = obj.getJSONObject("Store").getString("Name")
                     product.ownerSlug = obj.getJSONObject("Store").getString("Slug")
                     product.ownerLogo = obj.getJSONObject("Store").getString("Logo")
                     product.specialisation = obj.getJSONObject("Store").getString("Specialisation")
                     product.coordinates = obj.getJSONObject("Location").getJSONArray("Coordinates").getString(0) + "," + obj.getJSONObject("Location").getJSONArray("Coordinates").getString(1)
-                    product.image = obj.getJSONObject("Image").getString("Path")
+                    product.image = obj.getJSONObject("Image").getString("Path")*/
                     val placeholder = obj.getJSONObject("Image").getString("Placeholder").split("data:image/jpeg;base64,".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     try {
-                        product.placeholder = placeholder[1]
+                    //    product.placeholder = placeholder[1]
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        product.placeholder = ""
+                      //  product.placeholder = ""
                     }
 
                     model.add(product)

@@ -22,10 +22,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.shop440.MainActivity.MainActivity;
 import com.shop440.Models.SmsListener;
 import com.shop440.Models.User;
 import com.shop440.Receiver.SmsReciever;
-import com.shop440.Utils.Urls;
+import com.shop440.Api.Urls;
 import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONObject;
