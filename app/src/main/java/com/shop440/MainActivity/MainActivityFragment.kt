@@ -91,11 +91,6 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
         getProducts()
     }
 
-
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onError(errorMessage: Int) {
         feedback.visibility = View.VISIBLE
         Snackbar.make(viewRoot, errorMessage, Snackbar.LENGTH_LONG).show()

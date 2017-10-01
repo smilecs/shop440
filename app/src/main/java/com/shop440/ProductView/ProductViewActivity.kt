@@ -14,8 +14,6 @@ import android.util.Base64
 import android.util.Log
 import android.view.*
 import android.widget.*
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.android.volley.toolbox.ImageLoader
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -42,12 +40,8 @@ import com.shop440.Utils.AppEventsLogger
 import com.shop440.Utils.FileCache
 import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.activity_product_view.*
-import java.io.BufferedInputStream
 import java.io.File
-import java.io.FileOutputStream
 import java.net.MalformedURLException
-import java.net.URL
-import java.net.URLConnection
 import java.util.*
 
 
@@ -67,7 +61,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     private lateinit var imageLoader: ImageLoader
     private var bundle: Bundle? = null
     private lateinit var productView: ProductViewActivity
-    private lateinit var data: String
+    private var data: String? = null
     private lateinit var progressDialog: ProgressDialog
     private lateinit var nativeAd: NativeAd
 
@@ -184,7 +178,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         productDescription.typeface = robotThinItalic
         productName.text = productModel.name
         productDescription.text = productModel.description
-        productPrice.setText(productModel.price)
+        productPrice.text = productModel.price.toString()
         storeName.text = productModel.store.name
         val imageByte = Base64.decode(productModel.image.placeholder, Base64.DEFAULT)
         val bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.size)
@@ -248,8 +242,9 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     }
 
     private fun loadData() {
-        if (!data.isEmpty()) {
-            val resolvedUrl = data.substring(data.lastIndexOf("/") + 1)
+        if (!data.isNullOrBlank()) {
+            val recievedData = data!!
+            val resolvedUrl = recievedData.substring(recievedData.lastIndexOf("/") + 1)
             presenter.loadData(resolvedUrl)
         } else {
             productModel = intent.getSerializableExtra("data") as Datum

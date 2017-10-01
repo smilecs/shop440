@@ -212,9 +212,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="6dp"
                         android:text="@string/see_more_from_store"
-                        app:fontName="RobotoThinItalic"
-                        android:textColor="@android:color/holo_green_dark"
-                        android:textStyle="italic"/>
+                        style="@style/captionTextDef"
+                        />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#fff</color>
-    <color name="colorPrimaryDark">#000</color>
-    <color name="colorAccent">#000</color>
-    <color name="text">#808080</color>
-    <color name="buttonHighlight">#9E9E9E</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#00897B</color>
+    <color name="text">#000000</color>
+    <color name="titleText">#000000</color>
+    <color name="header_text">#009688</color>
+    <color name="sub_header_text">#009688</color>
+    <color name="buttonHighlight">#1DE9B6</color>
+    <color name="actionBar">#fff</color>
 </resources>

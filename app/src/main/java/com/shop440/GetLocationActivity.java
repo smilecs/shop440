@@ -79,14 +79,12 @@ public class GetLocationActivity extends AppCompatActivity implements
     @BindView(R.id.textView5) TextView feedback;
     @BindView(R.id.save) Button saveButton;
     @OnClick(R.id.save) void save(){
-        //feedback.setVisibility(View.VISIBLE);
         saveButton.setVisibility(View.GONE);
         addressContainer.setVisibility(View.GONE);
         if(Address.getText().length() > 4){
             loading.setVisibility(View.VISIBLE);
             feedback.setText(R.string.accessing_store_service);
             StartGps();
-            //SaveStore(jsonObject);
         }else {
             feedback.setText(R.string.location_help_text);
 

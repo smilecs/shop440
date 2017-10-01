@@ -3,4 +3,20 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="content_left_margin_wh">8sp</dimen>
+    <dimen name="title_margin_top">40dp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="subheading_text_size">16sp</dimen>
+    <dimen name="body1_text_size">14sp</dimen>
+    <dimen name="body2_text_size">14sp</dimen>
+    <dimen name="caption_text_size">12sp</dimen>
+    <dimen name="view_margin">20dp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="head_line_text_size">24sp</dimen>
+    <dimen name="white_background_padding">20dp</dimen>
+    <dimen name="margin_space_edges">12dp</dimen>
+    <dimen name="margin_list_spacing">14dp</dimen>
+    <dimen name="button_corners">30dp</dimen>
+
 </resources>
