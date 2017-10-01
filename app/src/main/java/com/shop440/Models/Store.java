@@ -4,7 +4,9 @@ package com.shop440.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Store {
+import java.io.Serializable;
+
+public class Store implements Serializable{
 
     @SerializedName("Slug")
     @Expose
