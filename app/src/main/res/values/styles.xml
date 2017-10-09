@@ -28,10 +28,9 @@
     </style>
 
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
@@ -40,10 +39,10 @@
         <item name="android:background">@color/actionBar</item>
     </style>
 
-    <style name="AppLoginTheme" parent="Theme.AccountKit"/>
+    <style name="AppLoginTheme" parent="Theme.AccountKit" />
 
     <style name="RaisedSignUpButton" parent="Theme.AppCompat.Light">
-            <item name="colorControlHighlight">#9E9E9E</item>
+        <item name="colorControlHighlight">#9E9E9E</item>
         <item name="selectableItemBackground">@style/ripple</item>
     </style>
 
@@ -66,6 +65,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/subheading_text_size</item>
     </style>
+
     <style name="captionTextDef">
         <item name="android:textColor">@color/text</item>
         <item name="android:textStyle">bold</item>
