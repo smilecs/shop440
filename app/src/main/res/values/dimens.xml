@@ -18,5 +18,6 @@
     <dimen name="margin_space_edges">12dp</dimen>
     <dimen name="margin_list_spacing">14dp</dimen>
     <dimen name="button_corners">30dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 
 </resources>
