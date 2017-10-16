@@ -55,42 +55,48 @@
     </style>
 
     <style name="titleTextDef">
-        <item name="android:textColor">@color/titleText</item>
+        <item name="android:textColorHint">@color/titleText</item>
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="subHeadingTextDef">
-        <item name="android:textColor">@color/sub_header_text</item>
+        <item name="android:textColorHint">@color/sub_header_text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/subheading_text_size</item>
     </style>
 
     <style name="captionTextDef">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/caption_text_size</item>
     </style>
 
     <style name="caption2TextDef">
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:textColorHint">@color/text</item>
+        <item name="android:textSize">@dimen/caption2_text_size</item>
     </style>
 
 
     <style name="body1TextDef">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/text</item>
         <item name="android:textSize">@dimen/body1_text_size</item>
     </style>
 
+    <style name="descriptiveTExtDef">
+        <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/descriptive_text_size</item>
+    </style>
+
     <style name="headLineTextDef">
-        <item name="android:textColor">@color/sub_header_text</item>
+        <item name="android:textColorHint">@color/sub_header_text</item>
         <item name="android:textSize">@dimen/head_line_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="buttonTextDef">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 </resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="136dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="12dp"
+    android:layout_height="wrap_content">
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/app_bar_gradient"
+    android:minHeight="124dp"
+    android:maxHeight="128dp"
+    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.shop440.Widgets.FontTextView
+            android:id="@+id/productFeedTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:layout_marginTop="8dp"
+            style="@style/subHeadingTextDef"
+            android:hint="Title"
+            app:fontName="RobotoThin"
+            />
+        <com.shop440.Widgets.FontTextView
+            android:id="@+id/productFeedDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/descriptiveTExtDef"
+            android:hint="Description"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:fontName="RobotoMedium"/>
+        <com.shop440.Widgets.FontTextView
+            android:id="@+id/productFeedPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/caption2TextDef"
+            app:fontName="RobotoThin"
+            android:hint="2300000"/>
+
+    </LinearLayout>
+</LinearLayout>

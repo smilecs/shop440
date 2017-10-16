@@ -8,9 +8,11 @@
     <dimen name="title_margin_top">40dp</dimen>
     <dimen name="title_text_size">20sp</dimen>
     <dimen name="subheading_text_size">16sp</dimen>
+    <dimen name="descriptive_text_size">16sp</dimen>
     <dimen name="body1_text_size">14sp</dimen>
     <dimen name="body2_text_size">14sp</dimen>
     <dimen name="caption_text_size">12sp</dimen>
+    <dimen name="caption2_text_size">14sp</dimen>
     <dimen name="view_margin">20dp</dimen>
     <dimen name="button_text_size">14sp</dimen>
     <dimen name="head_line_text_size">24sp</dimen>
