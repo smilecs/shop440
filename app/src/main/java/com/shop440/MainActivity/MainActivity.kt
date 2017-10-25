@@ -9,14 +9,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.shop440.*
+import com.shop440.IntroActivity
 import com.shop440.Login.LoginActivity
+import com.shop440.R
+import com.shop440.SearchActivity
 import com.shop440.Utils.AppEventsLogger
-import com.shop440.Utils.VolleySingleton
 
 class MainActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
-    lateinit var volleySingleton: VolleySingleton
     lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,15 +33,12 @@ class MainActivity : AppCompatActivity() {
         }
         fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener {
-            val i = Intent(this@MainActivity, NewStoreActivity::class.java)
-            startActivity(i)
+
         }
         if (findViewById(R.id.container) != null) {
             val mn = MainActivityFragment()
             supportFragmentManager.beginTransaction().add(R.id.container, mn).commit()
         }
-
-        volleySingleton = VolleySingleton.getsInstance()
 
     }
 
@@ -62,8 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         if (id == R.id.profile) {
             if (sharedPreferences.getString("tokens", "Null") != "Null") {
-                val i = Intent(this, ProfileActivity::class.java)
-                startActivity(i)
+
             } else {
                 val i = Intent(this, LoginActivity::class.java)
                 startActivity(i)

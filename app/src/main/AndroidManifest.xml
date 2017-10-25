@@ -57,7 +57,7 @@
             android:name=".Login.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".signup.SignUpActivity"
             android:exported="true"
             android:label="Sign Up" />
         <activity android:name=".Confirm" />
@@ -71,21 +71,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".NewStoreActivity" />
-        <activity
-            android:name=".GetLocationActivity"
-            android:label="@string/title_activity_get_location"
-            android:theme="@style/AppTheme" />
         <activity android:name=".IntroActivity" />
-        <activity
-            android:name=".ProfileActivity"
-            android:label=""
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:launchMode="singleTop"
-                android:value="com.shop440.MainActivity.MainActivity" />
-        </activity>
         <activity
             android:name=".StoreActivity"
             android:label="@string/title_activity_store"
@@ -95,8 +81,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shop440.ProfileActivity" />
         </activity>
-        <activity android:name=".NewProductActivity" />
-        <activity android:name=".NewItemCategoryActivity" />
         <activity
             android:name=".ProductView.ProductViewActivity"
             android:exported="true"
@@ -195,10 +179,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

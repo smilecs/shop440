@@ -18,7 +18,6 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.shop440.Models.Datum;
 import com.shop440.ProductView.ProductViewActivity;
 import com.shop440.R;
-import com.shop440.Utils.VolleySingleton;
 
 import java.util.List;
 

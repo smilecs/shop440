@@ -15,11 +15,10 @@ import com.android.volley.RequestQueue
 import com.facebook.accountkit.*
 import com.facebook.accountkit.ui.*
 import com.shop440.Api.NetModule
+import com.shop440.Api.Urls
 import com.shop440.Models.User
 import com.shop440.R
 import com.shop440.Utils.ProgressDialog
-import com.shop440.Api.Urls
-import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.sign_in.*
 import retrofit2.Retrofit
 
@@ -31,7 +30,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     // UI references.
     override lateinit var presenter: LoginContract.Presenter
     lateinit var editor: SharedPreferences.Editor
-    lateinit var volleySingleton: VolleySingleton
     lateinit var queue: RequestQueue
     lateinit var progressDialog:android.app.ProgressDialog
     var email: String = ""
@@ -44,14 +42,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         setContentView(R.layout.sign_in)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        volleySingleton = VolleySingleton.getsInstance()
         retrofit = NetModule.provideRetrofit()
         // Set up the login form.
         LoginPresenter(this, retrofit)
         login_activity_signup_button.setOnClickListener(signUplistener())
         login_activity_signup_button_ok.setOnClickListener(confirmSignUp())
         login_activity_sign_in_button.setOnClickListener(login())
-        queue = volleySingleton.getmRequestQueue()
         progressDialog = ProgressDialog.progressDialog(this)
     }
 
@@ -116,7 +112,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         return View.OnClickListener {
             newUser = false
             sign_up_form.visibility = View.GONE
-            val user:User = User()
+            val user = User()
             user.phone = "07033383068"
             user.name = "name"
             user.email = "mumene@gmail.com"

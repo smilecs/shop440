@@ -33,15 +33,11 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.Api.NetModule
 import com.shop440.Models.Datum
-import com.shop440.Models.StoreModel
 import com.shop440.R
-import com.shop440.StoreActivity
 import com.shop440.Utils.AppEventsLogger
 import com.shop440.Utils.FileCache
-import com.shop440.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.activity_product_view.*
 import java.io.File
-import java.net.MalformedURLException
 import java.util.*
 
 
@@ -54,7 +50,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     lateinit var callbackManager: CallbackManager
     lateinit var shareDialog: ShareDialog
     lateinit var sharePhoto: SharePhoto.Builder
-    lateinit var photo: SharePhoto
     var next = true
     lateinit var map: MapView
     private lateinit var coord: LatLng
@@ -87,7 +82,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         if (intent.dataString != null) {
             data = intent.dataString
         }
-        imageLoader = VolleySingleton.getsInstance().imageLoader
         sharePhoto = SharePhoto.Builder()
         callbackManager = CallbackManager.Factory.create()
         shareDialog = ShareDialog(this)
@@ -112,15 +106,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         progressDialog.isIndeterminate = true
         progressDialog.setMessage(getString(R.string.loading))
         ProductViewPresenter(this, NetModule.provideRetrofit())
-        vistStore.setOnClickListener {
-            val i = Intent(this@ProductViewActivity, StoreActivity::class.java)
-            val storeModel = StoreModel()
-            storeModel.slug = productModel.store.slug
-            storeModel.name = productModel.store.name
-            storeModel.logo = productModel.store.logo
-            i.putExtra("data", storeModel)
-            startActivity(i)
-        }
 
         map_layout.setOnClickListener {
             val intent = Intent(android.content.Intent.ACTION_VIEW,
@@ -138,28 +123,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     }
 
 
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         shareProgress.visibility = View.GONE
         callbackManager.onActivityResult(requestCode, resultCode, data)
 
-    }
-
-    @Throws(MalformedURLException::class)
-    fun downloadImage(Imageurl: String) {
-        runOnUiThread {
-            AppEventsLogger.logItemDownloadEvent(productModel.name, productModel.store.name, productModel.category)
-            Toast.makeText(this@ProductViewActivity, "Saving image.......", Toast.LENGTH_LONG).show()
-        }
     }
 
     private fun initUi() {

@@ -1,9 +1,6 @@
 package com.shop440.Adapters;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +10,6 @@ import android.widget.ImageView;
 import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.ProductModel;
 import com.shop440.R;
-import com.shop440.Utils.VolleySingleton;
 
 import java.util.ArrayList;
 

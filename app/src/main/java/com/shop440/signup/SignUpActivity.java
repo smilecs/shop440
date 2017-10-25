@@ -1,4 +1,4 @@
-package com.shop440;
+package com.shop440.signup;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.shop440.Confirm;
 import com.shop440.Models.User;
+import com.shop440.R;
 import com.shop440.Utils.Image;
 
 import butterknife.BindView;

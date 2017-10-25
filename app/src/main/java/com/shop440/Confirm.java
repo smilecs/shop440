@@ -27,7 +27,6 @@ import com.shop440.Models.SmsListener;
 import com.shop440.Models.User;
 import com.shop440.Receiver.SmsReciever;
 import com.shop440.Api.Urls;
-import com.shop440.Utils.VolleySingleton;
 
 import org.json.JSONObject;
 
@@ -44,7 +43,6 @@ public class Confirm extends AppCompatActivity {
     User user;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    VolleySingleton volleySingleton;
     String compare;
     @BindView(R.id.editText)
     EditText passcode;
@@ -98,8 +96,6 @@ public class Confirm extends AppCompatActivity {
         json = new JSONObject();
         login = new JSONObject();
         Log.d(TAG, user.getName());
-        volleySingleton = VolleySingleton.getsInstance();
-        queue = volleySingleton.getmRequestQueue();
         SmsReciever.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
