@@ -14,14 +14,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.android.volley.RequestQueue;
 import com.shop440.Adapters.CategorySearchAdapter;
 import com.shop440.Models.CategoryModel;
 
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
-    private RequestQueue requestQueue;
     private ArrayList<CategoryModel> model;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;

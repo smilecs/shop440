@@ -1,6 +1,5 @@
 package com.shop440;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,29 +14,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.shop440.MainActivity.MainActivity;
 import com.shop440.Models.SmsListener;
 import com.shop440.Models.User;
 import com.shop440.Receiver.SmsReciever;
-import com.shop440.Api.Urls;
 
 import org.json.JSONObject;
-
-import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class Confirm extends AppCompatActivity {
-    RequestQueue queue;
     JSONObject json, login;
     String TAG = "Confirm.java";
     User user;
@@ -136,30 +123,7 @@ public class Confirm extends AppCompatActivity {
     }
 
     private void GetPasscode(String q) {
-        try {
-            q = URLEncoder.encode(phone, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        StringRequest ObjectRequest = new StringRequest(Request.Method.GET, Urls.BASE_URL + Urls.PASSCODE + "?phone=" + URLEncoder.encode(q), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    compare = new JSONObject(response).getString("Passcode");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                feedback.setVisibility(View.VISIBLE);
-                feedback.setText("Unable to process request. Please click Resend passcode!");
-            }
-        });
-        ObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(ObjectRequest);
+
     }
 
     private Boolean ComparePasscode(String fromSms, String fromServer) {
@@ -187,56 +151,10 @@ public class Confirm extends AppCompatActivity {
     }
 
     private void get_token() {
-        feedback.setText("Loading token");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.UPDATE_USER, login, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Log.d("response", response.toString());
-                    editor.putString(Urls.TOKEN, response.getString("Token"));
-                    editor.putString(getResources().getString(R.string.profileImage), user.getImage());
-                    editor.putString(getResources().getString(R.string.username), user.getName());
-                    editor.commit();
-                    Intent i = new Intent(Confirm.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
 
-            }
-        });
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(jsonObjectRequest);
     }
 
     private void register() {
-        bar.setVisibility(View.VISIBLE);
-        continueButton.setVisibility(View.GONE);
-        feedback.setText("Creating Account!");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Urls.BASE_URL + Urls.NEW_USER, json, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("NewUser", "success");
-                get_token();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                feedback.setText("Error uploading data Please try again");
-                retrybut.setVisibility(View.VISIBLE);
 
-
-            }
-        });
-
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30 * 1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(jsonObjectRequest);
     }
 }
