@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class MainNavigation : AppCompatActivity() {
@@ -67,9 +66,7 @@ class MainNavigation : AppCompatActivity() {
 
         override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
-            val rootView = inflater!!.inflate(R.layout.fragment_main2, container, false)
-            val textView = rootView.findViewById(R.id.section_label) as TextView
-            textView.text = getString(R.string.section_format, arguments.getInt(ARG_SECTION_NUMBER))
+            val rootView = inflater?.inflate(R.layout.fragment_main2, container, false)
             return rootView
         }
 
