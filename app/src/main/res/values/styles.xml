@@ -28,9 +28,9 @@
     </style>
 
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
@@ -39,7 +39,7 @@
         <item name="android:background">@color/actionBar</item>
     </style>
 
-    <style name="AppLoginTheme" parent="Theme.AccountKit" />
+    <style name="AppLoginTheme" parent="Theme.AccountKit"/>
 
     <style name="RaisedSignUpButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#9E9E9E</item>
@@ -95,8 +95,33 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="headNormalLineTextDef">
+        <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:textSize">@dimen/head_line_text_size</item>
+    </style>
+
     <style name="buttonTextDef">
         <item name="android:textColorHint">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
+
+    <style name="buttonHighlight" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="selectableItemBackground">@drawable/button_group</item>
+    </style>
+
+    <style name="buttonRounded" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/sub_header_text</item>
+        <item name="android:background">@drawable/button_bg_rounded</item>
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="selectableItemBackground">@drawable/button_group</item>
+    </style>
+
+    <style name="buttonTransperentRounded" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_transperent_rounded</item>
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="selectableItemBackground">@drawable/button_group</item>
+    </style>
+
 </resources>

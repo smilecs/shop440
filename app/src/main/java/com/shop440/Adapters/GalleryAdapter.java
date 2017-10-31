@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.shop440.Models.ProductModel;
 import com.shop440.R;
 
@@ -42,12 +41,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ProductModel mode = model.get(position);
-        ImageLoader imageLoader = VolleySingleton.getsInstance().getImageLoader();
-     //   byte[] imageByte = Base64.decode(mode.getImage(), Base64.DEFAULT);
-       // Bitmap bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-        //holder.image.setImageBitmap(bit);
-        //holder.image.
-
     }
 
     @Override

@@ -14,7 +14,6 @@ import android.util.Base64
 import android.util.Log
 import android.view.*
 import android.widget.*
-import com.android.volley.toolbox.ImageLoader
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -53,7 +52,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     var next = true
     lateinit var map: MapView
     private lateinit var coord: LatLng
-    private lateinit var imageLoader: ImageLoader
     private var bundle: Bundle? = null
     private lateinit var productView: ProductViewActivity
     private var data: String? = null
@@ -150,7 +148,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         storeName.text = productModel.store.name
         val imageByte = Base64.decode(productModel.image.placeholder, Base64.DEFAULT)
         val bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.size)
-        productImage.setImageBitmap(bit)
         content = ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.slug))
                 .setContentTitle(productModel.name)
@@ -165,7 +162,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             shareProgress.visibility = View.VISIBLE
             shareDialog.show(shareContent)
         }
-        productImage.setImageUrl(productModel.image.path, imageLoader)
         showNativeAd()
         progressDialog.show()
 

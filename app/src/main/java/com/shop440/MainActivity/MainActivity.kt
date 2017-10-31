@@ -1,19 +1,16 @@
 package com.shop440.MainActivity
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.shop440.IntroActivity
-import com.shop440.Login.LoginActivity
 import com.shop440.R
 import com.shop440.SearchActivity
 import com.shop440.Utils.AppEventsLogger
+import com.shop440.auth.LoginFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
@@ -21,25 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
-        sharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
-        if (!sharedPreferences.getBoolean("islogged", false)) {
-            val intent = Intent(this, IntroActivity::class.java)
-            startActivity(intent)
-            finish()
-            return
-        }
-        fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener {
-
-        }
-        if (findViewById(R.id.container) != null) {
-            val mn = MainActivityFragment()
-            supportFragmentManager.beginTransaction().add(R.id.container, mn).commit()
-        }
-
+        setContentView(R.layout.sign_in)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -61,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             if (sharedPreferences.getString("tokens", "Null") != "Null") {
 
             } else {
-                val i = Intent(this, LoginActivity::class.java)
+                val i = Intent(this, LoginFragment::class.java)
                 startActivity(i)
             }
 

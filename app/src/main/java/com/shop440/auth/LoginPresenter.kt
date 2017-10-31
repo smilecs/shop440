@@ -1,4 +1,4 @@
-package com.shop440.Login
+package com.shop440.auth
 
 import com.shop440.Models.User
 import com.shop440.R

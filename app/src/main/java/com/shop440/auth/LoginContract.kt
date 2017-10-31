@@ -1,4 +1,4 @@
-package com.shop440.Login
+package com.shop440.auth
 
 import com.shop440.BasePresenter
 import com.shop440.BaseView

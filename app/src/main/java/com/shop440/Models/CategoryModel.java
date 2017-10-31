@@ -30,11 +30,3 @@ public class CategoryModel implements Serializable {
         return getName();
     }
 }
-
-class CategoryModel:Serializable{
-    var name: String = ""
-}
-
-or
-
-data class CategoryModel(var name:String)
