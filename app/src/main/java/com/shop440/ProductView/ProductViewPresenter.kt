@@ -8,11 +8,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import java.io.BufferedInputStream
-import java.io.File
 import java.io.FileOutputStream
 import java.net.MalformedURLException
 import java.net.URL
-import java.net.URLConnection
 
 /**
  * Created by mmumene on 09/09/2017.
@@ -52,7 +50,6 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
         val url = URL(imageUrl)
         val tm = Thread(Runnable {
             try {
-                val startTime = System.currentTimeMillis()
                 val ucon = url.openConnection()
                 val `is` = ucon.getInputStream()
                 val inStream = BufferedInputStream(`is`, 5 * 1024)
