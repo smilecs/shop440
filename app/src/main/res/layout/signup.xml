@@ -1,81 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp"
+              android:background="@drawable/screen_background_gradient">
 
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        app:srcCompat="@drawable/logo"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="52dp"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="154dp"
-        android:layout_marginLeft="154dp"
-        android:layout_centerHorizontal="true" />
+        android:src="@drawable/profile"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:text="Select profile picture"
+        android:textStyle="bold"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:id="@+id/name"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:textColorHint="#fff"
         >
 
         <EditText
+            android:id="@+id/nameSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:id="@+id/signup_name"
-            android:hint="Full Name"
+            android:hint="@string/full_name_hint"
             />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textInputLayout2"
-        android:layout_below="@+id/name"
-        >
-
+        android:textColorHint="#fff">
         <EditText
+            android:id="@+id/phoneSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:inputType="number"
-            android:id="@+id/phone"
-            android:hint="Phone Number" />
+            android:hint="@string/phone_number_hint"
+            android:inputType="phone"/>
     </android.support.design.widget.TextInputLayout>
-
-    <TextView
-        android:text="Select profile picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:id="@+id/textView"
-        android:textStyle="bold"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Create account"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/create"
-        android:textColor="#fff"
+        android:textColorHint="@android:color/white">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email_signup_hint"
+            android:id="@+id/emailSignUp"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="@drawable/button_bg_rounded"
         android:layout_marginTop="48dp"
-        android:layout_below="@+id/textInputLayout2"
-         />
-</RelativeLayout>
+        style="@style/buttonTransperentRounded"
+        android:text="@string/create_account_hint"
+        android:textColor="#fff"
+        />
+</LinearLayout>

@@ -90,4 +90,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="search_bar_placeholder">PlaceHolder</string>
     <string name="title_activity_main3">signup</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="create_account_hint">Create account</string>
+    <string name="email_signup_hint">Email</string>
+    <string name="log_in_auth_button">Log in</string>
+    <string name="title_auth_text">Welcome to shop 440</string>
 </resources>

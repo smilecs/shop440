@@ -32,7 +32,7 @@ class LoginFragment : Fragment(), LoginContract.View {
         super.onViewCreated(view, savedInstanceState)
         retrofit = NetModule.provideRetrofit()
         // Set up the login form.
-        LoginPresenter(this, retrofit)
+        AuthPresenter(this, retrofit)
         progressDialog = ProgressDialog.progressDialog(context)
     }
 

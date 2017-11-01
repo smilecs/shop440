@@ -11,7 +11,7 @@ import retrofit2.Retrofit
  * Created by mmumene on 25/08/2017.
  */
 
-class LoginPresenter(val loginView:LoginContract.View, val retrofit: Retrofit):LoginContract.Presenter{
+class AuthPresenter(val loginView:LoginContract.View, val retrofit: Retrofit):LoginContract.Presenter{
 
     init {
         loginView.presenter = this
