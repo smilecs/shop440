@@ -1,10 +1,15 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:background="@drawable/screen_background_gradient">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:background="@drawable/screen_background_gradient"
+              android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <Button
         android:id="@+id/loginButtonAuth"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -12,128 +17,66 @@
         android:layout_height="wrap_content"
         android:text="@string/log_in_auth_button"
         android:textColor="@android:color/white"
-        android:theme="@style/buttonHighlight"
-        app:layout_constraintBottom_toBottomOf="@+id/closeAuthButton"
-        app:layout_constraintTop_toTopOf="@+id/closeAuthButton"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:theme="@style/buttonHighlight"/>
 
     <ImageView
         android:id="@+id/closeAuthButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_close"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp"
-        android:contentDescription=""/>
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription=""
+        />
+</RelativeLayout>
 
     <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="66dp"
         android:layout_height="66dp"
-        app:srcCompat="@drawable/ic_logo"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/fontTextView2"
-        app:layout_constraintRight_toRightOf="@+id/closeAuthButton"
-        android:layout_marginTop="56dp"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="54dp"
-        app:layout_constraintTop_toTopOf="@+id/closeAuthButton"
-        app:layout_constraintLeft_toRightOf="@+id/closeAuthButton"/>
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        app:srcCompat="@drawable/ic_logo"/>
 
-    <com.shop440.Widgets.FontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_auth_text"
-        android:textColor="@android:color/white"
-        android:textSize="28sp"
+    <com.shop440.widgets.FontTextView
+        android:id="@+id/fontTextView2"
         style="@style/headNormalLineTextDef"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="167dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp"
-        android:id="@+id/fontTextView2"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/title_auth_text"
+        app:fontName="RobotoMedium"
+        android:textColor="@android:color/white"
+        />
 
 
     <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_in_with_facebook"
-        style="@style/buttonRounded"
         android:id="@+id/facebookSignin"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/createAccountAuthButton"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="27dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"/>
+        style="@style/buttonRounded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/sign_in_with_facebook"
+        />
 
     <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/create_account_auth_text"
-        style="@style/buttonTransperentRounded"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/facebookSignin"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="174dp"
-        app:layout_constraintLeft_toLeftOf="@+id/facebookSignin"
         android:id="@+id/createAccountAuthButton"
-        app:layout_constraintHorizontal_bias="0.0"/>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
+        style="@style/buttonTransperentRounded"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline"
-        app:layout_constraintGuide_begin="20dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="20dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/create_account_auth_text"
+        />
 
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline2"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="21dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="21dp"/>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline3"
-        app:layout_constraintGuide_begin="395dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="395dp"/>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline4"
-        app:layout_constraintGuide_begin="20dp"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteY="20dp"
-        tools:layout_editor_absoluteX="0dp"/>
-
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
