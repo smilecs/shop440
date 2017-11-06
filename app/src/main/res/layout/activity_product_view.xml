@@ -131,7 +131,7 @@
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"/>
 
-                    <com.shop440.Widgets.FontTextView
+                    <com.shop440.widgets.FontTextView
                         android:id="@+id/shareText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                         android:textStyle="bold"
                         />
 
-                    <com.shop440.Widgets.FontTextView
+                    <com.shop440.widgets.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/shareText"
@@ -190,7 +190,7 @@
                         android:paddingTop="12dp"
                         app:srcCompat="@drawable/ic_online_store"/>
 
-                    <com.shop440.Widgets.FontTextView
+                    <com.shop440.widgets.FontTextView
                         android:id="@+id/storeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                         android:textStyle="bold"
                         />
 
-                    <com.shop440.Widgets.FontTextView
+                    <com.shop440.widgets.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/storeName"

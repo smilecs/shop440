@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:background="@drawable/screen_background_gradient"
+              android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/loginButtonAuth"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_in_auth_button"
+        android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:theme="@style/buttonHighlight"/>
+
+    <ImageView
+        android:id="@+id/closeAuthButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_close"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription=""
+        />
+</RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        app:srcCompat="@drawable/ic_logo"/>
+
+    <com.shop440.widgets.FontTextView
+        android:id="@+id/fontTextView2"
+        style="@style/headNormalLineTextDef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/title_auth_text"
+        app:fontName="RobotoMedium"
+        android:textColor="@android:color/white"
+        />
+
+
+    <Button
+        android:id="@+id/facebookSignin"
+        style="@style/buttonRounded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/sign_in_with_facebook"
+        />
+
+    <Button
+        android:id="@+id/createAccountAuthButton"
+        style="@style/buttonTransperentRounded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/create_account_auth_text"
+        />
+
+</LinearLayout>

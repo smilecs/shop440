@@ -1,0 +1,91 @@
+package com.shop440.auth
+
+import com.shop440.R
+import com.shop440.models.User
+import com.shop440.response.UserResponse
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+
+/**
+ * Created by mmumene on 25/08/2017.
+ */
+
+class AuthPresenter(val authView: AuthContract.View, val retrofit: Retrofit) : AuthContract.Presenter {
+
+    init {
+        authView.presenter = this
+    }
+
+    override fun start() {
+    }
+
+    override fun login(user: User) {
+        authView.onDataLoading()
+        val posts: Call<User> = retrofit.create(ApiRequest::class.java).login(user)
+        posts.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>?, response: Response<User>?) {
+                authView.onDataLoading()
+                if (response?.isSuccessful!!) {
+                    if (response.body() != null) {
+                        authView.saveUser(response.body()!!)
+                        return
+                    }
+                    authView.onError(R.string.signup_request_error)
+                }
+            }
+
+            override fun onFailure(call: Call<User>?, t: Throwable?) {
+                authView.onError(R.string.signup_request_error)
+                authView.onDataLoading()
+                t?.printStackTrace()
+            }
+        })
+    }
+
+    override fun signUp(user: User) {
+        val posts: Call<UserResponse> = retrofit.create(ApiRequest::class.java).createUser(user)
+        authView.onDataLoading()
+        posts.enqueue(object : Callback<UserResponse?> {
+            override fun onFailure(call: Call<UserResponse?>, t: Throwable?) {
+                authView.onError(R.string.signup_request_error)
+                authView.onDataLoading()
+                t?.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
+                authView.onDataLoading()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        val userData = response.body()?.user!!
+                        userData.token = response.body()?.token!!
+                        authView.saveUser(userData)
+                        return
+                    }
+                    authView.onError(R.string.signup_request_error)
+                }
+            }
+        })
+    }
+
+    override fun onAuthComplete(isNewUser: Boolean) {
+
+    }
+
+    override fun onRequestOtp(phone: String, otpListener: AuthContract.OtpListener) {
+        val otp = retrofit.create(ApiRequest::class.java).requestOtp(phone)
+        otp.enqueue(object : Callback<JSONObject?> {
+            override fun onResponse(call: Call<JSONObject?>, response: Response<JSONObject?>) {
+                if (response.isSuccessful) {
+                    //otpListener.onOtpReceived(otpObject.code)
+                }
+            }
+
+            override fun onFailure(call: Call<JSONObject?>, t: Throwable) {
+                authView.onError(R.string.error_results)
+            }
+        })
+    }
+}

@@ -11,9 +11,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.shop440.Adapters.ProductAdapter;
-import com.shop440.Api.Urls;
-import com.shop440.Models.Datum;
-import com.shop440.Utils.EndlessRecyclerViewScrollListener;
+import com.shop440.api.Urls;
+import com.shop440.models.Datum;
+import com.shop440.utils.EndlessRecyclerViewScrollListener;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

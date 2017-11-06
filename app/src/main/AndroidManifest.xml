@@ -1,88 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.shop440">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.shop440">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:name=".Utils.Application"
+        android:name=".Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.truecaller.android.sdk.PartnerKey" android:value="@string/trucaller_key"/>
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBU9CTuoBXNg1wdgk956LxLd1ELdFPyfQ4" />
+            android:value="AIzaSyBU9CTuoBXNg1wdgk956LxLd1ELdFPyfQ4"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"/>
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider909211035848244"
-            android:exported="true" />
+            android:exported="true"/>
 
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
-            android:value="@string/app_name" />
+            android:value="@string/app_name"/>
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
-            android:value="@string/fb_account_kit" />
+            android:value="@string/fb_account_kit"/>
 
         <activity
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
             android:theme="@style/AppLoginTheme"
-            tools:replace="android:theme" />
+            tools:replace="android:theme"/>
         <activity
             android:name=".MainActivity.MainActivity"
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".Login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity
             android:name=".signup.SignUpActivity"
             android:exported="true"
-            android:label="Sign Up" />
-        <activity android:name=".Confirm" />
+            android:label="Sign Up"/>
+        <activity android:name=".auth.VerifyActivity"/>
 
         <receiver
-            android:name=".Receiver.SmsReciever"
+            android:name=".receiver.SmsReciever"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
 
-        <activity android:name=".IntroActivity" />
+        <activity android:name=".IntroActivity"/>
         <activity
-            android:name=".StoreActivity"
-            android:label="@string/title_activity_store"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.ProfileActivity" />
-        </activity>
-        <activity
-            android:name=".ProductView.ProductViewActivity"
+            android:name=".productview.ProductViewActivity"
             android:exported="true"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
@@ -90,53 +79,53 @@
 
             <!-- web and mobile urls differ web client uses /products for requests -->
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="shop440.com"
                     android:pathPrefix="/product"
-                    android:scheme="https" />
+                    android:scheme="https"/>
             </intent-filter>
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="shop440.com"
                     android:pathPrefix="/api/product"
-                    android:scheme="https" />
+                    android:scheme="https"/>
             </intent-filter>
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="www.shop440.com"
                     android:pathPrefix="/product"
-                    android:scheme="https" />
+                    android:scheme="https"/>
             </intent-filter>
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="www.shop440.com"
                     android:pathPrefix="/api/product"
-                    android:scheme="https" />
+                    android:scheme="https"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity.MainActivity" />
+                android:value="com.shop440.MainActivity.MainActivity"/>
         </activity>
         <activity
             android:name=".SearchActivity"
@@ -144,7 +133,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity.MainActivity" />
+                android:value="com.shop440.MainActivity.MainActivity"/>
         </activity>
         <activity
             android:name=".SearchResultActivity"
@@ -152,31 +141,33 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.SearchActivity" />
+                android:value="com.shop440.SearchActivity"/>
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"/>
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".MainNavigation"
             android:label="@string/title_activity_main_navigation">
+        </activity>
+        <activity android:name=".auth.AuthActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>

@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.shop440.Adapters.CategorySearchAdapter;
-import com.shop440.Models.CategoryModel;
+import com.shop440.models.CategoryModel;
 
 import java.util.ArrayList;
 

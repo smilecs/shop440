@@ -11,13 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.shop440.Confirm;
-import com.shop440.Models.User;
+import com.shop440.models.User;
 import com.shop440.R;
-import com.shop440.Utils.Image;
+import com.shop440.utils.Image;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,18 +31,6 @@ public class SignUpActivity extends AppCompatActivity {
     Context c;
     private static final int PICK_IMAGE = 1;
     @BindView(R.id.imageView) ImageView profile;
-    @BindView(R.id.phone) EditText phone;
-    @BindView(R.id.name) EditText name;
-    @OnClick(R.id.create) void submit(){
-        user.setName(phone.getText().toString());
-        user.setName(name.getText().toString());
-        user.setPhone(phone.getText().toString());
-        Intent i = new Intent(c, Confirm.class);
-        i.putExtra("phone", phone.getText().toString());
-        i.putExtra("user", user);
-        startActivity(i);
-        finish();
-    }
     @OnClick(R.id.imageView) void Submit(){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
