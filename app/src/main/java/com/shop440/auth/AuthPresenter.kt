@@ -1,17 +1,13 @@
 package com.shop440.auth
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.shop440.models.User
 import com.shop440.R
-import com.shop440.response.OtpResponse
+import com.shop440.models.User
 import com.shop440.response.UserResponse
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import java.lang.reflect.Type
 
 /**
  * Created by mmumene on 25/08/2017.

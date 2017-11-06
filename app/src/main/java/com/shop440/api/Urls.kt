@@ -5,7 +5,7 @@ package com.shop440.api
  */
 
 object Urls {
-    const val BASE_URL = "http://192.168.8.103:8080"
+    const val BASE_URL = "http://192.168.1.59:8080"
     const val NEW_USER = "/api/sign_up"
     const val PASSCODE = "/api/get_passcode"
     const val UPDATE_USER = "/api/update_name_and_email"
