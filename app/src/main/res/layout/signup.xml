@@ -14,29 +14,33 @@
         android:layout_height="65dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="52dp"
-        android:src="@drawable/profile"/>
+        />
 
-    <TextView
+    <com.shop440.widgets.FontTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
         android:text="Select profile picture"
-        android:textStyle="bold"/>
+        app:fontName="RobotoCondensedRegular"
+        android:textColor="@android:color/white"
+      />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:textColorHint="#fff"
-        >
-
-        <EditText
+        android:textColorHint="#fff">
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/nameSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/full_name_hint"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/white"
+            android:singleLine="true"
+            style="@style/EditTextStyle"
             />
     </android.support.design.widget.TextInputLayout>
 
@@ -45,22 +49,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="#fff">
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/phoneSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone_number_hint"
+            android:textColor="@android:color/white"
+            style="@style/EditTextStyle"
+            android:backgroundTint="@android:color/white"
             android:inputType="phone"/>
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@android:color/white">
-        <android.support.design.widget.TextInputEditText
+        <android.support.v7.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_signup_hint"
-            android:id="@+id/emailSignUp"/>
+            android:id="@+id/emailSignUp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/white"
+            style="@style/EditTextStyle"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button

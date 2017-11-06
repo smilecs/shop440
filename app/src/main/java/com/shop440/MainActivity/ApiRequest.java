@@ -1,7 +1,7 @@
 package com.shop440.MainActivity;
 
-import com.shop440.Api.Urls;
-import com.shop440.Models.ProductModel;
+import com.shop440.api.Urls;
+import com.shop440.models.ProductModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

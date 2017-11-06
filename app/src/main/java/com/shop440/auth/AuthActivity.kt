@@ -1,31 +1,45 @@
 package com.shop440.auth
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.shop440.R
-import kotlinx.android.synthetic.main.auth_container.*
-import kotlinx.android.synthetic.main.signup.*
+import kotlinx.android.synthetic.main.auth_options.*
 
 class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.auth_container)
-        //window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        //window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        loginButtonAuth.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                addToBackStack(null)
-                replace(R.id.authContainer, LoginFragment(), "login")
-            }.commit()
-        }
-
-        signupButton.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                addToBackStack(null)
-                replace(R.id.authContainer, SignupFragment(), "signUp")
-            }.commit()
-        }
-
+        supportFragmentManager.beginTransaction().apply {
+            addToBackStack(null)
+            replace(R.id.content, AuthOptions(), "options")
+        }.commit()
     }
+
+    internal class AuthOptions : Fragment() {
+        override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+            return inflater?.inflate(R.layout.auth_options, container, false)
+        }
+
+        override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+            createAccountAuthButton.setOnClickListener {
+                fragmentManager.beginTransaction().apply {
+                    setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    addToBackStack(null)
+                    replace(R.id.content, SignupFragment(), "signUp")
+                }.commit()
+            }
+            loginButtonAuth.setOnClickListener {
+                fragmentManager.beginTransaction().apply {
+                    addToBackStack(null)
+                    replace(R.id.content, LoginFragment(), "login")
+                }.commit()
+            }
+        }
+    }
+
 }

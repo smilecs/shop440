@@ -15,13 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.shop440.Adapters.ProductAdapter
-import com.shop440.Api.NetModule
-import com.shop440.Models.Datum
-import com.shop440.Models.Page
-import com.shop440.Models.ProductModel
+import com.shop440.api.NetModule
+import com.shop440.models.Datum
+import com.shop440.models.Page
+import com.shop440.models.ProductModel
 import com.shop440.R
-import com.shop440.Utils.EndlessRecyclerViewScrollListener
-import com.shop440.Utils.Metrics
+import com.shop440.utils.EndlessRecyclerViewScrollListener
+import com.shop440.utils.Metrics
 import java.util.*
 
 /**

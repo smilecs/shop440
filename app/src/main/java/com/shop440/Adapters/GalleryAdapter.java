@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.shop440.Models.ProductModel;
+import com.shop440.models.ProductModel;
 import com.shop440.R;
 
 import java.util.ArrayList;

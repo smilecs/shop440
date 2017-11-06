@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/search"
                         android:layout_marginLeft="16dp"/>
-                    <com.shop440.Widgets.FontTextView
+                    <com.shop440.widgets.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/search_bar_placeholder"

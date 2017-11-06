@@ -114,14 +114,21 @@
         <item name="android:textColor">@color/sub_header_text</item>
         <item name="android:background">@drawable/button_bg_rounded</item>
         <item name="colorControlHighlight">@color/buttonHighlight</item>
-        <item name="selectableItemBackground">@drawable/button_group</item>
     </style>
 
     <style name="buttonTransperentRounded" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_transperent_rounded</item>
         <item name="colorControlHighlight">@color/buttonHighlight</item>
-        <item name="selectableItemBackground">@drawable/button_group</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@android:color/white</item>
+        <item name="colorControlHighlight">#c5c5c5</item>
+        <item name="android:editTextColor">#c5c5c5</item>
+        <item name="android:textSize">18sp</item>
+
     </style>
 
 </resources>

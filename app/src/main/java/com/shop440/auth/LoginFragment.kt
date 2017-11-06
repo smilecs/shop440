@@ -7,26 +7,27 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.shop440.Api.NetModule
-import com.shop440.Api.Urls
-import com.shop440.Models.User
+import com.shop440.api.NetModule
+import com.shop440.api.Urls
+import com.shop440.models.User
 import com.shop440.R
-import com.shop440.Utils.ProgressDialog
+import com.shop440.utils.ProgressDialog
 import retrofit2.Retrofit
 
 /**
  * A login screen that offers login via email/password.
  */
-class LoginFragment : Fragment(), LoginContract.View {
+class LoginFragment : Fragment(), AuthContract.View {
 
     // UI references.
-    override lateinit var presenter: LoginContract.Presenter
+    override lateinit var presenter: AuthContract.Presenter
     lateinit var editor: SharedPreferences.Editor
     lateinit var progressDialog:android.app.ProgressDialog
     lateinit var retrofit: Retrofit
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) = inflater?.inflate(R.layout.sign_in, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
+            = inflater?.inflate(R.layout.sign_in, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

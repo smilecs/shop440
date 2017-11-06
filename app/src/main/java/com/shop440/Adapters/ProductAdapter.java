@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shop440.Models.Datum;
+import com.shop440.models.Datum;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.shop440.R
 import com.shop440.SearchActivity
-import com.shop440.Utils.AppEventsLogger
+import com.shop440.utils.AppEventsLogger
 import com.shop440.auth.LoginFragment
 
 class MainActivity : AppCompatActivity() {

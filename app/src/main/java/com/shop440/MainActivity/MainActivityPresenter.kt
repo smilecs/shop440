@@ -1,7 +1,7 @@
 package com.shop440.MainActivity
 
-import com.shop440.Models.Page
-import com.shop440.Models.ProductModel
+import com.shop440.models.Page
+import com.shop440.models.ProductModel
 import com.shop440.R
 import retrofit2.Call
 import retrofit2.Callback
