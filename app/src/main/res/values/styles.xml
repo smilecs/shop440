@@ -116,6 +116,12 @@
         <item name="colorControlHighlight">@color/buttonHighlight</item>
     </style>
 
+    <style name="buttonRoundedDark" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/sub_header_text</item>
+        <item name="android:background">@drawable/button_bg_rounded_dark</item>
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+    </style>
+
     <style name="buttonTransperentRounded" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_transperent_rounded</item>

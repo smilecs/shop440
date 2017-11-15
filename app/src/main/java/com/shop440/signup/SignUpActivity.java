@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
             Image image = new Image(this, fileUri);
             Bitmap bt = getResizedBitmap(image.getBitmapFromUri(), 120, 120);
             profile.setImageBitmap(bt);
-            String base = Base64.encodeToString(image.bitmapToByteArray(bt), Base64.DEFAULT);
+            String base = Base64.encodeToString(image.Companion.bitmapToByteArray(bt), Base64.DEFAULT);
             Log.d("base64", base);
             user.setImage(base);
         }

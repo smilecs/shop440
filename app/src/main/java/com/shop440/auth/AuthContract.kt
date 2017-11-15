@@ -20,6 +20,6 @@ interface AuthContract {
     }
 
     interface OtpListener{
-        fun onOtpReceived(otp:String)
+        fun onOtpReceived(otp:String?)
     }
 }

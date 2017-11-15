@@ -104,4 +104,6 @@
     <string name="passcode_loading_text">Loading Passcode</string>
     <string name="email_invalid_error">Please correct email address</string>
     <string name="phone_invalid_error_message">Please fill correct phone format</string>
+    <string name="retry_button_text">Retry</string>
+    <string name="required_field_error">required field</string>
 </resources>

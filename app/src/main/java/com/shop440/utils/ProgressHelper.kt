@@ -7,7 +7,7 @@ import com.shop440.R
 /**
  * Created by mmumene on 05/09/2017.
  */
-class ProgressDialog{
+class ProgressHelper {
     companion object{
         @JvmStatic fun progressDialog(context: Context):ProgressDialog{
             val progressDialog = ProgressDialog(context)

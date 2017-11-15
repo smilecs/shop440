@@ -1,7 +1,9 @@
 package com.shop440.auth
 
 import com.shop440.R
+import com.shop440.models.Datum
 import com.shop440.models.User
+import com.shop440.response.OtpResponse
 import com.shop440.response.UserResponse
 import org.json.JSONObject
 import retrofit2.Call
@@ -75,15 +77,18 @@ class AuthPresenter(val authView: AuthContract.View, val retrofit: Retrofit) : A
     }
 
     override fun onRequestOtp(phone: String, otpListener: AuthContract.OtpListener) {
+        authView.onDataLoading()
         val otp = retrofit.create(ApiRequest::class.java).requestOtp(phone)
-        otp.enqueue(object : Callback<JSONObject?> {
-            override fun onResponse(call: Call<JSONObject?>, response: Response<JSONObject?>) {
-                if (response.isSuccessful) {
-                    //otpListener.onOtpReceived(otpObject.code)
+        otp.enqueue(object : Callback<OtpResponse?> {
+            override fun onResponse(call: Call<OtpResponse?>, response: Response<OtpResponse?>) {
+                if (response?.isSuccessful) {
+                    authView.onDataLoading()
+                    otpListener.onOtpReceived(response.body()?.code)
                 }
             }
 
-            override fun onFailure(call: Call<JSONObject?>, t: Throwable) {
+            override fun onFailure(call: Call<OtpResponse?>, t: Throwable) {
+                authView.onDataLoading()
                 authView.onError(R.string.error_results)
             }
         })

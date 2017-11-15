@@ -145,7 +145,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         productName.text = productModel.name
         productDescription.text = productModel.description
         productPrice.text = productModel.price.toString()
-        storeName.text = productModel.store.name
+        //storeName.text = productModel.store.name
         val imageByte = Base64.decode(productModel.image.placeholder, Base64.DEFAULT)
         val bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.size)
         content = ShareLinkContent.Builder()
@@ -176,7 +176,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         Log.d("here", "here")
         val builder = LatLngBounds.builder()
         builder.include(coord)
-        googleMap.addMarker(MarkerOptions().position(coord).title(productModel.store.name))
+        //googleMap.addMarker(MarkerOptions().position(coord).title(productModel.store.name))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15f))
         map.onResume()
         progressDialog.dismiss()

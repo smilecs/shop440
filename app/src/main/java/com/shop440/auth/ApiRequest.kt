@@ -4,6 +4,7 @@ import com.shop440.models.User
 import com.shop440.response.OtpResponse
 import com.shop440.response.UserResponse
 import com.shop440.api.Urls
+import com.shop440.models.Datum
 
 import org.json.JSONObject
 
@@ -25,5 +26,5 @@ interface ApiRequest {
     fun login(@Body user: User): Call<User>
 
     @GET(Urls.OTP)
-    fun requestOtp(@Query("p") query: String): Call<JSONObject>
+    fun requestOtp(@Query("p") query: String): Call<OtpResponse>
 }

@@ -11,7 +11,7 @@ import com.shop440.api.NetModule
 import com.shop440.api.Urls
 import com.shop440.models.User
 import com.shop440.R
-import com.shop440.utils.ProgressDialog
+import com.shop440.utils.ProgressHelper
 import retrofit2.Retrofit
 
 /**
@@ -34,7 +34,7 @@ class LoginFragment : Fragment(), AuthContract.View {
         retrofit = NetModule.provideRetrofit()
         // Set up the login form.
         AuthPresenter(this, retrofit)
-        progressDialog = ProgressDialog.progressDialog(context)
+        progressDialog = ProgressHelper.progressDialog(context)
     }
 
     override fun saveUser(user: User) {

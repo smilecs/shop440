@@ -49,7 +49,7 @@ object NetModule {
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create(providesGson()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Urls.BASE_URL)
                 .client(provideOkhttpClient())
                 .build()

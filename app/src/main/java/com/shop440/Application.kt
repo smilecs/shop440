@@ -33,6 +33,7 @@ class Application : android.app.Application() {
         logger = AppEventsLogger.newLogger(this)
         AppCommons.getAppCommonsConfiguration().editTextInvalidEmailErrorMessage = R.string.email_invalid_error
         AppCommons.getAppCommonsConfiguration().editTextPhoneNumberValidatorErrorMessage = R.string.phone_invalid_error_message
+        AppCommons.getAppCommonsConfiguration().editTextRequiredErrorMessage = R.string.required_field_error
     }
 
     companion object {

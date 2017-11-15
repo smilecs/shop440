@@ -1,9 +1,11 @@
 package com.shop440.auth
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,15 +18,20 @@ import com.shop440.receiver.SmsReciever
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.api.Urls
+import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.confirmation.*
 
-class VerifyActivity : AppCompatActivity(), AuthContract.View {
+class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpListener {
     override lateinit var presenter: AuthContract.Presenter
     private var TAG = "Confirm.kt"
     private lateinit var user: User
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private var otp: String? = null
+    private var newString: String? = null
+    private val progressDialog: ProgressDialog by lazy {
+        ProgressHelper.progressDialog(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +44,15 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View {
         SmsReciever.bindListener { messageText ->
             Log.d("Text", messageText)
             Toast.makeText(this@VerifyActivity, getString(R.string.passcode_loading_text), Toast.LENGTH_LONG).show()
-            val newString = messageText.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[5].replace(".", "")
-            if (newString == otp) {
-                createUser()
-            }
+            newString = messageText.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[5].replace(".", "")
+
+            createUser()
         }
+
+        resendPasscode.setOnClickListener {
+            requestOtp()
+        }
+
         otpText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -55,22 +66,23 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View {
                 }
             }
         })
-        continueButton.setOnClickListener({ _ ->
-            if(otpText.text.toString().equals(otp, true)){
+        continueButton.setOnClickListener {
                 createUser()
-            }
-        })
-        presenter.onRequestOtp(user.phone, object : AuthContract.OtpListener {
-            override fun onOtpReceived(otp: String) {
-                this@VerifyActivity.otp = otp
-            }
-        })
+        }
+        requestOtp()
     }
 
     override fun onError(errorMessage: Int) {
+        Snackbar.make(confirmationContainer, errorMessage, Snackbar.LENGTH_LONG).show()
+        continueButton.text = getString(R.string.retry_button_text)
     }
 
     override fun onDataLoading() {
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
+        } else {
+            progressDialog.show()
+        }
     }
 
     override fun saveUser(user: User) {
@@ -83,6 +95,17 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View {
     }
 
     private fun createUser() {
-        presenter.signUp(user)
+        if (newString == otp || otpText.text.toString().equals(otp, true)) {
+            user.passcode = otp!!
+            presenter.signUp(user)
+        }
+    }
+
+    override fun onOtpReceived(otp: String?) {
+        this@VerifyActivity.otp = otp
+    }
+
+    fun requestOtp() {
+        presenter.onRequestOtp(user.phone, this)
     }
 }

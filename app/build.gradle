@@ -27,7 +27,11 @@ ext {
 }
 
 dependencies {
+    implementation 'com.android.support:support-v4:25.4.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    //test
+    androidTestCompile 'br.com.concretesolutions:kappuccino:1.0.6'
+
     compile('com.jakewharton:butterknife:8.5.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-compat'
