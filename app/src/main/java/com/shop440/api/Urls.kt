@@ -20,6 +20,7 @@ object Urls {
     const val GETCATEGORIES = "/api/categories"
     const val ADDPRODUCT = "/api/me/stores/"
     const val SINGLESTORE = "/api/stores/"
+    const val HOME_PAGE_SECTION = "/api/home/sections"
     const val OTP = "/api/users/verifyphone"
     const val TOKEN = "tokens"
 }

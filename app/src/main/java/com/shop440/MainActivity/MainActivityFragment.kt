@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
@@ -38,10 +39,8 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
     lateinit var token: String
     lateinit var viewRoot: View
     lateinit var feedback: TextView
-    lateinit var layoutManager: StaggeredGridLayoutManager
+    lateinit var layoutManager: LinearLayoutManager
     lateinit var refreshLayout: SwipeRefreshLayout
-    var next: Boolean = true
-    var page = Page()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,30 +63,19 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
         MainActivityPresenter(this, NetModule.provideRetrofit())
         mainAdapter = ProductAdapter(c, model)
         refreshLayout.setOnRefreshListener {
-            page.nextVal = 1
             getProducts()
         }
         list = viewRoot.findViewById(R.id.recyclerView) as RecyclerView
         feedback = viewRoot.findViewById(R.id.feedback) as TextView
-        layoutManager = StaggeredGridLayoutManager(Metrics.GetMetrics(list, activity), StaggeredGridLayoutManager.VERTICAL)
+        layoutManager = LinearLayoutManager(context)
         list.setHasFixedSize(true)
         list.layoutManager = layoutManager
         list.adapter = mainAdapter
-        list.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                Log.d(TAG, page.toString())
-                if (this@MainActivityFragment.page.next) {
-                    getProducts()
-                }
-
-            }
-        })
         return viewRoot
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        page.nextVal = 1
         getProducts()
     }
 
@@ -101,12 +89,11 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
     }
 
     override fun productDataAvailable(productModel: ProductModel) {
-        page = productModel.page
         model.addAll(productModel.data)
         mainAdapter.notifyDataSetChanged()
     }
 
     fun getProducts(){
-        presenter.getProductFeedData(page)
+        //presenter.getProductFeedData(page)
     }
 }

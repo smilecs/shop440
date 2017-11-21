@@ -14,4 +14,8 @@ import retrofit2.http.Query;
 public interface ApiRequest {
     @GET(Urls.GETPRODUCTS)
     Call<ProductModel> getProductFeeds(@Query("p") String page);
+
+    @GET(Urls.HOME_PAGE_SECTION)
+    Call<>
+
 }
