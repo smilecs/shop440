@@ -106,4 +106,5 @@
     <string name="phone_invalid_error_message">Please fill correct phone format</string>
     <string name="retry_button_text">Retry</string>
     <string name="required_field_error">required field</string>
+    <string name="feed_error_data">Unable to get data</string>
 </resources>

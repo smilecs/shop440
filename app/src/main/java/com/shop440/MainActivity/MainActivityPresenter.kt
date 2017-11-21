@@ -1,8 +1,13 @@
 package com.shop440.MainActivity
 
+import com.google.common.collect.ImmutableList
+import com.shop440.Adapters.ViewModel.ProductViewModel
+import com.shop440.Adapters.ViewModel.StoreViewModel
+import com.shop440.Adapters.ViewModel.ViewModel
 import com.shop440.models.Page
 import com.shop440.models.ProductModel
 import com.shop440.R
+import com.shop440.models.Feed
 import com.shop440.response.SectionResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +26,7 @@ class MainActivityPresenter(val mainActivityFragmentView: MainActivityContract.V
     override fun start() {
     }
 
-    override fun getProductFeedData(page: Page) {
+    override fun getProductFeedData() {
         mainActivityFragmentView.onDataLoading()
         val productData: Call<SectionResponse.HomeSection> = retrofit.create(ApiRequest::class.java).homeSection()
         productData.enqueue(object : Callback<SectionResponse.HomeSection> {
@@ -35,11 +40,32 @@ class MainActivityPresenter(val mainActivityFragmentView: MainActivityContract.V
 
             override fun onResponse(call: Call<SectionResponse.HomeSection>?, response: Response<SectionResponse.HomeSection>?) {
                 if (response?.isSuccessful!!) {
-                    mainActivityFragmentView.productDataAvailable(response.body())
+                    mainActivityFragmentView.productDataAvailable(parseViewModels(response.body()))
                 } else {
                     mainActivityFragmentView.onError(R.string.api_data_load_error)
                 }
             }
         })
     }
+
+    private fun parseViewModels(section: SectionResponse.HomeSection?): List<ViewModel> {
+        val listOfModel = mutableListOf<ViewModel>()
+        if(section != null){
+            for (sectionRes in section.sections) {
+                listOfModel.add(selectType(sectionRes))
+            }
+        }else{
+            mainActivityFragmentView.onError(R.string.feed_error_data)
+        }
+        return listOfModel
+    }
+
+    private fun selectType(sectionResponse: SectionResponse.SectionResponse): ViewModel{
+        return if (sectionResponse.feedType == "something") {
+                ProductViewModel(sectionResponse.title, sectionResponse.productFeed)
+        } else {
+                StoreViewModel(sectionResponse.title, sectionResponse.shopFeed)
+        }
+    }
+
 }

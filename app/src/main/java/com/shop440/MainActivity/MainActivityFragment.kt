@@ -6,72 +6,55 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.shop440.Adapters.ProductAdapter
-import com.shop440.api.NetModule
-import com.shop440.models.Datum
-import com.shop440.models.Page
-import com.shop440.models.ProductModel
+import com.shop440.Adapters.TopFeedAdapter
+import com.shop440.Adapters.ViewModel.ViewModel
 import com.shop440.R
-import com.shop440.response.SectionResponse
-import com.shop440.utils.EndlessRecyclerViewScrollListener
-import com.shop440.utils.Metrics
-import java.util.*
+import com.shop440.api.NetModule
+import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class MainActivityFragment : Fragment(), MainActivityContract.View {
     override lateinit var presenter: MainActivityContract.Presenter
-    lateinit var list: RecyclerView
-    lateinit var mainAdapter: ProductAdapter
-    lateinit var model: MutableList<Datum>
-    lateinit var c: Context
-    var TAG = "MainActivityFragment"
+    private lateinit var mainAdapter : TopFeedAdapter
+    private val model = mutableListOf<ViewModel>()
+    private val c: Context by lazy {
+        context
+    }
+    private val TAG = "MainActivityFragment"
     lateinit var sharedPreferences: SharedPreferences
     lateinit var token: String
     lateinit var viewRoot: View
-    lateinit var feedback: TextView
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var refreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        c = activity
         sharedPreferences = activity.getSharedPreferences(resources.getString(R.string.shop440), MODE_PRIVATE)
         token = sharedPreferences.getString("token", "null")
-        model = ArrayList()
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         viewRoot = inflater!!.inflate(R.layout.fragment_main, container, false)
-        refreshLayout = viewRoot.findViewById(R.id.swipeContainer) as SwipeRefreshLayout
-        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
         )
         MainActivityPresenter(this, NetModule.provideRetrofit())
-        mainAdapter = ProductAdapter(c, model)
-        refreshLayout.setOnRefreshListener {
+        mainAdapter = TopFeedAdapter(model, c)
+        swipeContainer.setOnRefreshListener {
             getProducts()
         }
-        list = viewRoot.findViewById(R.id.recyclerView) as RecyclerView
-        feedback = viewRoot.findViewById(R.id.feedback) as TextView
         layoutManager = LinearLayoutManager(context)
-        list.setHasFixedSize(true)
-        list.layoutManager = layoutManager
-        list.adapter = mainAdapter
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = mainAdapter
         return viewRoot
     }
 
@@ -86,15 +69,16 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
     }
 
     override fun onDataLoading() {
-        refreshLayout.isRefreshing = refreshLayout.isRefreshing
+        swipeContainer.isRefreshing = !swipeContainer.isRefreshing
     }
 
-    override fun productDataAvailable(homeSection: SectionResponse.HomeSection?) {
-        //model.addAll(productModel.data)
+    override fun productDataAvailable(homeSection: List<ViewModel>) {
+        model.clear()
+        model.addAll(homeSection)
         mainAdapter.notifyDataSetChanged()
     }
 
-    fun getProducts(){
-        //presenter.getProductFeedData(page)
+    private fun getProducts(){
+        presenter.getProductFeedData()
     }
 }

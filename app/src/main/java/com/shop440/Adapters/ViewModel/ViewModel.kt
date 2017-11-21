@@ -14,7 +14,6 @@ abstract class ViewModel(val title:String){
 }
 
 interface TypeFactory{
- fun type(type: Int) : Int
  fun holder(type:Int, view: View) : BaseViewHolder<*>
 
 }
