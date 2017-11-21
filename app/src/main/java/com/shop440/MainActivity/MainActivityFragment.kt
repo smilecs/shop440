@@ -21,6 +21,7 @@ import com.shop440.models.Datum
 import com.shop440.models.Page
 import com.shop440.models.ProductModel
 import com.shop440.R
+import com.shop440.response.SectionResponse
 import com.shop440.utils.EndlessRecyclerViewScrollListener
 import com.shop440.utils.Metrics
 import java.util.*
@@ -88,8 +89,8 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
         refreshLayout.isRefreshing = refreshLayout.isRefreshing
     }
 
-    override fun productDataAvailable(productModel: ProductModel) {
-        model.addAll(productModel.data)
+    override fun productDataAvailable(homeSection: SectionResponse.HomeSection?) {
+        //model.addAll(productModel.data)
         mainAdapter.notifyDataSetChanged()
     }
 
