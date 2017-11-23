@@ -107,4 +107,7 @@
     <string name="retry_button_text">Retry</string>
     <string name="required_field_error">required field</string>
     <string name="feed_error_data">Unable to get data</string>
+    <string name="search_hint"><![CDATA[Find Stores & Products]]></string>
+    <string name="view_more">View more</string>
+    <string name="currency_symbol_code">₦</string>
 </resources>

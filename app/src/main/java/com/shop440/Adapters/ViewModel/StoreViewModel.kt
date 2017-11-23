@@ -11,5 +11,6 @@ import com.shop440.models.StoreModel
 
 class StoreViewModel(viewTitle:String, val viewModel: List<StoreFeed>): ViewModel(viewTitle){
 
-    override fun type(types: TypeFactory) = R.layout.home_feed_shop_layout
+    override fun type() = R.layout.home_feed_shop_layout
+    override fun size() = viewModel.size
 }

@@ -63,7 +63,6 @@ public class SearchResultActivity extends AppCompatActivity {
         model = new ArrayList<>();
         mainAdapter = new ProductAdapter(c, model);
         list = (RecyclerView) findViewById(R.id.recyclerView);
-        feedback = (TextView) findViewById(R.id.feedback);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         list.setHasFixedSize(true);
         list.setLayoutManager(layoutManager);

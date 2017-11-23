@@ -10,7 +10,8 @@ import com.shop440.models.StoreFeed
  * Created by mmumene on 19/11/2017.
  */
 abstract class ViewModel(val title:String){
-    abstract fun type(types: TypeFactory) :Int
+    abstract fun type() :Int
+    abstract fun size():Int
 }
 
 interface TypeFactory{

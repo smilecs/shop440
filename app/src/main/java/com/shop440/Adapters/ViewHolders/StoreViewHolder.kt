@@ -10,8 +10,8 @@ import com.shop440.models.Feed
  */
 
 
-class StoreViewHolder(view:View): FeedViewHolder<StoreViewModel>(view){
-    override fun bind(item: StoreViewModel) {
-        title.text = item.title
+class StoreViewHolder(view:View): BaseViewHolder<StoreViewModel>(view){
+    override fun bind(item: StoreViewModel, position:Int) {
+
     }
 }

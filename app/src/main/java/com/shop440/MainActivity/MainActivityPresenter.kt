@@ -30,15 +30,14 @@ class MainActivityPresenter(val mainActivityFragmentView: MainActivityContract.V
         mainActivityFragmentView.onDataLoading()
         val productData: Call<SectionResponse.HomeSection> = retrofit.create(ApiRequest::class.java).homeSection()
         productData.enqueue(object : Callback<SectionResponse.HomeSection> {
-            init {
-                mainActivityFragmentView.onDataLoading()
-            }
 
             override fun onFailure(call: Call<SectionResponse.HomeSection>?, t: Throwable?) {
+                mainActivityFragmentView.onDataLoading()
                 mainActivityFragmentView.onError(R.string.internet_error_message)
             }
 
             override fun onResponse(call: Call<SectionResponse.HomeSection>?, response: Response<SectionResponse.HomeSection>?) {
+                mainActivityFragmentView.onDataLoading()
                 if (response?.isSuccessful!!) {
                     mainActivityFragmentView.productDataAvailable(parseViewModels(response.body()))
                 } else {
@@ -61,10 +60,9 @@ class MainActivityPresenter(val mainActivityFragmentView: MainActivityContract.V
     }
 
     private fun selectType(sectionResponse: SectionResponse.SectionResponse): ViewModel{
-        return if (sectionResponse.feedType == "something") {
-                ProductViewModel(sectionResponse.title, sectionResponse.productFeed)
-        } else {
-                StoreViewModel(sectionResponse.title, sectionResponse.shopFeed)
+        return when(sectionResponse.feedType){
+            "productfeed"->  ProductViewModel(sectionResponse.title, sectionResponse.productFeed)
+            else-> StoreViewModel(sectionResponse.title, sectionResponse.shopFeed)
         }
     }
 

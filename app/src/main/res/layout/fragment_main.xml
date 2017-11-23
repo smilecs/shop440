@@ -4,28 +4,11 @@
     android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="6dp"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/feedback"
-            android:visibility="gone"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:text="@string/something_went_wrong"
-            android:layout_marginTop="36dp"/>
+    android:layout_height="match_parent"
+    >
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/recyclerView"/>
-
-    </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

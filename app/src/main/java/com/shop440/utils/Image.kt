@@ -135,5 +135,10 @@ class Image(private val mContext: Context, private val mUri: Uri) {
                 ""
             }
         }
+
+        fun base64ToBitmap(base:String):Bitmap {
+            val byt = Base64.decode(base, Base64.DEFAULT)
+            return BitmapFactory.decodeByteArray(byt, 0, byt.size)
+        }
     }
 }

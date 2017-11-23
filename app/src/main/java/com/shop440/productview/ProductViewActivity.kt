@@ -195,7 +195,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
         if (id == R.id.download) {
             try {
-                presenter.downloadImage(productModel.image.path, productModel.name, fileCache)
+                //presenter.downloadImage(productModel?.image.path, productModel.name, fileCache)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

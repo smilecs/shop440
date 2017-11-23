@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.shop440.Adapters.TopFeedAdapter
 import com.shop440.Adapters.ViewModel.ViewModel
 import com.shop440.R
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
  */
 class MainActivityFragment : Fragment(), MainActivityContract.View {
     override lateinit var presenter: MainActivityContract.Presenter
-    private lateinit var mainAdapter : TopFeedAdapter
+    private lateinit var mainAdapter: TopFeedAdapter
     private val model = mutableListOf<ViewModel>()
     private val c: Context by lazy {
         context
@@ -41,31 +41,31 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         viewRoot = inflater!!.inflate(R.layout.fragment_main, container, false)
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light
-        )
+
         MainActivityPresenter(this, NetModule.provideRetrofit())
         mainAdapter = TopFeedAdapter(model, c)
-        swipeContainer.setOnRefreshListener {
-            getProducts()
-        }
         layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = mainAdapter
         return viewRoot
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        )
+        swipeContainer.setOnRefreshListener {
+            getProducts()
+        }
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = mainAdapter
         getProducts()
     }
 
     override fun onError(errorMessage: Int) {
-        feedback.visibility = View.VISIBLE
-        Snackbar.make(viewRoot, errorMessage, Snackbar.LENGTH_LONG).show()
+        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onDataLoading() {
@@ -78,7 +78,7 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
         mainAdapter.notifyDataSetChanged()
     }
 
-    private fun getProducts(){
+    private fun getProducts() {
         presenter.getProductFeedData()
     }
 }

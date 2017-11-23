@@ -19,8 +19,9 @@ class TopFeedAdapter(val viewModel :List<ViewModel>, val context: Context) : Rec
         val model = viewModel[position]
         holder?.title?.text = model.title
         holder?.recyclerView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = NestedFeedAdapter(model)
         }
     }
 

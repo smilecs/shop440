@@ -11,7 +11,7 @@ import com.shop440.models.Feed
 
 class TypesFactoryImpl : TypeFactory {
 
-    override fun holder(type: Int, view: View): FeedViewHolder<*> =
+    override fun holder(type: Int, view: View): BaseViewHolder<*> =
             when (type) {
                 R.layout.home_feed_product_layout -> ProductViewHolder(view)
                 R.layout.home_feed_shop_layout -> StoreViewHolder(view)
