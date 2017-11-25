@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.shop440.Adapters.ProductAdapter;
+import com.shop440.adapters.ProductAdapter;
 import com.shop440.api.Urls;
 import com.shop440.models.Datum;
 import com.shop440.utils.EndlessRecyclerViewScrollListener;

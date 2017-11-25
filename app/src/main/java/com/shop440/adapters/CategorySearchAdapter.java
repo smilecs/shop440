@@ -1,4 +1,4 @@
-package com.shop440.Adapters;
+package com.shop440.adapters;
 
 import android.content.Context;
 import android.content.Intent;

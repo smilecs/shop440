@@ -1,13 +1,9 @@
-package com.shop440.MainActivity
+package com.shop440.home
 
-import com.google.common.collect.ImmutableList
-import com.shop440.Adapters.ViewModel.ProductViewModel
-import com.shop440.Adapters.ViewModel.StoreViewModel
-import com.shop440.Adapters.ViewModel.ViewModel
-import com.shop440.models.Page
-import com.shop440.models.ProductModel
+import com.shop440.adapters.viewmodel.ProductViewModel
+import com.shop440.adapters.viewmodel.StoreViewModel
+import com.shop440.adapters.viewmodel.ViewModel
 import com.shop440.R
-import com.shop440.models.Feed
 import com.shop440.response.SectionResponse
 import retrofit2.Call
 import retrofit2.Callback

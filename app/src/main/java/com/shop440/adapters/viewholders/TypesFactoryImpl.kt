@@ -1,9 +1,8 @@
-package com.shop440.Adapters.ViewHolders
+package com.shop440.adapters.viewholders
 
 import android.view.View
-import com.shop440.Adapters.ViewModel.TypeFactory
+import com.shop440.adapters.viewmodel.TypeFactory
 import com.shop440.R
-import com.shop440.models.Feed
 
 /**
  * Created by mmumene on 21/11/2017.

@@ -1,10 +1,7 @@
-package com.shop440.Adapters.ViewModel
+package com.shop440.adapters.viewmodel
 
 import android.view.View
-import com.shop440.Adapters.ViewHolders.BaseViewHolder
-import com.shop440.models.Feed
-import com.shop440.models.ProductFeed
-import com.shop440.models.StoreFeed
+import com.shop440.adapters.viewholders.BaseViewHolder
 
 /**
  * Created by mmumene on 19/11/2017.

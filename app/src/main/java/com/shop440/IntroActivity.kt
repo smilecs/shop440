@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 
 import com.github.paolorotolo.appintro.AppIntro
-import com.shop440.Fragments.SampleSlide
-import com.shop440.MainActivity.MainActivity
+import com.shop440.fragments.SampleSlide
+import com.shop440.home.MainActivity
 
 class IntroActivity : AppIntro() {
     private lateinit var preferences: SharedPreferences

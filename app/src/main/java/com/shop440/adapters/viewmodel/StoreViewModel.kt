@@ -1,9 +1,7 @@
-package com.shop440.Adapters.ViewModel
+package com.shop440.adapters.viewmodel
 
 import com.shop440.R
-import com.shop440.models.Feed
 import com.shop440.models.StoreFeed
-import com.shop440.models.StoreModel
 
 /**
  * Created by mmumene on 21/11/2017.

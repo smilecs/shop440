@@ -9,7 +9,7 @@ object Urls {
     const val NEW_USER = "/api/signup"
     const val PASSCODE = "/api/get_passcode"
     const val UPDATE_USER = "/api/update_name_and_email"
-    const val BASE_URL = "http://192.168.1.49:8080"
+    const val BASE_URL = "http://192.168.8.101:8080"
     const val ME = "/api/me"
     const val LOGIN = "/api/login/phone"
     const val MyStores = "/api/me/stores"

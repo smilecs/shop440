@@ -1,8 +1,7 @@
-package com.shop440.Adapters.ViewHolders
+package com.shop440.adapters.viewholders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.shop440.Adapters.ViewModel.ViewModel
 import com.shop440.R
 import com.shop440.widgets.FontTextView
 

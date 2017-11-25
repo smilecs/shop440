@@ -1,11 +1,11 @@
-package com.shop440.Adapters
+package com.shop440.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.shop440.Adapters.ViewHolders.BaseViewHolder
-import com.shop440.Adapters.ViewHolders.TypesFactoryImpl
-import com.shop440.Adapters.ViewModel.ViewModel
+import com.shop440.adapters.viewholders.BaseViewHolder
+import com.shop440.adapters.viewholders.TypesFactoryImpl
+import com.shop440.adapters.viewmodel.ViewModel
 
 /**
  * Created by mmumene on 22/11/2017.

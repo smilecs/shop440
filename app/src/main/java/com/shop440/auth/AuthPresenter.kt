@@ -81,7 +81,7 @@ class AuthPresenter(val authView: AuthContract.View, val retrofit: Retrofit) : A
         val otp = retrofit.create(ApiRequest::class.java).requestOtp(phone)
         otp.enqueue(object : Callback<OtpResponse?> {
             override fun onResponse(call: Call<OtpResponse?>, response: Response<OtpResponse?>) {
-                if (response?.isSuccessful) {
+                if (response.isSuccessful) {
                     authView.onDataLoading()
                     otpListener.onOtpReceived(response.body()?.code)
                 }

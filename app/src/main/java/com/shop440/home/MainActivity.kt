@@ -1,4 +1,4 @@
-package com.shop440.MainActivity
+package com.shop440.home
 
 import android.content.Intent
 import android.content.SharedPreferences

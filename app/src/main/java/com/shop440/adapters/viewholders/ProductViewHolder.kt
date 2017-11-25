@@ -1,7 +1,7 @@
-package com.shop440.Adapters.ViewHolders
+package com.shop440.adapters.viewholders
 
 import android.view.View
-import com.shop440.Adapters.ViewModel.ProductViewModel
+import com.shop440.adapters.viewmodel.ProductViewModel
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.home_feed_product_layout.view.*

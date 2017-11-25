@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/app_bar_gradient"
+        android:id="@+id/shopPreview"
         android:minHeight="124dp"
         android:maxHeight="128dp"
         />
@@ -35,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/descriptiveTExtDef"
-            android:hint="Description"
+            android:hint="Address"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             app:fontName="RobotoMedium"/>

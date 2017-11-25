@@ -8,64 +8,25 @@
                                                  android:background="@android:color/white"
                                                  android:fitsSystemWindows="true">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="54dp"
+        android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@android:color/transparent"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:visibility="gone"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:cardElevation="5dp">
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchViewQuery"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:iconifiedByDefault="false"
-                app:defaultQueryHint="@string/search_hint"
-                app:searchIcon="@drawable/ic_search_dark"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:queryHint="@string/search_hint">
-            </android.support.v7.widget.SearchView>
-        </android.support.v7.widget.CardView>
-    </android.support.design.widget.AppBarLayout>
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:focusable="true"
-            android:layout_marginBottom="120dp"
-            android:focusableInTouchMode="true"
-            />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="bottom"
-            android:layout_alignParentBottom="true"
-            app:itemIconTint="@color/buttonHighlight"
-            app:itemTextColor="@color/colorAccent"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/navigation"/>
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/buttonHighlight"
+        app:itemTextColor="@color/colorAccent"
+        app:menu="@menu/navigation"/>
 </android.support.design.widget.CoordinatorLayout>

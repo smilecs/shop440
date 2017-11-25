@@ -136,7 +136,11 @@
         <item name="colorControlHighlight">#c5c5c5</item>
         <item name="android:editTextColor">#c5c5c5</item>
         <item name="android:textSize">18sp</item>
+    </style>
 
+    <style name="SearchView" parent="Widget.AppCompat.Light.SearchView">
+        <item name="submitBackground">@android:color/white</item>
+        <item name="queryBackground">@android:color/white</item>
     </style>
 
 </resources>

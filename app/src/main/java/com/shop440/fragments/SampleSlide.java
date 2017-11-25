@@ -1,4 +1,4 @@
-package com.shop440.Fragments;
+package com.shop440.fragments;
 
 /**
  * Created by SMILECS on 12/31/16.

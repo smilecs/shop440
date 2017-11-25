@@ -1,4 +1,4 @@
-package com.shop440.MainActivity
+package com.shop440.home
 
 import com.shop440.api.Urls
 import com.shop440.models.ProductModel

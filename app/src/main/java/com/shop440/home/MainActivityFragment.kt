@@ -1,4 +1,4 @@
-package com.shop440.MainActivity
+package com.shop440.home
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -9,9 +9,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
-import com.shop440.Adapters.TopFeedAdapter
-import com.shop440.Adapters.ViewModel.ViewModel
+import com.shop440.adapters.TopFeedAdapter
+import com.shop440.adapters.viewmodel.ViewModel
 import com.shop440.R
 import com.shop440.api.NetModule
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -30,7 +31,6 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var token: String
     lateinit var viewRoot: View
-    lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,23 +44,27 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
 
         MainActivityPresenter(this, NetModule.provideRetrofit())
         mainAdapter = TopFeedAdapter(model, c)
-        layoutManager = LinearLayoutManager(context)
         return viewRoot
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val editText = searchViewQuery.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
+        editText.setHintTextColor(resources.getColor(R.color.colorAccent))
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
         )
         swipeContainer.setOnRefreshListener {
+            onDataLoading()
             getProducts()
         }
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = mainAdapter
+        recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = mainAdapter
+        }
         getProducts()
     }
 
@@ -69,7 +73,7 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
     }
 
     override fun onDataLoading() {
-        swipeContainer.isRefreshing = !swipeContainer.isRefreshing
+        swipeContainer?.isRefreshing = !swipeContainer.isRefreshing
     }
 
     override fun productDataAvailable(homeSection: List<ViewModel>) {

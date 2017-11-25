@@ -1,11 +1,8 @@
-package com.shop440.MainActivity
+package com.shop440.home
 
-import com.shop440.Adapters.ViewModel.ViewModel
+import com.shop440.adapters.viewmodel.ViewModel
 import com.shop440.BasePresenter
 import com.shop440.BaseView
-import com.shop440.models.Page
-import com.shop440.models.ProductModel
-import com.shop440.response.SectionResponse
 
 /**
  * Created by mmumene on 09/09/2017.

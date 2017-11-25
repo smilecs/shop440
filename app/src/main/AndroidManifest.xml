@@ -51,7 +51,7 @@
             android:theme="@style/AppLoginTheme"
             tools:replace="android:theme"/>
         <activity
-            android:name=".MainActivity.MainActivity"
+            android:name=".home.MainActivity"
             android:label="@string/app_name">
         </activity>
         <activity
@@ -125,7 +125,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity.MainActivity"/>
+                android:value="com.shop440.home.MainActivity"/>
         </activity>
         <activity
             android:name=".SearchActivity"
@@ -133,7 +133,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity.MainActivity"/>
+                android:value="com.shop440.home.MainActivity"/>
         </activity>
         <activity
             android:name=".SearchResultActivity"
