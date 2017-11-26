@@ -1,1 +1,1 @@
-include ':app', ':appcoms'
+include ':app', ':appcoms', ':truesdk-0.6'

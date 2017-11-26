@@ -27,6 +27,7 @@ import java.io.IOException
 
 class SignupFragment : Fragment(), AuthContract.View {
     private val PICK_IMAGE_REQUEST = 1
+    private val TO_VERIFY = 200
 
     override lateinit var presenter: AuthContract.Presenter
     private var progressDialog:ProgressDialog? = null
@@ -73,8 +74,7 @@ class SignupFragment : Fragment(), AuthContract.View {
     override fun saveUser(user: User) {
         val intent = Intent(context, VerifyActivity::class.java)
         intent.putExtra("data", user)
-        startActivity(intent)
-        activity.finish()
+        startActivityForResult(intent, TO_VERIFY)
     }
 
     fun addProfilePicture(){

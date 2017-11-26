@@ -8,17 +8,25 @@ import com.bentech.android.appcommons.preference.Preference
 
 class PreferenceManager : Preference() {
     var token: String? = null
-    var name:String? = null
+    var name: String? = null
     fun persistToken(userToken: String) {
-        PrefData.getPreferenceManager()?.token = userToken
+        PrefData.getPreferenceManager()?.apply {
+            token = userToken
+        }?.savePreference()
     }
 
-    fun persistName(name:String){
-        PrefData.getPreferenceManager()?.name = name
+    fun persistName(name: String) {
+        PrefData.getPreferenceManager()?.apply {
+            this.name = name
+        }?.savePreference()
+
     }
 
+    fun getSavedName() = PrefData.getPreferenceManager()?.name
 
-    object PrefData{
-        fun getPreferenceManager():PreferenceManager? = Preference.getPreference(PreferenceManager::class.java)
+    fun getSavedToken() = PrefData.getPreferenceManager()?.token
+
+    object PrefData {
+        fun getPreferenceManager(): PreferenceManager? = Preference.getPreference(PreferenceManager::class.java)
     }
 }

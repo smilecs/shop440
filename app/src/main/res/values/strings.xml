@@ -110,4 +110,6 @@
     <string name="search_hint"><![CDATA[Find Stores & Products]]></string>
     <string name="view_more">see all >></string>
     <string name="currency_symbol_code">₦</string>
+    <string name="log_out_hint_profile">Oops, you seem to be logged out!</string>
+    <string name="sign_in_sign_up">Sign in / Sign up</string>
 </resources>

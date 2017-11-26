@@ -69,7 +69,9 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
     }
 
     override fun onError(errorMessage: Int) {
-        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+        if (isVisible) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDataLoading() {

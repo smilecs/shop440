@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/appcoms" />
+            <option value="$PROJECT_DIR$/truesdk-0.6" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

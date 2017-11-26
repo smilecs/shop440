@@ -119,7 +119,7 @@
     </style>
 
     <style name="buttonRoundedDark" parent="Theme.AppCompat.Light">
-        <item name="android:textColor">@color/sub_header_text</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:background">@drawable/button_bg_rounded_dark</item>
         <item name="colorControlHighlight">@color/buttonHighlight</item>
     </style>

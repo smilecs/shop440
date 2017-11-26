@@ -31,7 +31,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //test
     androidTestCompile 'br.com.concretesolutions:kappuccino:1.0.6'
-
     compile('com.jakewharton:butterknife:8.5.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-compat'
@@ -78,6 +77,7 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation project(':appcoms')
+    implementation project(':truesdk-0.6')
 }
 repositories {
     mavenCentral()

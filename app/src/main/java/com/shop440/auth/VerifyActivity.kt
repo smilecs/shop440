@@ -1,5 +1,6 @@
 package com.shop440.auth
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -91,6 +92,7 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
             persistName(user.name)
             persistToken(user.token)
         }
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
