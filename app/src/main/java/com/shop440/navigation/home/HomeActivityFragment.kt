@@ -1,4 +1,4 @@
-package com.shop440.home
+package com.shop440.navigation.home
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.fragment_main.*
 /**
  * A placeholder fragment containing a simple view.
  */
-class MainActivityFragment : Fragment(), MainActivityContract.View {
-    override lateinit var presenter: MainActivityContract.Presenter
+class HomeActivityFragment : Fragment(), HomeActivityContract.View {
+    override lateinit var presenter: HomeActivityContract.Presenter
     private lateinit var mainAdapter: TopFeedAdapter
     private val model = mutableListOf<ViewModel>()
     private val c: Context by lazy {
@@ -42,7 +42,7 @@ class MainActivityFragment : Fragment(), MainActivityContract.View {
                               savedInstanceState: Bundle?): View? {
         viewRoot = inflater!!.inflate(R.layout.fragment_main, container, false)
 
-        MainActivityPresenter(this, NetModule.provideRetrofit())
+        HomeActivityPresenter(this, NetModule.provideRetrofit())
         mainAdapter = TopFeedAdapter(model, c)
         return viewRoot
     }

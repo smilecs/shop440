@@ -1,4 +1,4 @@
-package com.shop440.home
+package com.shop440.navigation.home
 
 import com.shop440.adapters.viewmodel.ProductViewModel
 import com.shop440.adapters.viewmodel.StoreViewModel
@@ -14,30 +14,30 @@ import retrofit2.Retrofit
  * Created by mmumene on 09/09/2017.
  */
 
-class MainActivityPresenter(val mainActivityFragmentView: MainActivityContract.View, val retrofit: Retrofit) : MainActivityContract.Presenter {
+class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.View, val retrofit: Retrofit) : HomeActivityContract.Presenter {
     init {
-        mainActivityFragmentView.presenter = this
+        homeActivityFragmentView.presenter = this
     }
 
     override fun start() {
     }
 
     override fun getProductFeedData() {
-        mainActivityFragmentView.onDataLoading()
+        homeActivityFragmentView.onDataLoading()
         val productData: Call<SectionResponse.HomeSection> = retrofit.create(ApiRequest::class.java).homeSection()
         productData.enqueue(object : Callback<SectionResponse.HomeSection> {
 
             override fun onFailure(call: Call<SectionResponse.HomeSection>?, t: Throwable?) {
-                mainActivityFragmentView.onDataLoading()
-                mainActivityFragmentView.onError(R.string.internet_error_message)
+                homeActivityFragmentView.onDataLoading()
+                homeActivityFragmentView.onError(R.string.internet_error_message)
             }
 
             override fun onResponse(call: Call<SectionResponse.HomeSection>?, response: Response<SectionResponse.HomeSection>?) {
-                mainActivityFragmentView.onDataLoading()
+                homeActivityFragmentView.onDataLoading()
                 if (response?.isSuccessful!!) {
-                    mainActivityFragmentView.productDataAvailable(parseViewModels(response.body()))
+                    homeActivityFragmentView.productDataAvailable(parseViewModels(response.body()))
                 } else {
-                    mainActivityFragmentView.onError(R.string.api_data_load_error)
+                    homeActivityFragmentView.onError(R.string.api_data_load_error)
                 }
             }
         })
@@ -50,7 +50,7 @@ class MainActivityPresenter(val mainActivityFragmentView: MainActivityContract.V
                 listOfModel.add(selectType(sectionRes))
             }
         }else{
-            mainActivityFragmentView.onError(R.string.feed_error_data)
+            homeActivityFragmentView.onError(R.string.feed_error_data)
         }
         return listOfModel
     }

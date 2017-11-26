@@ -1,10 +1,10 @@
-package com.shop440
+package com.shop440.navigation
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.widget.EditText
-import com.shop440.home.MainActivityFragment
+import com.shop440.R
+import com.shop440.navigation.home.HomeActivityFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainNavigation : AppCompatActivity() {
@@ -22,7 +22,7 @@ class MainNavigation : AppCompatActivity() {
         setContentView(R.layout.activity_main)
        // setSupportActionBar(toolbar)
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.container, MainActivityFragment())
+            replace(R.id.container, HomeActivityFragment())
         }.commit()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
       //  val editText = searchViewQuery.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText

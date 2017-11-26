@@ -1,4 +1,4 @@
-package com.shop440.home
+package com.shop440.navigation.home
 
 import com.shop440.api.Urls
 import com.shop440.models.ProductModel

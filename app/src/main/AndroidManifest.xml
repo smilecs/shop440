@@ -50,14 +50,7 @@
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
             android:theme="@style/AppLoginTheme"
             tools:replace="android:theme"/>
-        <activity
-            android:name=".home.MainActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".signup.SignUpActivity"
-            android:exported="true"
-            android:label="Sign Up"/>
+
         <activity android:name=".auth.VerifyActivity"/>
 
         <receiver
@@ -122,18 +115,11 @@
                     android:pathPrefix="/api/product"
                     android:scheme="https"/>
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.home.MainActivity"/>
         </activity>
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.home.MainActivity"/>
         </activity>
         <activity
             android:name=".SearchResultActivity"
@@ -160,7 +146,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainNavigation"
+            android:name=".navigation.MainNavigation"
             android:label="@string/title_activity_main_navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -1,7 +1,6 @@
 package com.shop440
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment
 
 import com.github.paolorotolo.appintro.AppIntro
 import com.shop440.fragments.SampleSlide
-import com.shop440.home.MainActivity
 
 class IntroActivity : AppIntro() {
     private lateinit var preferences: SharedPreferences
@@ -39,8 +37,8 @@ class IntroActivity : AppIntro() {
         super.onSkipPressed(currentFragment)
         editor.putBoolean("islogged", true)
         editor.apply()
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
+       // val i = Intent(this, MainActivity::class.java)
+     //   startActivity(i)
         finish()
     }
 
@@ -48,8 +46,8 @@ class IntroActivity : AppIntro() {
         super.onDonePressed(currentFragment)
         editor.putBoolean("islogged", true)
         editor.apply()
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
+      //  val i = Intent(this, MainActivity::class.java)
+      //  startActivity(i)
         finish()
     }
 }

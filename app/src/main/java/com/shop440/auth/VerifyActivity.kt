@@ -18,6 +18,7 @@ import com.shop440.receiver.SmsReciever
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.api.Urls
+import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.confirmation.*
 
@@ -86,11 +87,10 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
     }
 
     override fun saveUser(user: User) {
-        val sharedPreferences: SharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
-        editor = sharedPreferences.edit()
-        editor.putString(resources.getString(R.string.username), user.name)
-        editor.putString(Urls.TOKEN, user.token)
-        editor.apply()
+        PreferenceManager.PrefData.getPreferenceManager()?.apply {
+            persistName(user.name)
+            persistToken(user.token)
+        }
         finish()
     }
 
