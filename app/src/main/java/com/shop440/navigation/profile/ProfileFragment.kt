@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.shop440.R
 import com.shop440.auth.AuthActivity
 import com.shop440.utils.PreferenceManager
@@ -45,5 +46,10 @@ class ProfileFragment : Fragment() {
             })
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Toast.makeText(context, "Logged in", Toast.LENGTH_LONG).show()
     }
 }

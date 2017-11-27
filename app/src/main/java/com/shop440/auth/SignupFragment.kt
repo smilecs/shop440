@@ -21,6 +21,7 @@ import com.shop440.models.User
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.utils.Image
+import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.signup.*
 import java.io.IOException
@@ -32,6 +33,7 @@ class SignupFragment : Fragment(), AuthContract.View {
     override lateinit var presenter: AuthContract.Presenter
     private var progressDialog:ProgressDialog? = null
     private var bitmap:Bitmap? = null
+    private var verified = false
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?):View?{
         return inflater?.inflate(R.layout.signup, container, false)
@@ -41,6 +43,9 @@ class SignupFragment : Fragment(), AuthContract.View {
         progressDialog = ProgressHelper.progressDialog(context)
         userImageContainerSignUp.setOnClickListener{
             addProfilePicture()
+        }
+        if(arguments.containsKey("data")){
+            autoVerify(arguments.getSerializable("data") as User)
         }
         phoneSignUp.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         signupButton.setOnClickListener {
@@ -54,7 +59,11 @@ class SignupFragment : Fragment(), AuthContract.View {
             user.email = emailSignUp.text.toString()
             user.password = passwordSignUp.text.toString()
             user.image = Image.base64String(bitmap)
-            saveUser(user)
+            if (verified){
+                presenter.signUp(user)
+            }else{
+                toUserVerification(user)
+            }
         }
     }
 
@@ -72,6 +81,15 @@ class SignupFragment : Fragment(), AuthContract.View {
     }
 
     override fun saveUser(user: User) {
+        PreferenceManager.PrefData.getPreferenceManager()?.apply {
+            persistName(user.name)
+            persistToken(user.token)
+        }
+        activity.setResult(Activity.RESULT_OK)
+        activity.finish()
+    }
+
+    fun toUserVerification(user:User){
         val intent = Intent(context, VerifyActivity::class.java)
         intent.putExtra("data", user)
         startActivityForResult(intent, TO_VERIFY)
@@ -97,5 +115,12 @@ class SignupFragment : Fragment(), AuthContract.View {
             }
             imageView.setImageBitmap(bitmap)
         }
+    }
+    fun autoVerify(user: User){
+        nameSignUp.setText(user.name)
+        phoneSignUp.setText(user.phone)
+        emailSignUp.setText(user.email)
+        user.image = Image.base64String(bitmap)
+        verified = true
     }
 }

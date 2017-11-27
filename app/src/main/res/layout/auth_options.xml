@@ -6,12 +6,12 @@
               android:layout_height="match_parent"
               android:paddingLeft="16dp"
               android:paddingRight="16dp"
-              android:background="@drawable/screen_background_gradient"
+              android:background="@android:color/white"
               android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/screen_background_gradient"
+
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/log_in_auth_button"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
@@ -58,7 +58,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/title_auth_text"
             app:fontName="RobotoMedium"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             />
 
 
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="4dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:background="@drawable/border"
             android:text="@string/create_account_auth_text"
             />
@@ -89,6 +89,7 @@
         <com.truecaller.android.sdk.TrueButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             truesdk:truebutton_text="signIn"/>
 
     </LinearLayout>

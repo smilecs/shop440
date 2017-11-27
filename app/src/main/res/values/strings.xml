@@ -24,9 +24,6 @@
     <string name="facebook_app_id">909211035848244</string>
     <string name="fb_login_protocol_scheme">fb909211035848244</string>
     <string name="fb_account_kit">982d0b4c5c0873ae9bd3e1e19d41acf0</string>
-    <string name="trucaller_key">Nqesk81c574cf7fc04501989c871eb5d8369c</string>
-    <string name="trueprint">76e0fdd938cf79a3c7ca1ef8bbfb8f765ad3c6f5</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_get_location">GetLocation</string>
@@ -97,7 +94,7 @@
     <string name="create_account_hint">Create account</string>
     <string name="email_signup_hint">Email</string>
     <string name="log_in_auth_button">Log in</string>
-    <string name="title_auth_text">Welcome to shop 440</string>
+    <string name="title_auth_text">Welcome to Shop440</string>
     <string name="create_account_auth_text">Create Account</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="insert_the_passcode_sent_to_your_phone">Insert the passcode sent to your phone</string>
@@ -112,4 +109,5 @@
     <string name="currency_symbol_code">₦</string>
     <string name="log_out_hint_profile">Oops, you seem to be logged out!</string>
     <string name="sign_in_sign_up">Sign in / Sign up</string>
+    <string name="sign_in_error">Error signing in</string>
 </resources>

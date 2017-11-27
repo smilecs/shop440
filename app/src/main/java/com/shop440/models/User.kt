@@ -15,8 +15,5 @@ class User : Serializable {
     var passcode = ""
     var password = ""
     var token = ""
-
-    override fun toString(): String {
-        return name
-    }
+    var imageUrl = ""
 }
