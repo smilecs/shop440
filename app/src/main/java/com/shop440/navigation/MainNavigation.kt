@@ -3,6 +3,8 @@ package com.shop440.navigation
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import com.shop440.R
 import com.shop440.navigation.home.HomeActivityFragment
@@ -15,8 +17,8 @@ class MainNavigation : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> switchFragment(homeActivityFragment)
-            R.id.navigation_dashboard -> switchFragment(profileActivityFragment)
+            R.id.navigation_home -> navigationViewPager.currentItem = 0
+            R.id.navigation_dashboard -> navigationViewPager.currentItem = 2
             R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
         }
         false
@@ -25,7 +27,7 @@ class MainNavigation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        switchFragment(homeActivityFragment)
+        navigationViewPager.adapter = Pager.PagerAdapter(supportFragmentManager)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
@@ -33,5 +35,18 @@ class MainNavigation : AppCompatActivity() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
         }.commit()
+    }
+
+    object Pager{
+        class PagerAdapter(fragment:FragmentManager) : FragmentPagerAdapter(fragment){
+            override fun getItem(position: Int): Fragment =
+                when(position){
+                    0->HomeActivityFragment()
+                    2->ProfileFragment()
+                    else->HomeActivityFragment()
+                }
+
+            override fun getCount() = 3
+        }
     }
 }

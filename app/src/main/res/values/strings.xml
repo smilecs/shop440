@@ -110,4 +110,8 @@
     <string name="log_out_hint_profile">Oops, you seem to be logged out!</string>
     <string name="sign_in_sign_up">Sign in / Sign up</string>
     <string name="sign_in_error">Error signing in</string>
+    <string name="password_hint">Password</string>
+    <string name="re_type_password_hint">Re-type password</string>
+    <string name="password_match_error">Passwords must match</string>
+    <string name="title_activity_test">TestActivity</string>
 </resources>

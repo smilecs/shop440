@@ -33,6 +33,7 @@ object NetModule {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder()
         client.addInterceptor(interceptor)
+        client.addNetworkInterceptor(interceptor)
         client.addInterceptor { chain ->
             val request = chain.request().newBuilder()
             request.addHeader("X-AUTH-TOKEN", Application.authToken)

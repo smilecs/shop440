@@ -8,15 +8,11 @@
                                                  android:background="@android:color/white"
                                                  android:fitsSystemWindows="true">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="54dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:id="@+id/navigationViewPager"/>
 
 
     <android.support.design.widget.BottomNavigationView

@@ -31,26 +31,32 @@ class SignupFragment : Fragment(), AuthContract.View {
     private val TO_VERIFY = 200
 
     override lateinit var presenter: AuthContract.Presenter
-    private var progressDialog:ProgressDialog? = null
-    private var bitmap:Bitmap? = null
-    private var verified = false
+    private var progressDialog: ProgressDialog? = null
+    private var bitmap: Bitmap? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?):View?{
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.signup, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         progressDialog = ProgressHelper.progressDialog(context)
-        userImageContainerSignUp.setOnClickListener{
+        presenter = AuthPresenter(this, NetModule.provideRetrofit())
+        userImageContainerSignUp.setOnClickListener {
             addProfilePicture()
         }
-        if(arguments.containsKey("data")){
-            autoVerify(arguments.getSerializable("data") as User)
+        if (arguments.containsKey("data")) {
+            providerLogin(arguments.getSerializable("data") as User)
         }
         phoneSignUp.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         signupButton.setOnClickListener {
-            if(EditTextUtils.isInValid(EditTextRequiredInputValidator(nameSignUp),
-                    EditTextPhoneNumberValidator(phoneSignUp), EditTextEmailValidator(emailSignUp), EditTextRequiredInputValidator(passwordSignUp))){
+            if (EditTextUtils.isInValid(EditTextRequiredInputValidator(nameSignUp),
+                    EditTextPhoneNumberValidator(phoneSignUp),
+                    EditTextEmailValidator(emailSignUp), EditTextRequiredInputValidator(passwordSignUp),
+                    EditTextRequiredInputValidator(passwordReSignUp))) {
+                return@setOnClickListener
+            }
+            if(passwordReSignUp.text.toString() != passwordSignUp.text.toString()){
+                passwordReSignUp.error = getString(R.string.password_match_error)
                 return@setOnClickListener
             }
             val user = User()
@@ -59,11 +65,7 @@ class SignupFragment : Fragment(), AuthContract.View {
             user.email = emailSignUp.text.toString()
             user.password = passwordSignUp.text.toString()
             user.image = Image.base64String(bitmap)
-            if (verified){
-                presenter.signUp(user)
-            }else{
-                toUserVerification(user)
-            }
+            saveUser(user)
         }
     }
 
@@ -72,30 +74,21 @@ class SignupFragment : Fragment(), AuthContract.View {
     }
 
     override fun onDataLoading() {
-        if(progressDialog?.isShowing!!){
+        if (progressDialog?.isShowing!!) {
             progressDialog?.dismiss()
-        }else{
+        } else {
             progressDialog?.show()
         }
 
     }
 
     override fun saveUser(user: User) {
-        PreferenceManager.PrefData.getPreferenceManager()?.apply {
-            persistName(user.name)
-            persistToken(user.token)
-        }
-        activity.setResult(Activity.RESULT_OK)
-        activity.finish()
-    }
-
-    fun toUserVerification(user:User){
         val intent = Intent(context, VerifyActivity::class.java)
         intent.putExtra("data", user)
         startActivityForResult(intent, TO_VERIFY)
     }
 
-    fun addProfilePicture(){
+    fun addProfilePicture() {
         val intent = Intent().apply {
             type = "image/*"
             action = Intent.ACTION_GET_CONTENT
@@ -104,23 +97,22 @@ class SignupFragment : Fragment(), AuthContract.View {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK){
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val uri = data?.data
-            bitmap = try{
-                MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-            }catch (error: IOException){
-                null
-            }catch (error: NullPointerException){
-                null
+            try {
+                imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri))
+            } catch (error: IOException) {
+
+            } catch (error: NullPointerException) {
+
             }
-            imageView.setImageBitmap(bitmap)
         }
     }
-    fun autoVerify(user: User){
+
+    fun providerLogin(user: User) {
         nameSignUp.setText(user.name)
         phoneSignUp.setText(user.phone)
         emailSignUp.setText(user.email)
         user.image = Image.base64String(bitmap)
-        verified = true
     }
 }

@@ -33,7 +33,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (userToken.isNullOrEmpty() && userName.isNullOrEmpty()) {
             emptySessionScene.setEnterAction { sceneForEmptySession().run() }
-            TransitionManager.go(emptySessionScene)
+            emptySessionScene.enter()
         }
     }
 
