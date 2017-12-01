@@ -43,7 +43,7 @@ public abstract class Preference implements Serializable {
         Log.d("Saving JSON: " + getClass().getSimpleName(), json);
 
         editor.putString(preferenceKey, json);
-        editor.commit();
+        editor.apply();
     }
 
     @SuppressLint({"CommitPrefEdits", "ApplySharedPref"})
@@ -52,7 +52,7 @@ public abstract class Preference implements Serializable {
 
         Log.d("Clearing JSON: " + getClass().getSimpleName(), "{}");
         editor.putString(preferenceKey, "{}");
-        editor.commit();
+        editor.apply();
     }
 
     @SuppressWarnings({"TryWithIdenticalCatches", "unchecked"})

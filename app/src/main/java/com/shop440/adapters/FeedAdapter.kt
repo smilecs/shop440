@@ -16,6 +16,10 @@ import com.shop440.widgets.FontTextView
  */
 class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context) : RecyclerView.Adapter<TopFeedAdapter.ViewHolder.ViewHolder>() {
 
+    private val viewPool: RecyclerView.RecycledViewPool by lazy {
+        RecyclerView.RecycledViewPool()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder.ViewHolder?, position: Int) {
         val model = viewModel[position]
         holder?.title?.text = model.title
@@ -29,18 +33,20 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context) : Rec
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder.ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.nested_reycler, parent, false)
-        return ViewHolder.ViewHolder(view)
+        val viewHolder = ViewHolder.ViewHolder(view)
+        viewHolder.recyclerView.recycledViewPool = viewPool
+        LinearSnapHelper().attachToRecyclerView(viewHolder.recyclerView)
+        return viewHolder
     }
 
     override fun getItemCount() = viewModel.size
 
     object ViewHolder {
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-            lateinit var recyclerView:RecyclerView
-            init {
-                recyclerView = view.findViewById<RecyclerView>(R.id.nestedRecycler)
-                LinearSnapHelper().attachToRecyclerView(recyclerView)
+            val recyclerView:RecyclerView by lazy {
+                view.findViewById<RecyclerView>(R.id.nestedRecycler)
             }
+
             val title: FontTextView by lazy {
                 view.findViewById<FontTextView>(R.id.nestedTitle)
             }

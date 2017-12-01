@@ -3,7 +3,6 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_marginLeft="6dp"
               android:layout_marginStart="6dp"
               android:layout_marginBottom="54dp"
               android:orientation="vertical">
@@ -12,13 +11,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/viewMore"
-    android:layout_marginBottom="12dp">
+    android:layout_marginBottom="8dp">
     <com.shop440.widgets.FontTextView
         android:id="@+id/nestedTitle"
         style="@style/headLineTextDef"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:textColor="@color/titleText"
         android:layout_alignParentStart="true"
         app:fontName="RobotoMedium"
@@ -31,15 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/nestedTitle"
-        android:layout_toRightOf="@+id/nestedTitle"
         android:text="@string/view_more"
         android:textAlignment="viewEnd"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        app:fontName="RobotoThin"
+        android:layout_marginEnd="12dp"
+        app:fontName="OpenSansRegular"
         android:gravity="end"
         android:layout_alignBaseline="@+id/nestedTitle"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

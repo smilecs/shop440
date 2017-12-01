@@ -54,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone_number_hint"
-            android:textColorHint="@color/colorPrimaryDark"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorAccent"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -67,8 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
             android:hint="@string/password_hint"/>
     </android.support.design.widget.TextInputLayout>
 

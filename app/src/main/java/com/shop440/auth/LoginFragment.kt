@@ -65,6 +65,7 @@ class LoginFragment : Fragment(), AuthContract.View {
             persistImage(user.image)
             persistPhone(user.phone)
         }
+        activity.setResult(Activity.RESULT_OK)
         activity.finish()
     }
 
@@ -72,8 +73,9 @@ class LoginFragment : Fragment(), AuthContract.View {
         if (progressDialog.isShowing) {
             progressDialog.hide()
             return
+        } else if (isVisible) {
+            progressDialog.show()
         }
-        progressDialog.show()
     }
 
     override fun onError(errorMessage: Int) {

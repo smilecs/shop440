@@ -32,9 +32,9 @@ class ProfileSessionFragment : Fragment() {
 
     private fun initViews(){
         PreferenceManager.PrefData.getPreferenceManager()?.apply {
-            profileNameText.text = getSavedName()
-            profilePhoneText.text = getSavedPhone()
-            val base64 = getSavedImage()
+            profileNameText.text = name
+            profilePhoneText.text = phone
+            val base64 = image
             if (base64 != null && !base64.isEmpty()) {
                 profileImageView.setImageDrawable(Image.roundedBitmapDrawable(context, Image.base64ToBitmap(base64)))
             }

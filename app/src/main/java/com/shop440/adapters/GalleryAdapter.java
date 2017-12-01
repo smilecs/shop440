@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.shop440.models.ProductModel;
+import com.shop440.models.ProductFeed;
 import com.shop440.R;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
  * Created by SMILECS on 9/10/16.
  */
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
-    ArrayList<ProductModel> model;
+    ArrayList<ProductFeed> model;
 
-    public GalleryAdapter(ArrayList<ProductModel> model){
+    public GalleryAdapter(ArrayList<ProductFeed> model){
         this.model = model;
 
     }
@@ -40,7 +40,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ProductModel mode = model.get(position);
+        ProductFeed mode = model.get(position);
     }
 
     @Override

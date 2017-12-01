@@ -33,6 +33,7 @@ class AuthPresenter(val authView: AuthContract.View, val retrofit: Retrofit) : A
                 if (response?.isSuccessful!!) {
                     val resp = response.body()
                     resp?.let {
+                        it.user.token = response.body()?.token!!
                         authView.saveUser(it.user)
                         return
                     }
