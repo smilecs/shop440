@@ -24,7 +24,7 @@
             style="@style/descriptiveTExtDef"
             android:layout_marginTop="12dp"
             android:text="@string/log_out_hint_profile"
-            app:fontName="RobotoThin"/>
+            app:fontName="RobotoRegular"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -33,6 +33,7 @@
             android:layout_marginRight="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:id="@+id/authButtonProfile"
             android:layout_marginTop="@dimen/activity_vertical_margin"

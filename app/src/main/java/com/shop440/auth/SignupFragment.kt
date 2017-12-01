@@ -28,7 +28,6 @@ import java.io.IOException
 
 class SignupFragment : Fragment(), AuthContract.View {
     private val PICK_IMAGE_REQUEST = 1
-    private val TO_VERIFY = 200
 
     override lateinit var presenter: AuthContract.Presenter
     private var progressDialog: ProgressDialog? = null
@@ -85,7 +84,7 @@ class SignupFragment : Fragment(), AuthContract.View {
     override fun saveUser(user: User) {
         val intent = Intent(context, VerifyActivity::class.java)
         intent.putExtra("data", user)
-        startActivityForResult(intent, TO_VERIFY)
+        activity.startActivityForResult(intent, 200)
     }
 
     fun addProfilePicture() {
@@ -100,7 +99,9 @@ class SignupFragment : Fragment(), AuthContract.View {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val uri = data?.data
             try {
-                imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, uri))
+                bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                imageView.setImageBitmap(bitmap)
+
             } catch (error: IOException) {
 
             } catch (error: NullPointerException) {

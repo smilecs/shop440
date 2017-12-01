@@ -76,10 +76,10 @@
     <string-array name="fonts">
         <item>Roboto-Medium.ttf</item>
         <item>Roboto-Thin.ttf</item>
-        <item>Roboto-ThinItalic.ttf</item>
-        <item>RobotoCondensed-Bold.ttf</item>
-        <item>RobotoCondensed-Light.ttf</item>
-        <item>RobotoCondensed-Regular.ttf</item>
+        <item>OpenSans-Light.ttf</item>
+        <item>OpenSans-Regular.ttf</item>
+        <item>Roboto-Light.ttf</item>
+        <item>Roboto-Regular.ttf</item>
     </string-array>
     <string name="title_activity_main_navigation">MainNavigation</string>
     <string name="title_home">Home</string>
@@ -114,4 +114,8 @@
     <string name="re_type_password_hint">Re-type password</string>
     <string name="password_match_error">Passwords must match</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="log_out">Log out</string>
+    <string name="notifications">Notifications</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="policy">Shop440 is a product of Past3 Technologies Limited all data collected or by any means derived from the user will only be used to deliver the best experience.</string>
 </resources>

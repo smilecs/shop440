@@ -37,7 +37,7 @@
 
 
     <dimen name="navigation_drawer_width">280dp</dimen>
-    <dimen name="list_item_size">16sp</dimen>
+    <dimen name="list_item_size">22sp</dimen>
     <dimen name="list_item_padding">10dp</dimen>
     <dimen name="list_item_text_left_margin">16dp</dimen>
     <dimen name="list_item_image_left_padding">16dp</dimen>

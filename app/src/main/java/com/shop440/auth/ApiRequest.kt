@@ -23,7 +23,7 @@ interface ApiRequest {
     fun createUser(@Body user: User): Call<UserResponse>
 
     @POST(Urls.LOGIN)
-    fun login(@Body user: User): Call<User>
+    fun login(@Body user: User): Call<UserResponse>
 
     @GET(Urls.OTP)
     fun requestOtp(@Query("p") query: String): Call<OtpResponse>

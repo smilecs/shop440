@@ -9,6 +9,8 @@ import com.bentech.android.appcommons.preference.Preference
 class PreferenceManager : Preference() {
     var token: String? = null
     var name: String? = null
+    var image: String? = null
+    var phone: String? = null
     fun persistToken(userToken: String) {
         PrefData.getPreferenceManager()?.apply {
             token = userToken
@@ -21,6 +23,22 @@ class PreferenceManager : Preference() {
         }?.savePreference()
 
     }
+
+    fun persistPhone(phone:String){
+        PrefData.getPreferenceManager()?.apply {
+            this.phone = phone
+        }?.savePreference()
+    }
+
+    fun persistImage(image:String){
+        PrefData.getPreferenceManager()?.apply {
+            this.image = image
+        }?.savePreference()
+    }
+
+    fun getSavedImage() = PrefData.getPreferenceManager()?.image
+
+    fun getSavedPhone() = PrefData.getPreferenceManager()?.phone
 
     fun getSavedName() = PrefData.getPreferenceManager()?.name
 

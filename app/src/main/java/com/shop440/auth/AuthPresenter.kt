@@ -26,20 +26,21 @@ class AuthPresenter(val authView: AuthContract.View, val retrofit: Retrofit) : A
 
     override fun login(user: User) {
         authView.onDataLoading()
-        val posts: Call<User> = retrofit.create(ApiRequest::class.java).login(user)
-        posts.enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>?, response: Response<User>?) {
+        val posts: Call<UserResponse> = retrofit.create(ApiRequest::class.java).login(user)
+        posts.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>?, response: Response<UserResponse>?) {
                 authView.onDataLoading()
                 if (response?.isSuccessful!!) {
-                    if (response.body() != null) {
-                        authView.saveUser(response.body()!!)
+                    val resp = response.body()
+                    resp?.let {
+                        authView.saveUser(it.user)
                         return
                     }
                     authView.onError(R.string.signup_request_error)
                 }
             }
 
-            override fun onFailure(call: Call<User>?, t: Throwable?) {
+            override fun onFailure(call: Call<UserResponse>?, t: Throwable?) {
                 authView.onError(R.string.signup_request_error)
                 authView.onDataLoading()
                 t?.printStackTrace()

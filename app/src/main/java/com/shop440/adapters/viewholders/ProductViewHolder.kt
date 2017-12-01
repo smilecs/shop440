@@ -1,6 +1,7 @@
 package com.shop440.adapters.viewholders
 
 import android.view.View
+import com.bumptech.glide.Glide
 import com.shop440.adapters.viewmodel.ProductViewModel
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
@@ -23,8 +24,15 @@ class ProductViewHolder(val view: View):BaseViewHolder<ProductViewModel>(view){
         //productShopTitle.text = product.productDesc
         productPrice.text = Metrics.getDisplayPriceWithCurrency(view.context, product.productPrice)
         productTitle.text = product.productName
-        product.images?.get(0)?.placeholder?.let {
-            preview.setImageBitmap(Image.base64ToBitmap(it))
+        product.images?.get(0)?.let {
+            it.placeholder?.let {
+                preview.setImageBitmap(Image.base64ToBitmap(it))
+            }
+            Glide.with(view)
+                    .load(it.url)
+                    .into(preview)
+
         }
+
     }
 }

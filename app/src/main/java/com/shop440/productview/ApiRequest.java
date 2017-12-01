@@ -12,6 +12,6 @@ import retrofit2.http.Path;
  */
 
 public interface ApiRequest {
-    @GET(Urls.GETPRODUCTS)
+    @GET("")
     Call<Datum> getProduct(@Path("slug") String slug);
 }

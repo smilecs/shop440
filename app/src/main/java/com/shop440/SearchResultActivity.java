@@ -81,13 +81,13 @@ public class SearchResultActivity extends AppCompatActivity {
     public String getUrl(String page, String q){
         if(getIntent().getBooleanExtra("isSearch", true)){
             try{
-                URI = Urls.BASE_URL + Urls.GETPRODUCTS +"?query=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
+                URI = Urls.BASE_URL + "url" +"?query=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
             }catch (UnsupportedEncodingException un){
                 un.printStackTrace();
             }
         }else {
             try{
-                URI = Urls.BASE_URL + Urls.GETPRODUCTS +"?category=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
+                URI = Urls.BASE_URL + "url" +"?category=" + URLEncoder.encode(q, "UTF-8") + "&p="+page;
             }catch (UnsupportedEncodingException un){
                 un.printStackTrace();
             }

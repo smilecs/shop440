@@ -29,7 +29,7 @@
             android:layout_marginTop="8dp"
             style="@style/subHeadingTextDef"
             android:hint="Title"
-            app:fontName="RobotoThin"
+            app:fontName="RobotoRegular"
             />
         <com.shop440.widgets.FontTextView
             android:id="@+id/shopFeedAddress"

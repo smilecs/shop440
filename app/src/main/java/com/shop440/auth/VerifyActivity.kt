@@ -57,6 +57,7 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
 
         otpText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                continueButton.text = "Continue"
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -91,6 +92,8 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
         PreferenceManager.PrefData.getPreferenceManager()?.apply {
             persistName(user.name)
             persistToken(user.token)
+            persistImage(user.image)
+            persistPhone(user.phone)
         }
         setResult(Activity.RESULT_OK)
         finish()

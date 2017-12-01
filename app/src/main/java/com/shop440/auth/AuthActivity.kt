@@ -87,7 +87,7 @@ class AuthActivity : AppCompatActivity() {
             super.onActivityResult(requestCode, resultCode, data)
             if (trueClient.onActivityResult(requestCode, resultCode, data)) {
                 return
-            } else {
+            } else if(requestCode == 200){
                 activity.setResult(Activity.RESULT_OK)
                 activity.finish()
             }

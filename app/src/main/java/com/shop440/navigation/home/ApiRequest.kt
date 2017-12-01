@@ -17,7 +17,7 @@ interface ApiRequest {
     @GET(Urls.HOME_PAGE_SECTION)
     fun homeSection():Call<SectionResponse.HomeSection>
 
-    @GET(Urls.GETPRODUCTS)
-    fun getProductFeeds(@Query("p") page: String): Call<ProductModel>
+    /*@GET(Urls.GETPRODUCTS)
+    fun getProductFeeds(@Query("p") page: String): Call<ProductModel>*/
 
 }

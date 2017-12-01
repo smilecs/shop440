@@ -5,8 +5,6 @@ import com.shop440.models.User
 /**
  * Created by mmumene on 03/11/2017.
  */
-class UserResponse{
-    var user : User? = null
-    var message = ""
-    var token = ""
-}
+data class UserResponse(val user : User,
+                        val message:String,
+                        val token:String)
