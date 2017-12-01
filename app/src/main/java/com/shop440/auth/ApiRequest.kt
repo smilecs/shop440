@@ -27,4 +27,7 @@ interface ApiRequest {
 
     @GET(Urls.OTP)
     fun requestOtp(@Query("p") query: String): Call<OtpResponse>
+
+    @POST(Urls.CHECKPHONE)
+    fun checkAvailability(@Body user:User) : Call<User>
 }

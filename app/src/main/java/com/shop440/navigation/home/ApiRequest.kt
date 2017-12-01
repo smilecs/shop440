@@ -13,7 +13,6 @@ import retrofit2.http.Query
  */
 
 interface ApiRequest {
-
     @GET(Urls.HOME_PAGE_SECTION)
     fun homeSection():Call<SectionResponse.HomeSection>
 

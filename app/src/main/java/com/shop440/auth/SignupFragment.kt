@@ -60,11 +60,11 @@ class SignupFragment : Fragment(), AuthContract.View {
             }
             val user = User()
             user.name = nameSignUp.text.toString()
-            user.phone = phoneSignUp.text.toString().replace(" ", "")
+            user.phone = phoneSignUp.text.toString().replace("+", "").replace(" ", "").replace("234", "0")
             user.email = emailSignUp.text.toString()
             user.password = passwordSignUp.text.toString()
             user.image = Image.base64String(bitmap)
-            saveUser(user)
+            presenter.checkExisting(user)
         }
     }
 

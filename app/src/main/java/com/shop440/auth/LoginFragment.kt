@@ -1,16 +1,23 @@
 package com.shop440.auth
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bentech.android.appcommons.utils.EditTextUtils
+import com.bentech.android.appcommons.validator.EditTextPhoneNumberValidator
+import com.bentech.android.appcommons.validator.EditTextRequiredInputValidator
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.models.User
 import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper
+import kotlinx.android.synthetic.main.sign_in.*
+import kotlinx.android.synthetic.main.signup.*
 
 /**
  * A login screen that offers login via email/password.
@@ -19,7 +26,7 @@ class LoginFragment : Fragment(), AuthContract.View {
 
     // UI references.
     override lateinit var presenter: AuthContract.Presenter
-    private val progressDialog:android.app.ProgressDialog by lazy {
+    private val progressDialog: android.app.ProgressDialog by lazy {
         ProgressHelper.progressDialog(context)
     }
 
@@ -31,7 +38,25 @@ class LoginFragment : Fragment(), AuthContract.View {
         super.onViewCreated(view, savedInstanceState)
         // Set up the login form.
         AuthPresenter(this, NetModule.provideRetrofit())
+        loginPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+
+        closeAuthButton.setOnClickListener {
+            activity.setResult(Activity.RESULT_CANCELED)
+            activity.finish()
+        }
+
+        signInButton.setOnClickListener {
+            if (EditTextUtils.isInValid(EditTextPhoneNumberValidator(loginPhone),
+                    EditTextRequiredInputValidator(loginPassword))) {
+                return@setOnClickListener
+            }
+            val user = User()
+            user.phone = loginPhone.text.toString().replace(" ", "")
+            user.password = loginPassword.text.toString()
+            presenter.login(user)
+        }
     }
+
 
     override fun saveUser(user: User) {
         PreferenceManager.PrefData.getPreferenceManager()?.apply {
@@ -44,7 +69,7 @@ class LoginFragment : Fragment(), AuthContract.View {
     }
 
     override fun onDataLoading() {
-        if(progressDialog.isShowing){
+        if (progressDialog.isShowing) {
             progressDialog.hide()
             return
         }

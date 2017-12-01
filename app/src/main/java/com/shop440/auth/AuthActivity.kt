@@ -40,7 +40,7 @@ class AuthActivity : AppCompatActivity() {
         }
 
         override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-            val trueButton = view?.findViewById(R.id.com_truecaller_android_sdk_truebutton) as (TrueButton)
+            val trueButton = view?.findViewById<TrueButton>(R.id.com_truecaller_android_sdk_truebutton) as (TrueButton)
             trueButton.visibility = if (trueButton.isUsable) {
                 View.VISIBLE
             } else {

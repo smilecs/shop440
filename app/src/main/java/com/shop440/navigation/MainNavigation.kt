@@ -8,13 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import com.shop440.R
 import com.shop440.navigation.home.HomeActivityFragment
-import com.shop440.navigation.profile.ProfileFragment
+import com.shop440.navigation.profile.BlankSessionFragment
+import com.shop440.navigation.profile.ProfileSessionFragment
+import com.shop440.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainNavigation : AppCompatActivity() {
-    private val homeActivityFragment = HomeActivityFragment()
-    private val profileActivityFragment = ProfileFragment()
-
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> navigationViewPager.currentItem = 0
@@ -31,22 +30,28 @@ class MainNavigation : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
-    private fun switchFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.container, fragment)
-        }.commit()
+    public fun switch() {
+        navigationViewPager.currentItem = 0
     }
 
-    object Pager{
-        class PagerAdapter(fragment:FragmentManager) : FragmentPagerAdapter(fragment){
+    object Pager {
+        class PagerAdapter(fragment: FragmentManager) : FragmentPagerAdapter(fragment) {
+            private val userToken = PreferenceManager.PrefData.getPreferenceManager()?.getSavedToken()
             override fun getItem(position: Int): Fragment =
-                when(position){
-                    0->HomeActivityFragment()
-                    2->ProfileFragment()
-                    else->HomeActivityFragment()
-                }
+                    when (position) {
+                        0 -> HomeActivityFragment()
+                        2 -> profileFragmentChoice()
+                        else -> HomeActivityFragment()
+                    }
 
             override fun getCount() = 3
+
+            private fun profileFragmentChoice(): Fragment =
+                    if (userToken.isNullOrEmpty()) {
+                        BlankSessionFragment()
+                    } else {
+                        ProfileSessionFragment()
+                    }
         }
     }
 }

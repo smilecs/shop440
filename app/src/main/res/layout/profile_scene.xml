@@ -84,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:layout_marginTop="24dp"
+                android:background="?attr/selectableItemBackground"
                 android:text="@string/notifications"
                 app:fontName="RobotoRegular"/>
             <ImageView
@@ -99,10 +100,12 @@
 
         <com.shop440.widgets.FontTextView
             style="@style/listTextDef"
+            android:id="@+id/logOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/log_out"
+            android:background="?attr/selectableItemBackground"
             android:layout_gravity="left"
             app:fontName="RobotoRegular"/>
     </LinearLayout>

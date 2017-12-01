@@ -16,6 +16,16 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/closeAuthButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close_dark"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:contentDescription=""
+                />
             <Button
                 android:id="@+id/loginButtonAuth"
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -27,17 +37,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:theme="@style/buttonHighlight"/>
-
-            <ImageView
-                android:id="@+id/closeAuthButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_close"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
-                android:contentDescription=""
-                />
         </RelativeLayout>
 
         <ImageView

@@ -118,4 +118,7 @@
     <string name="notifications">Notifications</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="policy">Shop440 is a product of Past3 Technologies Limited all data collected or by any means derived from the user will only be used to deliver the best experience.</string>
+    <string name="sign_in_login_text">Log in</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="number_exist_error">User with this phone number already exists</string>
 </resources>

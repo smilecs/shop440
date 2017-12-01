@@ -38,11 +38,11 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context) : Rec
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             lateinit var recyclerView:RecyclerView
             init {
-                recyclerView = view.findViewById(R.id.nestedRecycler) as RecyclerView
+                recyclerView = view.findViewById<RecyclerView>(R.id.nestedRecycler)
                 LinearSnapHelper().attachToRecyclerView(recyclerView)
             }
             val title: FontTextView by lazy {
-                view.findViewById(R.id.nestedTitle) as FontTextView
+                view.findViewById<FontTextView>(R.id.nestedTitle)
             }
         }
     }

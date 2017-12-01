@@ -70,8 +70,8 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         setContentView(R.layout.activity_product_view)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        map = findViewById(R.id.map) as MapView
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        map = findViewById<MapView>(R.id.map) as MapView
+        val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -155,7 +155,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
                 .build()
         // SharePhoto.Builder sharePhoto = new SharePhoto.Builder();
         sharePhoto.setImageUrl(Uri.parse(productModel.image.path))
-        val shareCard = findViewById(R.id.shareCard) as CardView
+        val shareCard = findViewById<CardView>(R.id.shareCard) as CardView
         val shareContent = ShareMediaContent.Builder().addMedium(sharePhoto.build()).build()
         shareCard.setOnClickListener {
             AppEventsLogger.logItemShareEvent()
@@ -227,19 +227,19 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             override fun onAdLoaded(ad: Ad) {
                     nativeAd.unregisterView()
                 // Add the Ad view into the ad container.
-                val nativeAdContainer = findViewById(R.id.native_ad_container) as LinearLayout
+                val nativeAdContainer = findViewById<LinearLayout>(R.id.native_ad_container) as LinearLayout
                 val inflater = LayoutInflater.from(this@ProductViewActivity)
                 // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
                 val adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false)
                 nativeAdContainer.addView(adView)
 
                 // Create native UI using the ad metadata.
-                val nativeAdIcon = adView.findViewById(R.id.native_ad_icon) as ImageView
-                val nativeAdTitle = adView.findViewById(R.id.native_ad_title) as TextView
-                val nativeAdMedia = adView.findViewById(R.id.native_ad_media) as MediaView
-                val nativeAdSocialContext = adView.findViewById(R.id.native_ad_social_context) as TextView
-                val nativeAdBody = adView.findViewById(R.id.native_ad_body) as TextView
-                val nativeAdCallToAction = adView.findViewById(R.id.native_ad_call_to_action) as Button
+                val nativeAdIcon = adView.findViewById<ImageView>(R.id.native_ad_icon) as ImageView
+                val nativeAdTitle = adView.findViewById<TextView>(R.id.native_ad_title) as TextView
+                val nativeAdMedia = adView.findViewById<MediaView>(R.id.native_ad_media) as MediaView
+                val nativeAdSocialContext = adView.findViewById<TextView>(R.id.native_ad_social_context) as TextView
+                val nativeAdBody = adView.findViewById<TextView>(R.id.native_ad_body) as TextView
+                val nativeAdCallToAction = adView.findViewById<Button>(R.id.native_ad_call_to_action) as Button
 
                 // Set the Text.
                 nativeAdTitle.text = nativeAd.adTitle
@@ -255,7 +255,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
                 nativeAdMedia.setNativeAd(nativeAd)
 
                 // Add the AdChoices icon
-                val adChoicesContainer = findViewById(R.id.ad_choices_container) as LinearLayout
+                val adChoicesContainer = findViewById<LinearLayout>(R.id.ad_choices_container) as LinearLayout
                 val adChoicesView = AdChoicesView(this@ProductViewActivity, nativeAd, true)
                 adChoicesContainer.addView(adChoicesView)
 

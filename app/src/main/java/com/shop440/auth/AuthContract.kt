@@ -16,6 +16,7 @@ interface AuthContract {
         fun login(user: User)
         fun signUp(user: User)
         fun onAuthComplete(isNewUser: Boolean)
+        fun checkExisting(user:User)
         fun onRequestOtp(phone: String, otpListener: OtpListener)
     }
 

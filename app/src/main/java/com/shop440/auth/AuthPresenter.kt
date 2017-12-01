@@ -73,6 +73,24 @@ class AuthPresenter(val authView: AuthContract.View, val retrofit: Retrofit) : A
         })
     }
 
+    override fun checkExisting(user: User) {
+        val existing = retrofit.create(ApiRequest::class.java).checkAvailability(user)
+        authView.onDataLoading()
+        existing.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>?, response: Response<User>?) {
+                authView.onDataLoading()
+                if (response?.isSuccessful!!) {
+                    authView.saveUser(user)
+                }
+            }
+
+            override fun onFailure(call: Call<User>?, t: Throwable?) {
+                authView.onDataLoading()
+                authView.onError(R.string.number_exist_error)
+            }
+        })
+    }
+
     override fun onAuthComplete(isNewUser: Boolean) {
 
     }

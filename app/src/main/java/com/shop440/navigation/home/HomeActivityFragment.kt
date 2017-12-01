@@ -49,7 +49,7 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val editText = searchViewQuery.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
+        val editText = searchViewQuery.findViewById<EditText>(android.support.v7.appcompat.R.id.search_src_text) as EditText
         editText.setHintTextColor(resources.getColor(R.color.colorAccent))
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,

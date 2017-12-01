@@ -34,7 +34,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="8dp"
                 android:text="Select profile picture"
-                app:fontName="RobotoCondensedRegular"
+                app:fontName="RobotoRegular"
                 android:textColor="@color/colorPrimaryDark"
                 />
         </LinearLayout>
