@@ -3,11 +3,13 @@
     <color name="colorPrimary">#fff</color>
     <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent">#78909c</color>
-    <color name="text">#000000</color>
+    <color name="text">#263238</color>
     <color name="titleText">#000000</color>
     <color name="header_text">#009688</color>
-    <color name="sub_header_text">#37474f</color>
+    <color name="sub_header_text">#263238</color>
     <color name="buttonHighlight">#cfd8dc</color>
+    <color name="buttonHighlightColor">#8c9eff</color>
+    <color name="buttonColored">#283593</color>
     <color name="actionBar">#fff</color>
     <color name="gradient_start">#78909c</color>
     <color name="gradient_end">#607d8b</color>

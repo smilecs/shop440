@@ -57,53 +57,61 @@
     </style>
 
     <style name="titleTextDef">
-        <item name="android:textColorHint">@color/titleText</item>
+        <item name="android:textColor">@color/titleText</item>
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="listTextDef">
-        <item name="android:textColorHint">@color/titleText</item>
+        <item name="android:textColor">@color/titleText</item>
         <item name="android:textSize">@dimen/list_item_size</item>
     </style>
 
     <style name="subHeadingTextDef">
         <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:textColor">@color/sub_header_text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/subheading_text_size</item>
     </style>
 
     <style name="captionTextDef">
-        <item name="android:textColorHint">@color/text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/caption_text_size</item>
     </style>
 
     <style name="caption2TextDef">
-        <item name="android:textColorHint">@color/text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/caption2_text_size</item>
+    </style>
+
+    <style name="bodyTextDef">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
     </style>
 
 
     <style name="body1TextDef">
-        <item name="android:textColorHint">@color/text</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:textSize">@dimen/body1_text_size</item>
     </style>
 
     <style name="descriptiveTExtDef">
-        <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:textColor">@color/sub_header_text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/descriptive_text_size</item>
     </style>
 
     <style name="headLineTextDef">
-        <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:textColor">@color/sub_header_text</item>
         <item name="android:textSize">@dimen/head_line_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="headNormalLineTextDef">
-        <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:textColor">@color/sub_header_text</item>
         <item name="android:textSize">@dimen/head_line_text_size</item>
     </style>
 
@@ -115,6 +123,16 @@
     <style name="buttonHighlight" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/buttonHighlight</item>
         <item name="selectableItemBackground">@drawable/button_group</item>
+    </style>
+
+    <style name="buttonHighlightColor" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="buttonHighlightColorInverted" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#9fa8da</item>
+        <item name="colorButtonNormal">#303f9f</item>
     </style>
 
     <style name="buttonRounded" parent="Theme.AppCompat.Light">

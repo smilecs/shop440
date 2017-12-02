@@ -1,28 +1,19 @@
 package com.shop440.productview
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.support.v7.widget.Toolbar
-import android.util.Base64
 import android.util.Log
 import android.view.*
 import android.widget.*
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.bumptech.glide.Glide
 import com.facebook.ads.*
-import com.facebook.share.Sharer
-import com.facebook.share.model.ShareLinkContent
-import com.facebook.share.model.ShareMediaContent
-import com.facebook.share.model.SharePhoto
-import com.facebook.share.widget.ShareDialog
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -30,12 +21,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.shop440.api.NetModule
-import com.shop440.models.Datum
 import com.shop440.R
-import com.shop440.utils.AppEventsLogger
-import com.shop440.utils.FileCache
-import kotlinx.android.synthetic.main.activity_product_view.*
+import com.shop440.api.NetModule
+import com.shop440.models.Image
+import com.shop440.models.ProductFeed
+import kotlinx.android.synthetic.main.bottom_product_view.*
+import kotlinx.android.synthetic.main.fragment_product_view.*
+import kotlinx.android.synthetic.main.fragment_product_view_sub_container.*
+import kotlinx.android.synthetic.main.fragment_product_view_sub_description.*
 import java.io.File
 import java.util.*
 
@@ -43,14 +36,9 @@ import java.util.*
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
     override lateinit var presenter: ProductViewContract.Presenter
     var TAG = "ProductViewActivity"
-    lateinit var fileCache: FileCache
-    lateinit var productModel: Datum
-    lateinit var content: ShareLinkContent
-    lateinit var callbackManager: CallbackManager
-    lateinit var shareDialog: ShareDialog
-    lateinit var sharePhoto: SharePhoto.Builder
-    var next = true
-    lateinit var map: MapView
+
+    lateinit var productModel: ProductFeed
+
     private lateinit var coord: LatLng
     private var bundle: Bundle? = null
     private lateinit var productView: ProductViewActivity
@@ -67,47 +55,26 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         super.onCreate(savedInstanceState)
         bundle = savedInstanceState
         productView = this
-        setContentView(R.layout.activity_product_view)
+        setContentView(R.layout.fragment_product_view)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        map = findViewById<MapView>(R.id.map) as MapView
         val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        fileCache = FileCache(this)
-        val intent = intent
-        if (intent.dataString != null) {
+        if (intent != null && !intent.dataString.isNullOrBlank()) {
             data = intent.dataString
         }
-        sharePhoto = SharePhoto.Builder()
-        callbackManager = CallbackManager.Factory.create()
-        shareDialog = ShareDialog(this)
-        shareDialog.registerCallback(callbackManager, object : FacebookCallback<Sharer.Result> {
-            override fun onSuccess(result: Sharer.Result) {
-                //Log.d(TAG, result.getPostId());
 
-
-            }
-
-            override fun onCancel() {
-
-            }
-
-            override fun onError(error: FacebookException) {
-                error.printStackTrace()
-
-            }
-        })
         progressDialog = ProgressDialog(this)
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
         progressDialog.isIndeterminate = true
         progressDialog.setMessage(getString(R.string.loading))
         ProductViewPresenter(this, NetModule.provideRetrofit())
 
-        map_layout.setOnClickListener {
+        map.setOnClickListener {
             val intent = Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?daddr=" + productModel.location.coordinates[0] + "," + productModel.location.coordinates[1]))
+                    Uri.parse("http://maps.google.com/maps?daddr=" + productModel.location.lat + "," + productModel.location.lon))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
@@ -121,62 +88,45 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        shareProgress.visibility = View.GONE
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-
-    }
-
     private fun initUi() {
-        val robotMedium = Typeface.createFromAsset(assets,
-                "fonts/Roboto-Medium.ttf")
-        val robotCondensed = Typeface.createFromAsset(assets,
-                "fonts/RobotoCondensed-Regular.ttf")
-        val robotBold = Typeface.createFromAsset(assets,
-                "fonts/RobotoCondensed-Bold.ttf")
-        val robotThinItalic = Typeface.createFromAsset(assets, "fonts/Roboto-Thin.ttf")
-        if (productModel.location != null) {
-            coord = LatLng(productModel.location.coordinates[0], productModel.location.coordinates[1])
-        }
-        productPrice.typeface = robotMedium
-        productName.typeface = robotMedium
-        productDescription.typeface = robotThinItalic
-        productName.text = productModel.name
-        productDescription.text = productModel.description
-        productPrice.text = productModel.price.toString()
-        //storeName.text = productModel.store.name
-        val imageByte = Base64.decode(productModel.image.placeholder, Base64.DEFAULT)
-        val bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.size)
-        content = ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.slug))
-                .setContentTitle(productModel.name)
-                .setImageUrl(Uri.parse(productModel.image.path))
-                .build()
-        // SharePhoto.Builder sharePhoto = new SharePhoto.Builder();
-        sharePhoto.setImageUrl(Uri.parse(productModel.image.path))
-        val shareCard = findViewById<CardView>(R.id.shareCard) as CardView
-        val shareContent = ShareMediaContent.Builder().addMedium(sharePhoto.build()).build()
-        shareCard.setOnClickListener {
-            AppEventsLogger.logItemShareEvent()
-            shareProgress.visibility = View.VISIBLE
-            shareDialog.show(shareContent)
-        }
-        showNativeAd()
-        progressDialog.show()
 
-        val handler = Handler()
-        handler.postDelayed({
-            map.onCreate(bundle)
-            map.getMapAsync(productView)
-        }, 1800)
+        if (!productModel.location.lat.isEmpty() && !productModel.location.lon.isEmpty()) {
+            coord = LatLng(productModel.location.lat.toDouble(), productModel.location.lon.toDouble())
+            map.visibility = View.VISIBLE
+            progressDialog.show()
+            val handler = Handler()
+            handler.postDelayed({
+                map.onCreate(bundle)
+                map.getMapAsync(productView)
+            }, 1800)
+        }
+
+        productModel.images?.let {
+            imagePager.adapter = ViewAdapter(this@ProductViewActivity, it)
+        }
+        //subContainer views
+        productViewTitle.text = productModel.productName
+        productViewCity.text = productModel.city
+        productViewCategory.text = productModel.category
+        productViewShopName.text = productModel.shop.title
+        descriptionProductText.text = productModel.productDesc
+
+        productModel.shop.apply {
+            shopNameProductView.text = title
+            shopAddressProductView.text = address
+            phoneTextProductView.text = phone
+        }
+
+        productViewPrice.text = productModel.productPrice.toString()
+
+
+        //  showNativeAd()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.d("here", "here")
         val builder = LatLngBounds.builder()
         builder.include(coord)
-        //googleMap.addMarker(MarkerOptions().position(coord).title(productModel.store.name))
+        googleMap.addMarker(MarkerOptions().position(coord).title(productModel.shop.title))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15f))
         map.onResume()
         progressDialog.dismiss()
@@ -184,34 +134,27 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.productview, menu)
-        //MenuItem searchItem = menu.findItem(R.id.search);
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val id = item.itemId
-
         if (id == R.id.download) {
             try {
                 //presenter.downloadImage(productModel?.image.path, productModel.name, fileCache)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
         }
-
         return super.onOptionsItemSelected(item)
     }
 
     private fun loadData() {
-        if (!data.isNullOrBlank()) {
-            val recievedData = data!!
-            val resolvedUrl = recievedData.substring(recievedData.lastIndexOf("/") + 1)
+        if (data != null) {
+            val resolvedUrl: String = data!!.substring(data!!.lastIndexOf("/") + 1)
             presenter.loadData(resolvedUrl)
         } else {
-            productModel = intent.getSerializableExtra("data") as Datum
+            productModel = intent.getSerializableExtra("data") as ProductFeed
             initUi()
         }
     }
@@ -225,7 +168,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             }
 
             override fun onAdLoaded(ad: Ad) {
-                    nativeAd.unregisterView()
+                nativeAd.unregisterView()
                 // Add the Ad view into the ad container.
                 val nativeAdContainer = findViewById<LinearLayout>(R.id.native_ad_container) as LinearLayout
                 val inflater = LayoutInflater.from(this@ProductViewActivity)
@@ -280,19 +223,61 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     }
 
     override fun onError(errorMessage: Int) {
-
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onDataLoading() {
+        if (progressDialog.isShowing) {
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
 
     }
 
-    override fun showProduct(product: Datum) {
+    override fun showProduct(product: ProductFeed) {
         this@ProductViewActivity.productModel = product
         initUi()
     }
 
     override fun imageDownloaded(filePath: File) {
         runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
+    }
+
+    internal class ViewAdapter(val context: Context, val image: List<Image>) : PagerAdapter() {
+
+        override fun instantiateItem(container: ViewGroup?, position: Int): Any {
+            val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = layoutInflater.inflate(R.layout.image_gallery, container, false)
+            val imageView = view.findViewById<ImageView>(R.id.imageGalleryPreview)
+            val imageAtPosition = image[position]
+            Glide.with(context)
+                    .load(imageAtPosition.url)
+                    .thumbnail(0.5f)
+                    .into(imageView)
+            container?.addView(imageView)
+
+            return view
+        }
+
+        override fun isViewFromObject(view: View?, obj: Any?): Boolean {
+            return view == obj as View
+        }
+
+        override fun getCount(): Int = image.size
+
+        override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
+            container?.removeView(`object` as View)
+        }
+    }
+
+    public override fun onDestroy() {
+        super.onDestroy()
+        map.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        map.onLowMemory()
     }
 }

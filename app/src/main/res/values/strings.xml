@@ -121,4 +121,7 @@
     <string name="sign_in_login_text">Log in</string>
     <string name="sign_in_button">Sign in</string>
     <string name="number_exist_error">User with this phone number already exists</string>
+    <string name="buy_now_button">Buy Now</string>
+    <string name="product_view_hint_more">View more from seller</string>
+    <string name="visit_button">Visit</string>
 </resources>

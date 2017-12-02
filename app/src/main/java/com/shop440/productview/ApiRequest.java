@@ -2,6 +2,7 @@ package com.shop440.productview;
 
 import com.shop440.api.Urls;
 import com.shop440.models.Datum;
+import com.shop440.models.ProductFeed;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +14,5 @@ import retrofit2.http.Path;
 
 public interface ApiRequest {
     @GET("")
-    Call<Datum> getProduct(@Path("slug") String slug);
+    Call<ProductFeed> getProduct(@Path("slug") String slug);
 }

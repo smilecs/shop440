@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/top_border"
+                android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <com.shop440.widgets.FontTextView
+            android:id="@+id/productViewPrice"
+            style="@style/subHeadingTextDef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30000"
+            app:fontName="RobotoMedium"/>
+
+        <com.shop440.widgets.FontTextView
+            style="@style/captionTextDef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="per item"
+            app:fontName="OpenSansLight"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="6dp"
+        android:layout_centerVertical="true"
+        android:text="@string/buy_now_button"
+        android:textColor="@android:color/white"
+        android:theme="@style/buttonHighlightColor"/>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.shop440.productview
 import com.shop440.BasePresenter
 import com.shop440.BaseView
 import com.shop440.models.Datum
+import com.shop440.models.ProductFeed
 import com.shop440.utils.FileCache
 import java.io.File
 
@@ -13,7 +14,7 @@ import java.io.File
 interface ProductViewContract {
 
     interface View : BaseView<Presenter> {
-        fun showProduct(product: Datum)
+        fun showProduct(product: ProductFeed)
         fun imageDownloaded(filePath: File)
     }
 

@@ -2,6 +2,7 @@ package com.shop440.productview
 
 import com.shop440.models.Datum
 import com.shop440.R
+import com.shop440.models.ProductFeed
 import com.shop440.utils.FileCache
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,17 +28,24 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
 
     override fun loadData(path: String) {
         productView.onDataLoading()
-        val data: Call<Datum> = retrofit.create(ApiRequest::class.java).getProduct(path)
-        data.enqueue(object : Callback<Datum> {
-            override fun onResponse(call: Call<Datum>?, response: Response<Datum>?) {
+        val data: Call<ProductFeed> = retrofit.create(ApiRequest::class.java).getProduct(path)
+        data.enqueue(object : Callback<ProductFeed> {
+            override fun onResponse(call: Call<ProductFeed>?, response: Response<ProductFeed>?) {
                 if (response!!.isSuccessful) {
-                    productView.showProduct(response.body()!!)
+                    productView.onDataLoading()
+                    if (response.body() != null){
+                        productView.showProduct(response.body()!!)
+                        return
+                    }
+                    productView.onError(R.string.api_data_load_error)
                 } else {
+                    productView.onDataLoading()
                     productView.onError(R.string.api_data_load_error)
                 }
             }
 
-            override fun onFailure(call: Call<Datum>?, t: Throwable?) {
+            override fun onFailure(call: Call<ProductFeed>?, t: Throwable?) {
+                productView.onDataLoading()
                 productView.onError(R.string.internet_error_message)
             }
         })

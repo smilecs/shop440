@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_border_custom"
+    android:paddingTop="8dp"
+    android:paddingBottom="24dp"
+    android:backgroundTint="#212121"
+    android:backgroundTintMode="src_atop"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <com.shop440.widgets.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/productViewTitle"
+        android:text="Title"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        app:fontName="RobotoMedium"
+        style="@style/subHeadingTextDef"/>
+    <com.shop440.widgets.FontTextView
+        android:id="@+id/productViewCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:text="Calabar"
+        app:fontName="RobotoRegular"
+        style="@style/body1TextDef"/>
+    <com.shop440.widgets.FontTextView
+        android:id="@+id/productViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:text="Category"
+        app:fontName="RobotoRegular"
+        style="@style/body1TextDef"/>
+
+    <com.shop440.widgets.FontTextView
+        android:id="@+id/productViewShopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:text="Shop"
+        app:fontName="RobotoRegular"
+        style="@style/body1TextDef"/>
+</LinearLayout>
