@@ -8,27 +8,29 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.facebook.ads.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
+import com.shop440.adapters.GalleryAdapter
 import com.shop440.api.NetModule
 import com.shop440.models.Image
 import com.shop440.models.ProductFeed
+import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.bottom_product_view.*
-import kotlinx.android.synthetic.main.fragment_product_view.*
-import kotlinx.android.synthetic.main.fragment_product_view_sub_container.*
-import kotlinx.android.synthetic.main.fragment_product_view_sub_description.*
+import kotlinx.android.synthetic.main.activity_product_view.*
+import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
+import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
 import java.io.File
 import java.util.*
 
@@ -55,7 +57,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         super.onCreate(savedInstanceState)
         bundle = savedInstanceState
         productView = this
-        setContentView(R.layout.fragment_product_view)
+        setContentView(R.layout.activity_product_view)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
@@ -102,7 +104,10 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
 
         productModel.images?.let {
-            imagePager.adapter = ViewAdapter(this@ProductViewActivity, it)
+            imagePager.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            LinearSnapHelper().attachToRecyclerView(imagePager)
+            imagePager.setHasFixedSize(true)
+            imagePager.adapter = GalleryAdapter(it)
         }
         //subContainer views
         productViewTitle.text = productModel.productName
@@ -117,7 +122,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             phoneTextProductView.text = phone
         }
 
-        productViewPrice.text = productModel.productPrice.toString()
+        productViewPrice.text = Metrics.getDisplayPriceWithCurrency(this, productModel.productPrice)
 
 
         //  showNativeAd()
@@ -159,7 +164,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
     }
 
-    private fun showNativeAd() {
+  /*  private fun showNativeAd() {
         nativeAd = NativeAd(this, "909211035848244_1018000754969271")
         nativeAd.setAdListener(object : AdListener {
 
@@ -221,6 +226,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         // Request an ad
         nativeAd.loadAd(NativeAd.MediaCacheFlag.ALL)
     }
+    */
 
     override fun onError(errorMessage: Int) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
