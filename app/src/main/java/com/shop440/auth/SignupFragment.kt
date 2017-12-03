@@ -43,9 +43,11 @@ class SignupFragment : Fragment(), AuthContract.View {
         userImageContainerSignUp.setOnClickListener {
             addProfilePicture()
         }
-        if (arguments.containsKey("data")) {
-            providerLogin(arguments.getSerializable("data") as User)
+
+        arguments?.let {
+            providerLogin(it.getSerializable("data") as User)
         }
+
         phoneSignUp.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         signupButton.setOnClickListener {
             if (EditTextUtils.isInValid(EditTextRequiredInputValidator(nameSignUp),

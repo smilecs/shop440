@@ -3,6 +3,7 @@ package com.shop440.navigation.profile
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,7 @@ class ProfileSessionFragment : Fragment() {
 
         logOut.setOnClickListener {
             PreferenceManager.PrefData.getPreferenceManager()?.clearPreference()
-            (activity as MainNavigation).switch()
+            fragmentManager.beginTransaction().replace(R.id.sceneRoot, BlankSessionFragment(), "logout").setTransition(Fade.IN).commit()
         }
 
     }

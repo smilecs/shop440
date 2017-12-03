@@ -65,6 +65,7 @@ class LoginFragment : Fragment(), AuthContract.View {
             persistImage(user.image)
             persistPhone(user.phone)
         }
+        progressDialog.dismiss()
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
     }

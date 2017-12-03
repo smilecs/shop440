@@ -32,10 +32,6 @@ class MainNavigation : AppCompatActivity() {
         navigationViewPager.currentItem = 0
     }
 
-    fun switch() {
-        navigationViewPager.currentItem = 0
-    }
-
     private fun navItemSelector(pos:Int):Boolean{
         navigationViewPager.currentItem = pos
         return true

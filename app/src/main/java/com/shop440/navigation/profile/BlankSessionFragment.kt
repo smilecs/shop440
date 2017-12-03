@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,7 @@ class BlankSessionFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
             Toast.makeText(context, "Welcome", Toast.LENGTH_LONG).show()
-            (activity as MainNavigation).switch()
+            fragmentManager.beginTransaction().replace(R.id.sceneRoot, ProfileSessionFragment(), "profile").setTransition(Fade.IN).commit()
         }
     }
 
