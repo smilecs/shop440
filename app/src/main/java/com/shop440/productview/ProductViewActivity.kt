@@ -3,6 +3,9 @@ package com.shop440.productview
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +17,8 @@ import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.ImageViewTarget
 import com.facebook.ads.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -104,10 +109,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
 
         productModel.images?.let {
-            imagePager.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            LinearSnapHelper().attachToRecyclerView(imagePager)
-            imagePager.setHasFixedSize(true)
-            imagePager.adapter = GalleryAdapter(it)
+            // imagePager.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            //LinearSnapHelper().attachToRecyclerView(imagePager)
+            //imagePager.setHasFixedSize(true)
+            //imagePager.adapter = GalleryAdapter(it)
+            imagePager.adapter = ViewAdapter(this, it)
         }
         //subContainer views
         productViewTitle.text = productModel.productName
@@ -164,69 +170,69 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
     }
 
-  /*  private fun showNativeAd() {
-        nativeAd = NativeAd(this, "909211035848244_1018000754969271")
-        nativeAd.setAdListener(object : AdListener {
+    /*  private fun showNativeAd() {
+          nativeAd = NativeAd(this, "909211035848244_1018000754969271")
+          nativeAd.setAdListener(object : AdListener {
 
-            override fun onError(ad: Ad, error: AdError) {
-                // Ad error callback
-            }
+              override fun onError(ad: Ad, error: AdError) {
+                  // Ad error callback
+              }
 
-            override fun onAdLoaded(ad: Ad) {
-                nativeAd.unregisterView()
-                // Add the Ad view into the ad container.
-                val nativeAdContainer = findViewById<LinearLayout>(R.id.native_ad_container) as LinearLayout
-                val inflater = LayoutInflater.from(this@ProductViewActivity)
-                // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
-                val adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false)
-                nativeAdContainer.addView(adView)
+              override fun onAdLoaded(ad: Ad) {
+                  nativeAd.unregisterView()
+                  // Add the Ad view into the ad container.
+                  val nativeAdContainer = findViewById<LinearLayout>(R.id.native_ad_container) as LinearLayout
+                  val inflater = LayoutInflater.from(this@ProductViewActivity)
+                  // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
+                  val adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false)
+                  nativeAdContainer.addView(adView)
 
-                // Create native UI using the ad metadata.
-                val nativeAdIcon = adView.findViewById<ImageView>(R.id.native_ad_icon) as ImageView
-                val nativeAdTitle = adView.findViewById<TextView>(R.id.native_ad_title) as TextView
-                val nativeAdMedia = adView.findViewById<MediaView>(R.id.native_ad_media) as MediaView
-                val nativeAdSocialContext = adView.findViewById<TextView>(R.id.native_ad_social_context) as TextView
-                val nativeAdBody = adView.findViewById<TextView>(R.id.native_ad_body) as TextView
-                val nativeAdCallToAction = adView.findViewById<Button>(R.id.native_ad_call_to_action) as Button
+                  // Create native UI using the ad metadata.
+                  val nativeAdIcon = adView.findViewById<ImageView>(R.id.native_ad_icon) as ImageView
+                  val nativeAdTitle = adView.findViewById<TextView>(R.id.native_ad_title) as TextView
+                  val nativeAdMedia = adView.findViewById<MediaView>(R.id.native_ad_media) as MediaView
+                  val nativeAdSocialContext = adView.findViewById<TextView>(R.id.native_ad_social_context) as TextView
+                  val nativeAdBody = adView.findViewById<TextView>(R.id.native_ad_body) as TextView
+                  val nativeAdCallToAction = adView.findViewById<Button>(R.id.native_ad_call_to_action) as Button
 
-                // Set the Text.
-                nativeAdTitle.text = nativeAd.adTitle
-                nativeAdSocialContext.text = nativeAd.adSocialContext
-                nativeAdBody.text = nativeAd.adBody
-                nativeAdCallToAction.text = nativeAd.adCallToAction
+                  // Set the Text.
+                  nativeAdTitle.text = nativeAd.adTitle
+                  nativeAdSocialContext.text = nativeAd.adSocialContext
+                  nativeAdBody.text = nativeAd.adBody
+                  nativeAdCallToAction.text = nativeAd.adCallToAction
 
-                // Download and display the ad icon.
-                val adIcon = nativeAd.adIcon
-                NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon)
+                  // Download and display the ad icon.
+                  val adIcon = nativeAd.adIcon
+                  NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon)
 
-                // Download and display the cover image.
-                nativeAdMedia.setNativeAd(nativeAd)
+                  // Download and display the cover image.
+                  nativeAdMedia.setNativeAd(nativeAd)
 
-                // Add the AdChoices icon
-                val adChoicesContainer = findViewById<LinearLayout>(R.id.ad_choices_container) as LinearLayout
-                val adChoicesView = AdChoicesView(this@ProductViewActivity, nativeAd, true)
-                adChoicesContainer.addView(adChoicesView)
+                  // Add the AdChoices icon
+                  val adChoicesContainer = findViewById<LinearLayout>(R.id.ad_choices_container) as LinearLayout
+                  val adChoicesView = AdChoicesView(this@ProductViewActivity, nativeAd, true)
+                  adChoicesContainer.addView(adChoicesView)
 
-                // Register the Title and CTA button to listen for clicks.
-                val clickableViews = ArrayList<View>()
-                clickableViews.add(nativeAdTitle)
-                clickableViews.add(nativeAdCallToAction)
-                nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews)
-            }
+                  // Register the Title and CTA button to listen for clicks.
+                  val clickableViews = ArrayList<View>()
+                  clickableViews.add(nativeAdTitle)
+                  clickableViews.add(nativeAdCallToAction)
+                  nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews)
+              }
 
-            override fun onAdClicked(ad: Ad) {
-                // Ad clicked callback
-            }
+              override fun onAdClicked(ad: Ad) {
+                  // Ad clicked callback
+              }
 
-            override fun onLoggingImpression(ad: Ad) {
+              override fun onLoggingImpression(ad: Ad) {
 
-            }
-        })
+              }
+          })
 
-        // Request an ad
-        nativeAd.loadAd(NativeAd.MediaCacheFlag.ALL)
-    }
-    */
+          // Request an ad
+          nativeAd.loadAd(NativeAd.MediaCacheFlag.ALL)
+      }
+      */
 
     override fun onError(errorMessage: Int) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
@@ -257,17 +263,26 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             val view = layoutInflater.inflate(R.layout.image_gallery, container, false)
             val imageView = view.findViewById<ImageView>(R.id.imageGalleryPreview)
             val imageAtPosition = image[position]
+            val options = com.bumptech.glide.request.RequestOptions().dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(ColorDrawable(Color.WHITE))
+
             Glide.with(context)
+                    .asBitmap()
+                    .apply(options)
                     .load(imageAtPosition.url)
-                    .thumbnail(0.5f)
-                    .into(imageView)
-            container?.addView(imageView)
+                    .into(object : ImageViewTarget<Bitmap>(imageView) {
+                        override fun setResource(resource: Bitmap?) {
+                            imageView.setImageBitmap(resource)
+                        }
+                    })
+            container?.addView(imageView, 0)
 
             return view
         }
 
         override fun isViewFromObject(view: View?, obj: Any?): Boolean {
-            return view == obj as View
+            return view != null && view == obj as FrameLayout
         }
 
         override fun getCount(): Int = image.size

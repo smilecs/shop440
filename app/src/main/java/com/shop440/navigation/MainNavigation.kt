@@ -1,11 +1,14 @@
 package com.shop440.navigation
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.AttributeSet
 import com.shop440.R
 import com.shop440.navigation.home.HomeActivityFragment
 import com.shop440.navigation.profile.BlankSessionFragment
@@ -30,6 +33,7 @@ class MainNavigation : AppCompatActivity() {
         navigationViewPager.adapter = Pager.PagerAdapter(supportFragmentManager)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigationViewPager.currentItem = 0
+        navigationViewPager.beginFakeDrag()
     }
 
     private fun navItemSelector(pos:Int):Boolean{
@@ -47,6 +51,8 @@ class MainNavigation : AppCompatActivity() {
                     }
 
             override fun getCount() = 2
+
+
         }
     }
 }
