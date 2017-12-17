@@ -9,6 +9,10 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -22,9 +26,11 @@ import com.bumptech.glide.request.target.ImageViewTarget
 import com.facebook.ads.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.adapters.GalleryAdapter
@@ -109,11 +115,9 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
 
         productModel.images?.let {
-            // imagePager.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            //LinearSnapHelper().attachToRecyclerView(imagePager)
-            //imagePager.setHasFixedSize(true)
-            //imagePager.adapter = GalleryAdapter(it)
-            imagePager.adapter = ViewAdapter(this, it)
+            imagePager.clipToPadding = false
+            imagePager.setPadding(12, 0, 12, 0)
+            imagePager.adapter = ViewAdapter(supportFragmentManager, it)
         }
         //subContainer views
         productViewTitle.text = productModel.productName
@@ -256,40 +260,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
     }
 
-    internal class ViewAdapter(val context: Context, val image: List<Image>) : PagerAdapter() {
-
-        override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-            val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = layoutInflater.inflate(R.layout.image_gallery, container, false)
-            val imageView = view.findViewById<ImageView>(R.id.imageGalleryPreview)
-            val imageAtPosition = image[position]
-            val options = com.bumptech.glide.request.RequestOptions().dontAnimate().diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .placeholder(ColorDrawable(Color.WHITE))
-
-            Glide.with(context)
-                    .asBitmap()
-                    .apply(options)
-                    .load(imageAtPosition.url)
-                    .into(object : ImageViewTarget<Bitmap>(imageView) {
-                        override fun setResource(resource: Bitmap?) {
-                            imageView.setImageBitmap(resource)
-                        }
-                    })
-            container?.addView(imageView, 0)
-
-            return view
-        }
-
-        override fun isViewFromObject(view: View?, obj: Any?): Boolean {
-            return view != null && view == obj as FrameLayout
-        }
+    internal class ViewAdapter(fm: FragmentManager, val image: List<Image>) : FragmentStatePagerAdapter(fm) {
 
         override fun getCount(): Int = image.size
 
-        override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
-            container?.removeView(`object` as View)
-        }
+        override fun getItem(position: Int): Fragment = PagerGalleryFragment.newInstance(image[position].url)
     }
 
     public override fun onDestroy() {
