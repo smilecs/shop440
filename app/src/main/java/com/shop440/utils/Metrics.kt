@@ -18,8 +18,5 @@ object Metrics {
         return Math.floor((list.context.resources.displayMetrics.widthPixels / cardWidth.toFloat()).toDouble()).toInt()
     }
 
-    fun getDisplayPriceWithCurrency(context: Context, price: Int): String {
-        return String.format("%s %,d", context.getString(R.string.currency_symbol_code), price)
-
-    }
+    fun getDisplayPriceWithCurrency(context: Context, price: Int): String = String.format("%s %,d", context.getString(R.string.currency_symbol_code), price)
 }

@@ -118,13 +118,16 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             imagePager.clipToPadding = false
             imagePager.setPadding(12, 0, 12, 0)
             imagePager.adapter = ViewAdapter(supportFragmentManager, it)
+            viewPagerIndicator.setupWithViewPager(imagePager)
         }
+
         //subContainer views
         productViewTitle.text = productModel.productName
         productViewCity.text = productModel.city
         productViewCategory.text = productModel.category
         productViewShopName.text = productModel.shop.title
         descriptionProductText.text = productModel.productDesc
+
 
         productModel.shop.apply {
             shopNameProductView.text = title

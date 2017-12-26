@@ -16,10 +16,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/imagePager"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="480dp"/>
+                android:layout_height="wrap_content">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/imagePager"
+                    android:layout_width="match_parent"
+                    android:layout_height="480dp"/>
+
+                <com.github.vivchar.viewpagerindicator.ViewPagerIndicator
+                    android:id = "@+id/viewPagerIndicator"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:layout_gravity = "center_horizontal|bottom"
+                    android:layout_marginBottom = "24dp"
+                    app:delimiterSize = "4dp"
+                    app:itemScale = "1.5"
+                    app:itemSelectedTint = "@color/buttonHighlight"
+                    app:itemSize = "8dp"
+                    app:itemTint = "@color/colorPrimary"
+                    />
+
+            </FrameLayout>
 
             <include
                 android:id="@+id/subContainer"
