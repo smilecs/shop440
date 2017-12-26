@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="220dp"
+              android:layout_width="225dp"
               android:layout_height="wrap_content"
               android:layout_marginEnd="16dp"
-              android:layout_marginRight="16dp"
               android:layout_marginTop="12dp"
               android:minWidth="136dp"
               android:maxWidth="220dp"
@@ -15,7 +14,8 @@
         android:id="@+id/productPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="270dp"
+        android:maxHeight="290dp"
+        android:minHeight="290dp"
         android:scaleType="fitXY"
         />
 

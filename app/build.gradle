@@ -96,6 +96,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation project(':appcoms')
     implementation project(':truesdk-0.6')
+    compile 'com.github.vivchar:ViewPagerIndicator:1.1.0'
 }
 repositories {
     mavenCentral()
