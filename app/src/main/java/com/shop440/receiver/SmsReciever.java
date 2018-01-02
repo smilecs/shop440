@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.shop440.models.SmsListener;
+import com.shop440.utils.SmsListener;
 
 public class SmsReciever extends BroadcastReceiver {
     private static SmsListener smsListener;
