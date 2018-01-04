@@ -1,11 +1,9 @@
 package com.shop440.auth
 
 import com.shop440.R
-import com.shop440.models.Datum
 import com.shop440.models.User
 import com.shop440.response.OtpResponse
 import com.shop440.response.UserResponse
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

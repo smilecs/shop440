@@ -1,9 +1,9 @@
-package com.shop440.adapters.viewholders
+package com.shop440.navigation.home.viewholders
 
 import android.content.Intent
 import android.view.View
 import com.bumptech.glide.Glide
-import com.shop440.adapters.viewmodel.ProductViewModel
+import com.shop440.navigation.home.viewmodel.ProductViewModel
 import com.shop440.productview.ProductViewActivity
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.home_feed_product_layout.view.*
  * Created by mmumene on 21/11/2017.
  */
 
-class ProductViewHolder(val view: View):BaseViewHolder<ProductViewModel>(view){
+class ProductViewHolder(val view: View): BaseViewHolder<ProductViewModel>(view){
     private val productTitle = view.productFeedTitle
     private val productPrice = view.productFeedPrice
     private val productShopTitle = view.productShopTitle
