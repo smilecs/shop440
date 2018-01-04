@@ -1,6 +1,6 @@
 package com.shop440.navigation.home
 
-import com.shop440.adapters.viewmodel.ViewModel
+import com.shop440.navigation.home.viewmodel.ViewModel
 import com.shop440.BasePresenter
 import com.shop440.BaseView
 

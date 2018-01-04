@@ -1,7 +1,7 @@
-package com.shop440.adapters.viewmodel
+package com.shop440.navigation.home.viewmodel
 
 import android.view.View
-import com.shop440.adapters.viewholders.BaseViewHolder
+import com.shop440.navigation.home.viewholders.BaseViewHolder
 
 /**
  * Created by mmumene on 19/11/2017.

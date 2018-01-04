@@ -1,4 +1,4 @@
-package com.shop440
+package com.shop440.splash
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 
 import com.github.paolorotolo.appintro.AppIntro
-import com.shop440.fragments.SampleSlide
+import com.shop440.R
 
 class IntroActivity : AppIntro() {
     private lateinit var preferences: SharedPreferences

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.shop440.models.CategoryModel;
 import com.shop440.R;
-import com.shop440.SearchResultActivity;
+import com.shop440.search.SearchResultActivity;
 
 import java.util.ArrayList;
 
