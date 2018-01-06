@@ -1,28 +1,30 @@
 package com.shop440.navigation
 
-import android.content.Context
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.AttributeSet
+import com.shop440.BasePresenter
+import com.shop440.BaseView
 import com.shop440.R
+import com.shop440.api.NetModule
 import com.shop440.navigation.home.HomeActivityFragment
-import com.shop440.navigation.profile.BlankSessionFragment
 import com.shop440.navigation.profile.ProfileContainerFragment
-import com.shop440.navigation.profile.ProfileSessionFragment
-import com.shop440.utils.PreferenceManager
+import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainNavigation : AppCompatActivity() {
+class MainNavigation : AppCompatActivity(), BaseView<BasePresenter> {
+    lateinit override var presenter: BasePresenter
+    private lateinit var progressDialog: ProgressDialog
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> return@OnNavigationItemSelectedListener navItemSelector(0)
             R.id.navigation_dashboard -> return@OnNavigationItemSelectedListener navItemSelector(1)
-            //R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
+        //R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
         }
         false
     }
@@ -34,9 +36,12 @@ class MainNavigation : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigationViewPager.currentItem = 0
         navigationViewPager.beginFakeDrag()
+        progressDialog = ProgressHelper.progressDialog(this)
+        AppPresenter(NetModule.provideRetrofit(), this)
+        presenter.start()
     }
 
-    private fun navItemSelector(pos:Int):Boolean{
+    private fun navItemSelector(pos: Int): Boolean {
         navigationViewPager.currentItem = pos
         return true
     }
@@ -54,5 +59,18 @@ class MainNavigation : AppCompatActivity() {
 
 
         }
+    }
+
+    override fun onError(errorMessage: Int) {
+
+    }
+
+    override fun onDataLoading() {
+        if (progressDialog.isShowing) {
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
+
     }
 }

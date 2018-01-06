@@ -39,7 +39,7 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
                     CategoryModel toPass = (CategoryModel) itemView.getTag();
                     Intent i = new Intent(view.getContext(), SearchResultActivity.class);
                     i.putExtra("query", toPass.getSlug());
-                    i.putExtra("title", toPass.getName());
+                    i.putExtra("title", toPass.getCatName());
                     i.putExtra("isSearch", false);
                     view.getContext().startActivity(i);
                 }
@@ -60,7 +60,7 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
                 "fonts/Roboto-Thin.ttf");
         CategoryModel categoryModel = model.get(position);
         holder.category.setTypeface(robotCondensed);
-        holder.category.setText(categoryModel.getName());
+        holder.category.setText(categoryModel.getCatName());
         holder.itemView.setTag(categoryModel);
         //holder.category.setTag(md);
     }

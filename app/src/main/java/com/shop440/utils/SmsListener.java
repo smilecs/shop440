@@ -1,4 +1,4 @@
-package com.shop440.models;
+package com.shop440.utils;
 
 /**
  * Created by SMILECS on 12/31/16.

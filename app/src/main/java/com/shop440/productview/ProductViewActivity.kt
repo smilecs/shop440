@@ -3,16 +3,20 @@ package com.shop440.productview
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.*
-import android.widget.*
-import com.facebook.ads.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -21,14 +25,17 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
+import com.shop440.models.CategoryModel
 import com.shop440.models.Image
 import com.shop440.models.ProductFeed
 import com.shop440.utils.Metrics
-import kotlinx.android.synthetic.main.bottom_product_view.*
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_product_view.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
+import kotlinx.android.synthetic.main.bottom_product_view.*
 import java.io.File
+import java.lang.ref.WeakReference
 
 
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
@@ -42,7 +49,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     private lateinit var productView: ProductViewActivity
     private var data: String? = null
     private lateinit var progressDialog: ProgressDialog
-    private lateinit var nativeAd: NativeAd
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -56,14 +62,13 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         setContentView(R.layout.activity_product_view)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         if (intent != null && !intent.dataString.isNullOrBlank()) {
             data = intent.dataString
         }
-
         progressDialog = ProgressDialog(this)
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
         progressDialog.isIndeterminate = true
@@ -87,7 +92,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
 
     private fun initUi() {
-
+        resolveCategory(productModel)
         if (!productModel.location.lat.isEmpty() && !productModel.location.lon.isEmpty()) {
             coord = LatLng(productModel.location.lat.toDouble(), productModel.location.lon.toDouble())
             map.visibility = View.VISIBLE
@@ -109,7 +114,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         //subContainer views
         productViewTitle.text = productModel.productName
         productViewCity.text = productModel.city
-        productViewCategory.text = productModel.category
+        //productViewCategory.text = productModel.category
         productViewShopName.text = productModel.shop.title
         descriptionProductText.text = productModel.productDesc
 
@@ -121,9 +126,27 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
 
         productViewPrice.text = Metrics.getDisplayPriceWithCurrency(this, productModel.productPrice)
+        //sheetContainer.visibility = View.GONE
+        val behaviour = BottomSheetBehavior.from(bottomBar)
+        behaviour.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
+            }
 
-        //  showNativeAd()
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when(newState){
+                    //BottomSheetBehavior.STATE_EXPANDED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_downward_black))
+                    //BottomSheetBehavior.STATE_COLLAPSED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_upward_black))
+                }
+            }
+        })
+        bottomBar.setOnClickListener {
+            if (behaviour.state == BottomSheetBehavior.STATE_EXPANDED) {
+                behaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                return@setOnClickListener
+            }
+            behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -162,70 +185,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
     }
 
-    /*  private fun showNativeAd() {
-          nativeAd = NativeAd(this, "909211035848244_1018000754969271")
-          nativeAd.setAdListener(object : AdListener {
-
-              override fun onError(ad: Ad, error: AdError) {
-                  // Ad error callback
-              }
-
-              override fun onAdLoaded(ad: Ad) {
-                  nativeAd.unregisterView()
-                  // Add the Ad view into the ad container.
-                  val nativeAdContainer = findViewById<LinearLayout>(R.id.native_ad_container) as LinearLayout
-                  val inflater = LayoutInflater.from(this@ProductViewActivity)
-                  // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
-                  val adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false)
-                  nativeAdContainer.addView(adView)
-
-                  // Create native UI using the ad metadata.
-                  val nativeAdIcon = adView.findViewById<ImageView>(R.id.native_ad_icon) as ImageView
-                  val nativeAdTitle = adView.findViewById<TextView>(R.id.native_ad_title) as TextView
-                  val nativeAdMedia = adView.findViewById<MediaView>(R.id.native_ad_media) as MediaView
-                  val nativeAdSocialContext = adView.findViewById<TextView>(R.id.native_ad_social_context) as TextView
-                  val nativeAdBody = adView.findViewById<TextView>(R.id.native_ad_body) as TextView
-                  val nativeAdCallToAction = adView.findViewById<Button>(R.id.native_ad_call_to_action) as Button
-
-                  // Set the Text.
-                  nativeAdTitle.text = nativeAd.adTitle
-                  nativeAdSocialContext.text = nativeAd.adSocialContext
-                  nativeAdBody.text = nativeAd.adBody
-                  nativeAdCallToAction.text = nativeAd.adCallToAction
-
-                  // Download and display the ad icon.
-                  val adIcon = nativeAd.adIcon
-                  NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon)
-
-                  // Download and display the cover image.
-                  nativeAdMedia.setNativeAd(nativeAd)
-
-                  // Add the AdChoices icon
-                  val adChoicesContainer = findViewById<LinearLayout>(R.id.ad_choices_container) as LinearLayout
-                  val adChoicesView = AdChoicesView(this@ProductViewActivity, nativeAd, true)
-                  adChoicesContainer.addView(adChoicesView)
-
-                  // Register the Title and CTA button to listen for clicks.
-                  val clickableViews = ArrayList<View>()
-                  clickableViews.add(nativeAdTitle)
-                  clickableViews.add(nativeAdCallToAction)
-                  nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews)
-              }
-
-              override fun onAdClicked(ad: Ad) {
-                  // Ad clicked callback
-              }
-
-              override fun onLoggingImpression(ad: Ad) {
-
-              }
-          })
-
-          // Request an ad
-          nativeAd.loadAd(NativeAd.MediaCacheFlag.ALL)
-      }
-      */
-
     override fun onError(errorMessage: Int) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
@@ -263,5 +222,32 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     override fun onLowMemory() {
         super.onLowMemory()
         map.onLowMemory()
+    }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
+    fun setCategoryName(name: String) {
+        productViewCategory.text = name
+    }
+
+    fun resolveCategory(product: ProductFeed) {
+        Async(WeakReference(this), product.category).execute()
+    }
+
+    class Async(val activity: WeakReference<ProductViewActivity>, val slug: String) : AsyncTask<Void, Void, String?>() {
+        override fun doInBackground(vararg p0: Void?): String? {
+            val result = Realm.getDefaultInstance().where(CategoryModel::class.java).equalTo("slug", slug).findFirst()
+            return result?.catName
+        }
+
+        override fun onPostExecute(result: String?) {
+            activity.get()?.let {
+                if (result != null) {
+                    it.setCategoryName(result)
+                }
+            }
+        }
     }
 }

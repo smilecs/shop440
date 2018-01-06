@@ -131,6 +131,21 @@
         <item name="colorButtonNormal">@color/colorAccent</item>
     </style>
 
+    <style name="buttonColor" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="invertColor" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="colorButtonNormal">@color/invert_color</item>
+    </style>
+
+    <style name="cartColor" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/buttonHighlight</item>
+        <item name="colorButtonNormal">@color/cartButton</item>
+    </style>
+
     <style name="buttonHighlightColorInverted" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#9fa8da</item>
         <item name="colorButtonNormal">#303f9f</item>

@@ -13,4 +13,6 @@
     <color name="actionBar">#fff</color>
     <color name="gradient_start">#78909c</color>
     <color name="gradient_end">#607d8b</color>
+    <color name="invert_color">#6bd6bc</color>
+    <color name="cartButton">#00ACC1</color>
 </resources>

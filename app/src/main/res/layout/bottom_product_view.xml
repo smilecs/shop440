@@ -1,53 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@android:color/white"
-                                    android:orientation="horizontal"
-                                    app:cardElevation="4dp"
-                                    >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/sheetContainer"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@android:color/white"
+             android:elevation="3dp"
+             android:orientation="horizontal"
+             app:cardElevation="4dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        >
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="6dp"
+                android:orientation="vertical">
+
+                <com.shop440.widgets.FontTextView
+                    android:id="@+id/productViewPrice"
+                    style="@style/subHeadingTextDef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30000"
+                    app:fontName="RobotoMedium"/>
+
+                <com.shop440.widgets.FontTextView
+                    style="@style/captionTextDef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="per item"
+                    app:fontName="OpenSansLight"/>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="6dp"
+                android:paddingEnd="26dp"
+                android:paddingStart="26dp"
+                android:text="@string/buy_now_button"
+                android:textColor="@android:color/white"
+                android:theme="@style/buttonHighlightColor"/>
+        </RelativeLayout>
+
+        <com.shop440.widgets.FontTextView
+            android:id="@+id/cartItems"
+            style="@style/descriptiveTExtDef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/cart_hint"
+            />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="6dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
-            <com.shop440.widgets.FontTextView
-                android:id="@+id/productViewPrice"
-                style="@style/subHeadingTextDef"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/viewCart"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="30000"
-                app:fontName="RobotoMedium"/>
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:text="@string/view_cart"
+                android:theme="@style/invertColor"/>
 
-            <com.shop440.widgets.FontTextView
-                style="@style/captionTextDef"
-                android:layout_width="wrap_content"
+            <Button
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="per item"
-                app:fontName="OpenSansLight"/>
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:text="@string/proceed_to_checkout"
+                android:theme="@style/cartColor"/>
         </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="6dp"
-            android:paddingStart="26dp"
-            android:paddingEnd="26dp"
-            android:text="@string/buy_now_button"
-            android:textColor="@android:color/white"
-            android:theme="@style/buttonHighlightColor"/>
-
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    </LinearLayout>
+</FrameLayout>

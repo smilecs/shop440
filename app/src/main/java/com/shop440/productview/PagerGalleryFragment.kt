@@ -41,7 +41,7 @@ class PagerGalleryFragment : Fragment() {
         mParam1?.let {
             Glide.with(context)
                     .asBitmap()
-                    .load(it)
+                    .load("https://tinyfiles.past3dev.com/resize?width=800&height=0&type=jpeg&nocrop=true&url="+it)
                     .into(imageGalleryPreview)
         }
     }
