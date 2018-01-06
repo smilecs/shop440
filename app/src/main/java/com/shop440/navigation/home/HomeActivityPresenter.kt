@@ -1,8 +1,8 @@
 package com.shop440.navigation.home
 
-import com.shop440.adapters.viewmodel.ProductViewModel
-import com.shop440.adapters.viewmodel.StoreViewModel
-import com.shop440.adapters.viewmodel.ViewModel
+import com.shop440.navigation.home.viewmodel.ProductViewModel
+import com.shop440.navigation.home.viewmodel.StoreViewModel
+import com.shop440.navigation.home.viewmodel.ViewModel
 import com.shop440.R
 import com.shop440.response.SectionResponse
 import retrofit2.Call
@@ -55,9 +55,9 @@ class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.V
         return listOfModel
     }
 
-    private fun selectType(sectionResponse: SectionResponse.SectionResponse): ViewModel{
+    private fun selectType(sectionResponse: SectionResponse.SectionResponse): ViewModel {
         return when(sectionResponse.feedType){
-            "productfeed"->  ProductViewModel(sectionResponse.title, sectionResponse.productFeed)
+            "productfeed"-> ProductViewModel(sectionResponse.title, sectionResponse.productFeed)
             else-> StoreViewModel(sectionResponse.title, sectionResponse.shopFeed)
         }
     }

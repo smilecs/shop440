@@ -1,4 +1,4 @@
-package com.shop440.adapters
+package com.shop440.navigation.home.adapter
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.shop440.adapters.viewmodel.ViewModel
+import com.shop440.navigation.home.viewmodel.ViewModel
 import com.shop440.R
 import com.shop440.widgets.FontTextView
 

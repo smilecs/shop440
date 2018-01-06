@@ -1,7 +1,7 @@
-package com.shop440.adapters.viewholders
+package com.shop440.navigation.home.viewholders
 
 import android.view.View
-import com.shop440.adapters.viewmodel.TypeFactory
+import com.shop440.navigation.home.viewmodel.TypeFactory
 import com.shop440.R
 
 /**

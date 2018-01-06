@@ -1,4 +1,4 @@
-package com.shop440.adapters.viewmodel
+package com.shop440.navigation.home.viewmodel
 
 import com.shop440.R
 import com.shop440.models.ProductFeed
