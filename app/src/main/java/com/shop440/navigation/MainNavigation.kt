@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
-import com.shop440.BasePresenter
-import com.shop440.BaseView
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.navigation.home.HomeActivityFragment
@@ -16,8 +14,8 @@ import com.shop440.navigation.profile.ProfileContainerFragment
 import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainNavigation : AppCompatActivity(), BaseView<BasePresenter> {
-    lateinit override var presenter: BasePresenter
+class MainNavigation : AppCompatActivity(), AppContract.AppView {
+    lateinit override var presenter: AppContract.Presenter
     private lateinit var progressDialog: ProgressDialog
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

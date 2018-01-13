@@ -2,19 +2,15 @@ package com.shop440.navigation.home.viewholders
 
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
-import com.shop440.R
 import com.shop440.navigation.home.viewmodel.ProductViewModel
 import com.shop440.productview.ProductViewActivity
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.home_feed_product_layout.view.*
-import java.net.URL
 
 /**
  * Created by mmumene on 21/11/2017.
@@ -35,10 +31,6 @@ class ProductViewHolder(val view: View): BaseViewHolder<ProductViewModel>(view){
         productTitle.text = product.productName
         productShopTitle.text = product.shop.title
         product.images?.get(0)?.let {
-            it.placeholder?.let {
-                //preview.setImageBitmap(Image.base64ToBitmap(it))
-            }
-
             val url = Uri.Builder().path("https://tinyfiles.past3dev.com/resize")
             url.appendQueryParameter("width", "200")
             url.appendQueryParameter("height", "0")

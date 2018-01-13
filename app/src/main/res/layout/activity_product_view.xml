@@ -34,7 +34,7 @@
                     android:layout_marginBottom = "24dp"
                     app:delimiterSize = "4dp"
                     app:itemScale = "1.5"
-                    app:itemSelectedTint = "@color/buttonHighlight"
+                    app:itemSelectedTint = "@color/colorAccent"
                     app:itemSize = "8dp"
                     app:itemTint = "@color/colorPrimary"
                     />

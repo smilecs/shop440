@@ -5,22 +5,19 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
-
-import com.shop440.models.User
-import com.shop440.receiver.SmsReciever
-
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.api.Urls
+import com.shop440.models.User
+import com.shop440.receiver.SmsReciever
 import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper
+import com.shop440.utils.SmsListener
 import kotlinx.android.synthetic.main.confirmation.*
 
 class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpListener {
@@ -43,13 +40,16 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
         user = intent.getSerializableExtra("data") as User
         AuthPresenter(this, NetModule.provideRetrofit())
         Log.d(TAG, user.name)
-        SmsReciever.bindListener { messageText ->
-            Log.d("Text", messageText)
-            Toast.makeText(this@VerifyActivity, getString(R.string.passcode_loading_text), Toast.LENGTH_LONG).show()
-            newString = messageText.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[5].replace(".", "")
-
-            createUser()
-        }
+        SmsReciever.bindListener(object : SmsListener {
+            override fun messageReceived(messageText: String?) {
+                {
+                    Log.d("Text", messageText)
+                    Toast.makeText(this@VerifyActivity, getString(R.string.passcode_loading_text), Toast.LENGTH_LONG).show()
+                    newString = messageText?.split(" ".toRegex())?.dropLastWhile { it.isEmpty() }!!.toTypedArray()[5].replace(".", "")
+                    createUser()
+                }
+            }
+        })
 
         resendPasscode.setOnClickListener {
             requestOtp()
@@ -70,7 +70,7 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
             }
         })
         continueButton.setOnClickListener {
-                createUser()
+            createUser()
         }
         requestOtp()
     }

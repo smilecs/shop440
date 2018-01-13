@@ -72,9 +72,6 @@
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.navigation.MainNavigation"/>
 
             <!-- web and mobile urls differ web client uses /products for requests -->
             <intent-filter android:label="@string/app_name">

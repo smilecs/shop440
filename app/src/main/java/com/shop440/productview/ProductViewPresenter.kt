@@ -1,9 +1,13 @@
 package com.shop440.productview
 
-import com.shop440.models.Datum
 import com.shop440.R
+import com.shop440.cart.ShopOrders
+import com.shop440.models.CategoryModel
 import com.shop440.models.ProductFeed
 import com.shop440.utils.FileCache
+import io.realm.ObjectChangeSet
+import io.realm.Realm
+import io.realm.RealmObjectChangeListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +37,7 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
             override fun onResponse(call: Call<ProductFeed>?, response: Response<ProductFeed>?) {
                 if (response!!.isSuccessful) {
                     productView.onDataLoading()
-                    if (response.body() != null){
+                    if (response.body() != null) {
                         productView.showProduct(response.body()!!)
                         return
                     }
@@ -80,5 +84,34 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
         })
         tm.start()
 
+    }
+
+    override fun loadCart() {
+        val realm = Realm.getDefaultInstance()
+        realm.where(ShopOrders::class.java).findAllAsync().addChangeListener { t, changeSet ->
+            if (t.isLoaded) {
+                productView.cartLoaded(t)
+            }
+        }
+    }
+
+    override fun resolveCategory(slug: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.where(CategoryModel::class.java).equalTo("slug", slug).findFirstAsync().addChangeListener(object : RealmObjectChangeListener<CategoryModel> {
+            override fun onChange(t: CategoryModel?, changeSet: ObjectChangeSet?) {
+                t?.let {
+                    if (t.isLoaded) {
+                        productView.categoryNameResolved(t.catName)
+                    }
+                }
+            }
+        })
+    }
+
+    override fun addToCart(shopOrders: ShopOrders) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync { obj : Realm? ->
+            obj?.copyToRealmOrUpdate(shopOrders)
+        }
     }
 }

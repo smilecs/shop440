@@ -3,13 +3,13 @@ package com.shop440.productview
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -25,17 +25,16 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.models.CategoryModel
+import com.shop440.cart.ShopOrders
 import com.shop440.models.Image
 import com.shop440.models.ProductFeed
 import com.shop440.utils.Metrics
-import io.realm.Realm
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_product_view.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
 import kotlinx.android.synthetic.main.bottom_product_view.*
 import java.io.File
-import java.lang.ref.WeakReference
 
 
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
@@ -49,6 +48,8 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     private lateinit var productView: ProductViewActivity
     private var data: String? = null
     private lateinit var progressDialog: ProgressDialog
+    private var totalItems: Int = 0
+    private var totalPrice: Double = 0.0
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -64,8 +65,10 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
         if (intent != null && !intent.dataString.isNullOrBlank()) {
             data = intent.dataString
         }
@@ -88,11 +91,112 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         loadData()
+        presenter.loadCart()
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        val builder = LatLngBounds.builder()
+        builder.include(coord)
+        googleMap.addMarker(MarkerOptions().position(coord).title(productModel.shop.title))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15f))
+        map.onResume()
+        progressDialog.dismiss()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.productview, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.download) {
+            try {
+                //presenter.downloadImage(productModel?.image.path, productModel.name, fileCache)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        if (id == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun loadData() {
+        if (data != null) {
+            val resolvedUrl: String = data!!.substring(data!!.lastIndexOf("/") + 1)
+            presenter.loadData(resolvedUrl)
+        } else {
+            productModel = intent.getSerializableExtra("data") as ProductFeed
+            initUi()
+        }
+    }
+
+    override fun onError(errorMessage: Int) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDataLoading() {
+        if (progressDialog.isShowing) {
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
+
+    }
+
+    override fun showProduct(product: ProductFeed) {
+        this@ProductViewActivity.productModel = product
+        initUi()
+    }
+
+    override fun imageDownloaded(filePath: File) {
+        runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
+    }
+
+    internal class ViewAdapter(fm: FragmentManager, val image: List<Image>) : FragmentStatePagerAdapter(fm) {
+
+        override fun getCount(): Int = image.size
+
+        override fun getItem(position: Int): Fragment = PagerGalleryFragment.newInstance(image[position].url, image[position].placeholder)
+    }
+
+    public override fun onDestroy() {
+        super.onDestroy()
+        map.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        map.onLowMemory()
+    }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
+    fun setCategoryName(name: String) {
+        productViewCategory.text = name
+    }
+
+    override fun cartLoaded(realmResults: RealmResults<ShopOrders>) {
+        for (item: ShopOrders in realmResults) {
+            totalPrice += item.itemCost
+            item.items?.let {
+                totalItems += it.size
+            }
+        }
+        cartItems.text = getString(R.string.cart_hint, totalItems.toString(), Metrics.getDisplayPriceWithCurrency(this, totalPrice))
+    }
+
+    override fun categoryNameResolved(category: String) {
+        setCategoryName(category)
+    }
 
     private fun initUi() {
-        resolveCategory(productModel)
+        presenter.resolveCategory(productModel.category)
+
         if (!productModel.location.lat.isEmpty() && !productModel.location.lon.isEmpty()) {
             coord = LatLng(productModel.location.lat.toDouble(), productModel.location.lon.toDouble())
             map.visibility = View.VISIBLE
@@ -134,9 +238,9 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState){
-                    //BottomSheetBehavior.STATE_EXPANDED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_downward_black))
-                    //BottomSheetBehavior.STATE_COLLAPSED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_upward_black))
+                when (newState) {
+                //BottomSheetBehavior.STATE_EXPANDED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_downward_black))
+                //BottomSheetBehavior.STATE_COLLAPSED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_upward_black))
                 }
             }
         })
@@ -147,107 +251,20 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             }
             behaviour.state = BottomSheetBehavior.STATE_EXPANDED
         }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        val builder = LatLngBounds.builder()
-        builder.include(coord)
-        googleMap.addMarker(MarkerOptions().position(coord).title(productModel.shop.title))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15f))
-        map.onResume()
-        progressDialog.dismiss()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.productview, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        if (id == R.id.download) {
-            try {
-                //presenter.downloadImage(productModel?.image.path, productModel.name, fileCache)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun loadData() {
-        if (data != null) {
-            val resolvedUrl: String = data!!.substring(data!!.lastIndexOf("/") + 1)
-            presenter.loadData(resolvedUrl)
-        } else {
-            productModel = intent.getSerializableExtra("data") as ProductFeed
-            initUi()
-        }
-    }
-
-    override fun onError(errorMessage: Int) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onDataLoading() {
-        if (progressDialog.isShowing) {
-            progressDialog.hide()
-            return
-        }
-        progressDialog.show()
-
-    }
-
-    override fun showProduct(product: ProductFeed) {
-        this@ProductViewActivity.productModel = product
-        initUi()
-    }
-
-    override fun imageDownloaded(filePath: File) {
-        runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
-    }
-
-    internal class ViewAdapter(fm: FragmentManager, val image: List<Image>) : FragmentStatePagerAdapter(fm) {
-
-        override fun getCount(): Int = image.size
-
-        override fun getItem(position: Int): Fragment = PagerGalleryFragment.newInstance(image[position].url)
-    }
-
-    public override fun onDestroy() {
-        super.onDestroy()
-        map.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        map.onLowMemory()
-    }
-
-    override fun onBackPressed() {
-        finish()
-    }
-
-    fun setCategoryName(name: String) {
-        productViewCategory.text = name
-    }
-
-    fun resolveCategory(product: ProductFeed) {
-        Async(WeakReference(this), product.category).execute()
-    }
-
-    class Async(val activity: WeakReference<ProductViewActivity>, val slug: String) : AsyncTask<Void, Void, String?>() {
-        override fun doInBackground(vararg p0: Void?): String? {
-            val result = Realm.getDefaultInstance().where(CategoryModel::class.java).equalTo("slug", slug).findFirst()
-            return result?.catName
-        }
-
-        override fun onPostExecute(result: String?) {
-            activity.get()?.let {
-                if (result != null) {
-                    it.setCategoryName(result)
+        behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+        scrollContainer.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
+                v?.apply {
+                    val lastChild = getChildAt(childCount - 1) as View
+                    val diff = lastChild.bottom - (height + scrollY)
+                    if (diff != 0) {
+                        behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                    } else {
+                        behaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
                 }
             }
-        }
+        })
     }
+
 }

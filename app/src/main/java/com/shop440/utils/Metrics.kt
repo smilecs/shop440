@@ -19,4 +19,6 @@ object Metrics {
     }
 
     fun getDisplayPriceWithCurrency(context: Context, price: Int): String = String.format("%s %,d", context.getString(R.string.currency_symbol_code), price)
+
+    fun getDisplayPriceWithCurrency(context: Context, price: Double): String = String.format("%s %,.2f", context.getString(R.string.currency_symbol_code), price)
 }
