@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
@@ -17,11 +16,10 @@ import com.bentech.android.appcommons.utils.EditTextUtils
 import com.bentech.android.appcommons.validator.EditTextEmailValidator
 import com.bentech.android.appcommons.validator.EditTextPhoneNumberValidator
 import com.bentech.android.appcommons.validator.EditTextRequiredInputValidator
-import com.shop440.models.User
+import com.shop440.dao.models.User
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.utils.Image
-import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.signup.*
 import java.io.IOException

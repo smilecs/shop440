@@ -1,7 +1,7 @@
 package com.shop440.navigation
 
 import com.shop440.api.Urls
-import com.shop440.models.CategoryModel
+import com.shop440.dao.models.CategoryModel
 import retrofit2.Call
 import retrofit2.http.GET
 

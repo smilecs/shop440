@@ -1,7 +1,7 @@
 package com.shop440.navigation.home.viewmodel
 
 import com.shop440.R
-import com.shop440.models.ProductFeed
+import com.shop440.dao.models.ProductFeed
 
 /**
  * Created by mmumene on 21/11/2017.

@@ -1,8 +1,6 @@
 package com.shop440.navigation
 
-import com.shop440.BasePresenter
-import com.shop440.BaseView
-import com.shop440.models.CategoryModel
+import com.shop440.dao.models.CategoryModel
 import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,8 +10,7 @@ import retrofit2.Retrofit
 /**
  * Created by mmumene on 31/12/2017.
  */
-class AppPresenter(val retrofit: Retrofit, val view: BaseView<BasePresenter>) : BasePresenter {
-
+class AppPresenter(val retrofit: Retrofit, val view: AppContract.AppView) : AppContract.Presenter {
     init {
         view.presenter = this
     }

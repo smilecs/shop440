@@ -1,5 +1,5 @@
 
-package com.shop440.models;
+package com.shop440.dao.models;
 
 import java.io.Serializable;
 import java.util.List;

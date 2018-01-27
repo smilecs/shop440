@@ -14,7 +14,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import com.shop440.R
 import com.shop440.adapters.CategorySearchAdapter
-import com.shop440.models.CategoryModel
+import com.shop440.dao.models.CategoryModel
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
 

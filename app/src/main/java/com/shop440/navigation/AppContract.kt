@@ -8,7 +8,10 @@ import com.shop440.BaseView
  */
 interface AppContract{
 
+    interface AppView : BaseView<Presenter>{
+
+    }
+
     interface Presenter : BasePresenter{
-        fun loadCategories()
     }
 }

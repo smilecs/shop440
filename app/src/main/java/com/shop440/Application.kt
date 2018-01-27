@@ -6,7 +6,6 @@ import android.support.multidex.MultiDex
 import android.util.Log
 import com.bentech.android.appcommons.AppCommons
 import com.facebook.FacebookSdk
-import com.facebook.accountkit.AccountKit
 import com.facebook.appevents.AppEventsLogger
 import com.shop440.api.Urls
 import io.realm.Realm
@@ -27,7 +26,6 @@ class Application : android.app.Application() {
         sInstance = this
         Realm.init(this)
         FacebookSdk.sdkInitialize(applicationContext)
-        AccountKit.initialize(applicationContext)
         AppEventsLogger.activateApp(this)
         logger = AppEventsLogger.newLogger(this)
         AppCommons.getAppCommonsConfiguration().editTextInvalidEmailErrorMessage = R.string.email_invalid_error

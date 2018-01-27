@@ -1,9 +1,18 @@
 package com.shop440.productview
 
-import com.shop440.models.Datum
+import android.arch.lifecycle.Observer
+import android.util.Log
 import com.shop440.R
-import com.shop440.models.ProductFeed
+import com.shop440.cart.Item
+import com.shop440.cart.ShopOrders
+import com.shop440.dao.kartDao
+import com.shop440.dao.models.CategoryModel
+import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.FileCache
+import io.realm.ObjectChangeSet
+import io.realm.Realm
+import io.realm.RealmObjectChangeListener
+import io.realm.RealmResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +26,10 @@ import java.net.URL
  * Created by mmumene on 09/09/2017.
  */
 class ProductViewPresenter(val productView: ProductViewContract.View, val retrofit: Retrofit) : ProductViewContract.Presenter {
+
+    val productViewModel by lazy {
+        productView.getViewModel()
+    }
 
     init {
         productView.presenter = this
@@ -33,7 +46,7 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
             override fun onResponse(call: Call<ProductFeed>?, response: Response<ProductFeed>?) {
                 if (response!!.isSuccessful) {
                     productView.onDataLoading()
-                    if (response.body() != null){
+                    if (response.body() != null) {
                         productView.showProduct(response.body()!!)
                         return
                     }
@@ -80,5 +93,43 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
         })
         tm.start()
 
+    }
+
+    override fun loadCart(activity: ProductViewActivity) {
+        productViewModel.getKartData().observe(activity, Observer<RealmResults<ShopOrders>> { t ->
+            productView.cartLoaded(t)
+        })
+    }
+
+    override fun resolveCategory(slug: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.where(CategoryModel::class.java).equalTo("slug", slug).findFirstAsync().addChangeListener(object : RealmObjectChangeListener<CategoryModel> {
+            override fun onChange(t: CategoryModel?, changeSet: ObjectChangeSet?) {
+                t?.let {
+                    if (t.isLoaded) {
+                        productView.categoryNameResolved(t.catName)
+                        realm.close()
+                    }
+                }
+            }
+        })
+    }
+
+    override fun addToCart(productFeed: ProductFeed) {
+        Realm.getDefaultInstance().use {
+            it.kartDao().addToKart(productFeed)
+        }
+    }
+
+    //check usefullness of this method, might be pointless
+    override fun getShopOrder(shopId: String) {
+        Realm.getDefaultInstance().use {
+            it.where(ShopOrders::class.java).equalTo("shopId", shopId).findFirstAsync().addChangeListener(RealmObjectChangeListener<ShopOrders> { t, changeSet ->
+                if (t.isLoaded) {
+                    it.removeAllChangeListeners()
+                    productView.shopOrder(t)
+                }
+            })
+        }
     }
 }

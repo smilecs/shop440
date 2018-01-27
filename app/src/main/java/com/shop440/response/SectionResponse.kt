@@ -1,8 +1,8 @@
 package com.shop440.response
 
 import com.google.gson.annotations.SerializedName
-import com.shop440.models.ProductFeed
-import com.shop440.models.StoreFeed
+import com.shop440.dao.models.ProductFeed
+import com.shop440.dao.models.StoreFeed
 
 /**
  * Created by mmumene on 19/11/2017.

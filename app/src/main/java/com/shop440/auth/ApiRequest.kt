@@ -1,12 +1,9 @@
 package com.shop440.auth
 
-import com.shop440.models.User
+import com.shop440.dao.models.User
 import com.shop440.response.OtpResponse
 import com.shop440.response.UserResponse
 import com.shop440.api.Urls
-import com.shop440.models.Datum
-
-import org.json.JSONObject
 
 import retrofit2.Call
 import retrofit2.http.Body
@@ -29,5 +26,5 @@ interface ApiRequest {
     fun requestOtp(@Query("p") query: String): Call<OtpResponse>
 
     @POST(Urls.CHECKPHONE)
-    fun checkAvailability(@Body user:User) : Call<User>
+    fun checkAvailability(@Body user: User) : Call<User>
 }

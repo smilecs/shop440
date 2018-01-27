@@ -1,4 +1,4 @@
-package com.shop440.models
+package com.shop440.dao.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.shop440.R
-import com.shop440.models.User
+import com.shop440.dao.models.User
 import com.truecaller.android.sdk.*
 import kotlinx.android.synthetic.main.auth_options.*
 
