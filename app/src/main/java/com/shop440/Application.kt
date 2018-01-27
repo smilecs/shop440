@@ -7,7 +7,9 @@ import android.util.Log
 import com.bentech.android.appcommons.AppCommons
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
+import com.facebook.stetho.Stetho
 import com.shop440.api.Urls
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import io.realm.Realm
 
 /**

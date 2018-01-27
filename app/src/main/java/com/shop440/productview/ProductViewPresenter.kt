@@ -27,7 +27,7 @@ import java.net.URL
  */
 class ProductViewPresenter(val productView: ProductViewContract.View, val retrofit: Retrofit) : ProductViewContract.Presenter {
 
-    val productViewModel by lazy {
+   private val productViewModel by lazy {
         productView.getViewModel()
     }
 
@@ -96,7 +96,9 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
     }
 
     override fun loadCart(activity: ProductViewActivity) {
-        productViewModel.getKartData().observe(activity, Observer<RealmResults<ShopOrders>> { t ->
+        //productView.cartLoaded(Realm.getDefaultInstance().where(Item::class.java).findAll())
+       productViewModel.getKartData().observe(activity, Observer<RealmResults<Item>> { t ->
+            Log.i("presenter", t?.size.toString())
             productView.cartLoaded(t)
         })
     }
@@ -115,10 +117,8 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
         })
     }
 
-    override fun addToCart(productFeed: ProductFeed) {
-        Realm.getDefaultInstance().use {
-            it.kartDao().addToKart(productFeed)
-        }
+    override fun addToCart(product: ProductFeed) {
+       productViewModel.addToKart(product)
     }
 
     //check usefullness of this method, might be pointless

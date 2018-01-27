@@ -1,9 +1,10 @@
 package com.shop440.productview
 
-import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import com.shop440.cart.ShopOrders
+import com.shop440.cart.Item
 import com.shop440.dao.kartDao
+import com.shop440.dao.models.ProductFeed
 import io.realm.Realm
 import io.realm.RealmResults
 
@@ -11,15 +12,16 @@ import io.realm.RealmResults
  * Created by mmumene on 27/01/2018.
  */
 open class ProductViewModel : ViewModel() {
-    private var kartData = MutableLiveData<RealmResults<ShopOrders>>()
     val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
 
-    fun getKartData(): MutableLiveData<RealmResults<ShopOrders>> {
-        return kartData.apply {
-            value = realm.kartDao().getKart().value
-        }
+    fun getKartData(): LiveData<RealmResults<Item>> {
+        return realm.kartDao().getKart()
+    }
+
+    fun addToKart(productFeed: ProductFeed){
+        realm.kartDao().addToKart(productFeed)
     }
 
     override fun onCleared() {
