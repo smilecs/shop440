@@ -10,7 +10,7 @@ import com.shop440.Application
 
 object AppEventsLogger {
 
-    fun logMainActivityOpenedEvent() {
+   /* fun logMainActivityOpenedEvent() {
         Application.logger()!!.logEvent("MainActivity Opened")
     }
 
@@ -43,5 +43,5 @@ object AppEventsLogger {
      */
     fun logItemShareEvent() {
         Application.logger()!!.logEvent("Item Share")
-    }
+    }*/
 }
