@@ -50,6 +50,8 @@ dependencies {
     compile('com.google.android.gms:play-services:11.8.0') {
         exclude group: 'com.android.support', module: 'mediarouter-v7'
     }
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.uphyca:stetho_realm:2.1.0'
     compile('com.facebook.android:facebook-android-sdk:4.22.0') {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'cardview-v7'
