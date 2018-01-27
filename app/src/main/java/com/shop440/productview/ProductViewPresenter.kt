@@ -1,15 +1,18 @@
 package com.shop440.productview
 
+import android.arch.lifecycle.Observer
 import android.util.Log
 import com.shop440.R
 import com.shop440.cart.Item
 import com.shop440.cart.ShopOrders
-import com.shop440.models.CategoryModel
-import com.shop440.models.ProductFeed
+import com.shop440.dao.kartDao
+import com.shop440.dao.models.CategoryModel
+import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.FileCache
 import io.realm.ObjectChangeSet
 import io.realm.Realm
 import io.realm.RealmObjectChangeListener
+import io.realm.RealmResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +26,10 @@ import java.net.URL
  * Created by mmumene on 09/09/2017.
  */
 class ProductViewPresenter(val productView: ProductViewContract.View, val retrofit: Retrofit) : ProductViewContract.Presenter {
+
+    val productViewModel by lazy {
+        productView.getViewModel()
+    }
 
     init {
         productView.presenter = this
@@ -88,14 +95,10 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
 
     }
 
-    override fun loadCart() {
-        val realm = Realm.getDefaultInstance()
-        realm.where(ShopOrders::class.java).findAllAsync().addChangeListener { t, changeSet ->
-            if (t.isLoaded) {
-                productView.cartLoaded(t)
-                realm.close()
-            }
-        }
+    override fun loadCart(activity: ProductViewActivity) {
+        productViewModel.getKartData().observe(activity, Observer<RealmResults<ShopOrders>> { t ->
+            productView.cartLoaded(t)
+        })
     }
 
     override fun resolveCategory(slug: String) {
@@ -114,33 +117,7 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
 
     override fun addToCart(productFeed: ProductFeed) {
         Realm.getDefaultInstance().use {
-            it.executeTransactionAsync {
-                val shopOrder = it.where(ShopOrders::class.java).equalTo("shopId", productFeed.shopId).findFirst()
-                if (shopOrder != null) {
-                    //shopOrder.items.add(item)
-                    shopOrder.itemCost += productFeed.productPrice
-                    val item = it.createObject(Item::class.java)
-                    item.slug = productFeed.slug
-                    item.totalPrice = productFeed.productPrice
-                    val shop = it.where(ShopOrders::class.java).equalTo("shopId", productFeed.shopId).findFirst()
-                    shop?.items?.add(item)
-                    it.copyToRealmOrUpdate(shop)
-
-                } else {
-                    Log.i("realms", "here")
-                    val shopOrder = it.createObject(ShopOrders::class.java)
-                    shopOrder.apply {
-                        shopName = productFeed.shop.title
-                        shopId = productFeed.shopId
-                        itemCost = productFeed.productPrice
-                        val item = it.createObject(Item::class.java)
-                        item.totalPrice = productFeed.productPrice
-                        item.slug = productFeed.slug
-                        items.add(item)
-                    }
-                    it.copyToRealmOrUpdate(shopOrder)
-                }
-            }
+            it.kartDao().addToKart(productFeed)
         }
     }
 

@@ -1,6 +1,6 @@
 package com.shop440.productview
 
-import com.shop440.models.ProductFeed
+import com.shop440.dao.models.ProductFeed
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

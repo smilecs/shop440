@@ -13,7 +13,7 @@ import android.util.Log
 import android.widget.Toast
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.models.User
+import com.shop440.dao.models.User
 import com.shop440.receiver.SmsReciever
 import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper

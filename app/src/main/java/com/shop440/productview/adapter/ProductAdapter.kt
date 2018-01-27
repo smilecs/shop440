@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 
-import com.shop440.models.Datum
+import com.shop440.dao.models.Datum
 
 /**
  * Created by SMILECS on 1/24/17.

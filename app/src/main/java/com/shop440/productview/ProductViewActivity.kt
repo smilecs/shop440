@@ -1,6 +1,7 @@
 package com.shop440.productview
 
 import android.app.ProgressDialog
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -26,8 +27,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.cart.ShopOrders
-import com.shop440.models.Image
-import com.shop440.models.ProductFeed
+import com.shop440.dao.models.Image
+import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.Metrics
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_product_view.*
@@ -42,6 +43,9 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     var TAG = "ProductViewActivity"
 
     lateinit var productModel: ProductFeed
+    private val productViewModel : ProductViewModel by lazy {
+        ViewModelProviders.of(this).get(ProductViewModel::class.java)
+    }
 
     private lateinit var coord: LatLng
     private var bundle: Bundle? = null
@@ -90,7 +94,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         loadData()
-        presenter.loadCart()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -179,11 +182,15 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         productViewCategory.text = name
     }
 
-    override fun cartLoaded(realmResults: RealmResults<ShopOrders>) {
-        for (item: ShopOrders in realmResults) {
-            totalPrice += item.itemCost
-            item.items?.let {
-                totalItems += it.size
+    override fun getViewModel(): ProductViewModel = productViewModel
+
+    override fun cartLoaded(realmResults: RealmResults<ShopOrders>?) {
+        realmResults?.let {
+            for (item: ShopOrders in it) {
+                totalPrice += item.itemCost
+                item.items.let {
+                    totalItems += it.size
+                }
             }
         }
         cartItems.text = getString(R.string.cart_hint, totalItems.toString(), Metrics.getDisplayPriceWithCurrency(this, totalPrice))
@@ -232,6 +239,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             phoneTextProductView.text = phone
         }
         bottomSheetControls()
+        presenter.loadCart(this)
     }
 
     private fun bottomSheetControls(){

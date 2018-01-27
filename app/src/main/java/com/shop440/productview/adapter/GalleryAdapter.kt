@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.shop440.R
-import com.shop440.models.Image
+import com.shop440.dao.models.Image
 
 
 /**

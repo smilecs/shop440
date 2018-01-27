@@ -13,11 +13,10 @@ import com.bentech.android.appcommons.validator.EditTextPhoneNumberValidator
 import com.bentech.android.appcommons.validator.EditTextRequiredInputValidator
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.models.User
+import com.shop440.dao.models.User
 import com.shop440.utils.PreferenceManager
 import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.sign_in.*
-import kotlinx.android.synthetic.main.signup.*
 
 /**
  * A login screen that offers login via email/password.

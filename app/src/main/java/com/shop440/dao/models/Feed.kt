@@ -1,4 +1,4 @@
-package com.shop440.models
+package com.shop440.dao.models
 
 import com.shop440.navigation.home.viewmodel.ViewModel
 

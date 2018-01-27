@@ -10,7 +10,7 @@ import android.util.Log
 import android.widget.TextView
 import com.shop440.R
 import com.shop440.api.Urls
-import com.shop440.models.Datum
+import com.shop440.dao.models.Datum
 import com.shop440.productview.adapter.ProductAdapter
 import com.shop440.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.searchresult.*

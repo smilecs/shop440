@@ -1,4 +1,4 @@
-package com.shop440.models
+package com.shop440.dao.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -11,7 +11,7 @@ data class ProductFeed(val slug:String,
                        @SerializedName("price") val productPrice:Double,
                        @SerializedName("description") val productDesc:String,
                        val category:String,
-                       val shop:Store.Store,
+                       val shop: Store.Store,
                        val tags:List<String>,
                        @SerializedName("City") val city:String,
                        @SerializedName("CitySlug") val citySlug:String,

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.shop440.models.CategoryModel;
+import com.shop440.dao.models.CategoryModel;
 import com.shop440.R;
 import com.shop440.search.SearchResultActivity;
 

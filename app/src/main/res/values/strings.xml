@@ -125,8 +125,9 @@
     <string name="product_view_hint_more">View more from seller</string>
     <string name="visit_button">Visit</string>
     <string name="cart_hint">%1$s items in your cart total of (%2$s)</string>
-    <string name="proceed_to_checkout">Proceed to checkout</string>
+    <string name="proceed_to_checkout">Checkout</string>
     <string name="view_cart">View cart</string>
     <string name="tiny_files">https://tinyfiles.past3dev.com/resize</string>
     <string name="price_format"> %s%d</string>
+    <string name="per_item">per item</string>
 </resources>

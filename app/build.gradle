@@ -47,7 +47,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //test
     androidTestCompile 'br.com.concretesolutions:kappuccino:1.0.6'
-    compile('com.google.android.gms:play-services:11.6.2') {
+    compile('com.google.android.gms:play-services:11.8.0') {
         exclude group: 'com.android.support', module: 'mediarouter-v7'
     }
     compile('com.facebook.android:facebook-android-sdk:4.22.0') {
@@ -71,8 +71,8 @@ dependencies {
     //OkHttp
     //Gson
     compile 'com.android.support:multidex:1.0.2'
-    compile 'com.google.android.gms:play-services-base:11.6.2'
-    compile 'com.google.android.gms:play-services-maps:11.6.2'
+    compile 'com.google.android.gms:play-services-base:11.8.0'
+    compile 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
@@ -89,6 +89,17 @@ dependencies {
     implementation project(':appcoms')
     implementation project(':truesdk-0.6')
     compile 'com.github.vivchar:ViewPagerIndicator:1.1.0'
+
+    //arch components
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+
+    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+
+    implementation "android.arch.lifecycle:livedata:1.1.0"
+
+    kapt "android.arch.lifecycle:compiler:1.1.0"
+
+    implementation "android.arch.paging:runtime:1.0.0-alpha5"
 }
 repositories {
     mavenCentral()
