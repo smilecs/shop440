@@ -19,13 +19,15 @@ interface ProductViewContract {
         fun imageDownloaded(filePath: File)
         fun cartLoaded(realmResults: RealmResults<ShopOrders>)
         fun categoryNameResolved(category:String)
+        fun shopOrder(shopOrders: ShopOrders)
     }
 
     interface Presenter : BasePresenter {
         fun loadCart()
         fun loadData(path: String)
         fun resolveCategory(slug:String)
-        fun addToCart(shopOrders: ShopOrders)
+        fun addToCart(product: ProductFeed)
         fun downloadImage(imageUrl: String, productName: String, filePath: FileCache)
+        fun getShopOrder(shopId:String)
     }
 }

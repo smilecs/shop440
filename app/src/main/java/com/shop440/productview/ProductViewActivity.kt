@@ -45,11 +45,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     private lateinit var coord: LatLng
     private var bundle: Bundle? = null
-    private lateinit var productView: ProductViewActivity
     private var data: String? = null
     private lateinit var progressDialog: ProgressDialog
     private var totalItems: Int = 0
     private var totalPrice: Double = 0.0
+    private val shopOrder: ShopOrders = ShopOrders()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -59,7 +59,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bundle = savedInstanceState
-        productView = this
         setContentView(R.layout.activity_product_view)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -194,6 +193,10 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         setCategoryName(category)
     }
 
+    override fun shopOrder(shopOrders: ShopOrders) {
+
+    }
+
     private fun initUi() {
         presenter.resolveCategory(productModel.category)
 
@@ -204,7 +207,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             val handler = Handler()
             handler.postDelayed({
                 map.onCreate(bundle)
-                map.getMapAsync(productView)
+                map.getMapAsync(this@ProductViewActivity)
             }, 1800)
         }
 
@@ -228,7 +231,10 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             shopAddressProductView.text = address
             phoneTextProductView.text = phone
         }
+        bottomSheetControls()
+    }
 
+    private fun bottomSheetControls(){
         productViewPrice.text = Metrics.getDisplayPriceWithCurrency(this, productModel.productPrice)
         //sheetContainer.visibility = View.GONE
         val behaviour = BottomSheetBehavior.from(bottomBar)
@@ -265,6 +271,10 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
                 }
             }
         })
+        bottomSheetAddCartButton.setOnClickListener {
+            presenter.addToCart(productModel)
+        }
+
     }
 
 }

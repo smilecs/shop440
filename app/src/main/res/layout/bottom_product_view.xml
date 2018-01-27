@@ -52,6 +52,7 @@
                 android:paddingEnd="26dp"
                 android:paddingStart="26dp"
                 android:text="@string/buy_now_button"
+                android:id="@+id/bottomSheetAddCartButton"
                 android:textColor="@android:color/white"
                 android:theme="@style/buttonHighlightColor"/>
         </RelativeLayout>

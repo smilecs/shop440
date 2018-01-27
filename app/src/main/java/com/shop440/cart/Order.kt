@@ -20,5 +20,5 @@ open class Order : RealmObject(){
     var company: String = ""
     var province: String = ""
     var total: Double = 0.0
-    var shopOrders: RealmList<ShopOrders> ? = null
+    var shopOrders = RealmList<ShopOrders>()
 }

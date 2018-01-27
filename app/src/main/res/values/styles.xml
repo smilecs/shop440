@@ -42,8 +42,6 @@
         <item name="android:background">@color/actionBar</item>
     </style>
 
-    <style name="AppLoginTheme" parent="Theme.AccountKit"/>
-
     <style name="RaisedSignUpButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#9E9E9E</item>
         <item name="selectableItemBackground">@style/ripple</item>

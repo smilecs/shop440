@@ -8,7 +8,7 @@ import java.io.Serializable
  */
 data class ProductFeed(val slug:String,
                        @SerializedName("title") val productName:String,
-                       @SerializedName("price") val productPrice:Int,
+                       @SerializedName("price") val productPrice:Double,
                        @SerializedName("description") val productDesc:String,
                        val category:String,
                        val shop:Store.Store,
