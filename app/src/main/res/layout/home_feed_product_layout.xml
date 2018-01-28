@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="225dp"
+              android:layout_width="186dp"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="16dp"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_marginEnd="8dp"
+              android:layout_marginStart="8dp"
               android:layout_marginTop="12dp"
               android:minWidth="136dp"
+              android:layout_marginBottom="6dp"
               android:maxWidth="220dp"
               android:foreground="?attr/selectableItemBackground"
               android:orientation="vertical">
@@ -14,8 +17,8 @@
         android:id="@+id/productPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="290dp"
-        android:minHeight="290dp"
+        android:maxHeight="140dp"
+        android:minHeight="136dp"
         android:scaleType="fitXY"
         />
 
@@ -30,9 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textSize="12sp"
             android:hint="ShopName"
             android:textStyle="normal"
-            app:fontName="RobotoMedium"
+            app:fontName="RobotoRegular"
             />
 
         <com.shop440.widgets.FontTextView
@@ -50,7 +54,7 @@
             style="@style/caption2TextDef"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="2300000"
+            tools:text="200000"
             app:fontName="OpenSansRegular"/>
 
     </LinearLayout>

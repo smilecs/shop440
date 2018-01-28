@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:editTextColor">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/sub_header_text</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

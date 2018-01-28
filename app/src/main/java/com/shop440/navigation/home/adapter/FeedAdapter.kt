@@ -1,6 +1,7 @@
 package com.shop440.navigation.home.adapter
 
 import android.content.Context
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
@@ -25,7 +26,8 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context) : Rec
         holder?.title?.text = model.title
         holder?.recyclerView?.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
+            //layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = NestedFeedAdapter(model)
         }
 
@@ -35,7 +37,7 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context) : Rec
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.nested_reycler, parent, false)
         val viewHolder = ViewHolder.ViewHolder(view)
         viewHolder.recyclerView.recycledViewPool = viewPool
-        LinearSnapHelper().attachToRecyclerView(viewHolder.recyclerView)
+        //LinearSnapHelper().attachToRecyclerView(viewHolder.recyclerView)
         return viewHolder
     }
 
