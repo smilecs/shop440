@@ -1,4 +1,4 @@
-package com.shop440.cart
+package com.shop440.kart
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmList

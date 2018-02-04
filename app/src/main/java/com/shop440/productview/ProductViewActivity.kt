@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,12 +26,13 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.cart.Item
-import com.shop440.cart.ShopOrders
+import com.shop440.checkout.CheckoutActivity
+import com.shop440.kart.Item
+import com.shop440.kart.KartViewModel
+import com.shop440.kart.ShopOrders
 import com.shop440.dao.models.Image
 import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.Metrics
-import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_product_view.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
@@ -46,8 +46,8 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     var TAG = "ProductViewActivity"
 
     lateinit var productModel: ProductFeed
-    private val productViewModel: ProductViewModel by lazy {
-        ViewModelProviders.of(this).get(ProductViewModel::class.java)
+    private val kartViewModel: KartViewModel by lazy {
+        ViewModelProviders.of(this).get(KartViewModel::class.java)
     }
 
     private lateinit var coord: LatLng
@@ -185,7 +185,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         productViewCategory.text = name
     }
 
-    override fun getViewModel(): ProductViewModel = productViewModel
+    override fun getViewModel(): KartViewModel = kartViewModel
 
     override fun cartLoaded(realmResults: RealmResults<Item>?) {
         totalPrice = 0.0
@@ -283,6 +283,10 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         })
         bottomSheetAddCartButton.setOnClickListener {
             presenter.addToCart(productModel)
+        }
+
+        bottomSheetCheckout.setOnClickListener {
+            startActivity(Intent(this@ProductViewActivity, CheckoutActivity::class.java))
         }
 
     }

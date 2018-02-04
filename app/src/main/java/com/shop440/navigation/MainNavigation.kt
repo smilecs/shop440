@@ -33,7 +33,6 @@ class MainNavigation : AppCompatActivity(), AppContract.AppView {
         navigationViewPager.adapter = Pager.PagerAdapter(supportFragmentManager)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigationViewPager.currentItem = 0
-        navigationViewPager.beginFakeDrag()
         progressDialog = ProgressHelper.progressDialog(this)
         AppPresenter(NetModule.provideRetrofit(), this)
         presenter.start()

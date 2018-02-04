@@ -22,7 +22,16 @@ class ProfileContainerFragment : Fragment() {
         return inflater.inflate(R.layout.profile_container, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        delegateView()
+    }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        delegateView()
+    }
+
+    private fun delegateView(){
         val fragment = if(!PreferenceManager.PrefData.getPreferenceManager()?.token.isNullOrBlank()){
             ProfileSessionFragment()
         }else{

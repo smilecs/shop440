@@ -2,8 +2,9 @@ package com.shop440.productview
 
 import com.shop440.BasePresenter
 import com.shop440.BaseView
-import com.shop440.cart.Item
-import com.shop440.cart.ShopOrders
+import com.shop440.kart.Item
+import com.shop440.kart.KartViewModel
+import com.shop440.kart.ShopOrders
 import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.FileCache
 import io.realm.RealmResults
@@ -21,7 +22,7 @@ interface ProductViewContract {
         fun cartLoaded(realmResults: RealmResults<Item>?)
         fun categoryNameResolved(category:String)
         fun shopOrder(shopOrders: ShopOrders)
-        fun getViewModel() : ProductViewModel
+        fun getViewModel() : KartViewModel
     }
 
     interface Presenter : BasePresenter {

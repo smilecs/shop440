@@ -14,6 +14,8 @@
 
     <style name="AppTheme.ActionBar.Transparent" parent="AppTheme">
         <item name="colorPrimary">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>
 
