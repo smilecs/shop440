@@ -85,6 +85,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:layout_weight="1"
+                android:id="@+id/bottomSheetCheckout"
                 android:background="@color/cartButton"
                 android:foreground="?android:selectableItemBackground"
                 style="?android:buttonBarPositiveButtonStyle"

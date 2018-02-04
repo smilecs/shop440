@@ -1,10 +1,12 @@
 package com.shop440.dao
 
 import android.arch.lifecycle.LiveData
-import com.shop440.cart.Item
+import com.shop440.kart.Item
 import com.shop440.dao.models.ProductFeed
+import com.shop440.kart.ItemForKart
 import io.realm.Realm
 import io.realm.RealmResults
+import java.util.*
 
 
 /**
@@ -17,12 +19,43 @@ class KartDao(val realm: Realm) {
             val item = Item()
             item.totalPrice = productFeed.productPrice
             item.slug = productFeed.slug
+            item.shopName = productFeed.shop.title
+            item.shopSlug = productFeed.shop.shopId
+            item.itemName = productFeed.productName
+            item.id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.fromString(productFeed.category).toString()
             it.insert(item)
+        }
+    }
+
+    fun addToKart(item: ItemForKart){
+        realm.executeTransactionAsync {
+            val newItem = Item().apply {
+                totalPrice = item.amount
+                slug = item.slug
+                shopName = item.shopName
+                itemName = item.itemName
+                id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.fromString(item.itemName).toString()
+            }
+            it.insert(newItem)
         }
     }
 
     fun getKart(): LiveData<RealmResults<Item>> {
         return realm.where(Item::class.java).findAllAsync().asLiveData()
+    }
+
+    fun deleteItemFromKart(id: String) {
+        realm.executeTransactionAsync {
+            val result = it.where(Item::class.java).equalTo("id", id).findFirst()
+            result?.deleteFromRealm()
+        }
+    }
+
+    fun deleteAll(slug: String) {
+        realm.executeTransactionAsync {
+            val result = it.where(Item::class.java).equalTo("slug", slug).findAll()
+            result.deleteAllFromRealm()
+        }
     }
 
 }

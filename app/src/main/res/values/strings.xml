@@ -130,4 +130,7 @@
     <string name="tiny_files">https://tinyfiles.past3dev.com/resize</string>
     <string name="price_format"> %s%d</string>
     <string name="per_item">per item</string>
+    <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="quantity">quantity: %s</string>
+    <string name="amount">amount: %s</string>
 </resources>
