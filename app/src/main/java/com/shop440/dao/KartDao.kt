@@ -22,7 +22,7 @@ class KartDao(val realm: Realm) {
             item.shopName = productFeed.shop.title
             item.shopSlug = productFeed.shop.shopId
             item.itemName = productFeed.productName
-            item.id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.fromString(productFeed.category).toString()
+            item.id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.randomUUID().toString()
             it.insert(item)
         }
     }
@@ -34,7 +34,7 @@ class KartDao(val realm: Realm) {
                 slug = item.slug
                 shopName = item.shopName
                 itemName = item.itemName
-                id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.fromString(item.itemName).toString()
+                id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.randomUUID().toString()
             }
             it.insert(newItem)
         }

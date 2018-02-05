@@ -9,6 +9,9 @@ import io.realm.RealmResults
  * Created by mmumene on 03/02/2018.
  */
 class Presenter(val view: KartContract.View) : KartContract.Presenter {
+    init {
+        view.presenter = this
+    }
     protected val viewModel by lazy {
         view.getViewModel()
     }

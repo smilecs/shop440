@@ -56,7 +56,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     private lateinit var progressDialog: ProgressDialog
     private var totalItems: Int = 0
     private var totalPrice: Double = 0.0
-    private val shopOrder: ShopOrders = ShopOrders()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -98,6 +97,8 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         super.onPostCreate(savedInstanceState)
         loadData()
     }
+
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         val builder = LatLngBounds.builder()
@@ -181,10 +182,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         finish()
     }
 
-    fun setCategoryName(name: String) {
-        productViewCategory.text = name
-    }
-
     override fun getViewModel(): KartViewModel = kartViewModel
 
     override fun cartLoaded(realmResults: RealmResults<Item>?) {
@@ -199,7 +196,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     }
 
     override fun categoryNameResolved(category: String) {
-        setCategoryName(category)
+        productViewCategory.text = category
     }
 
     override fun shopOrder(shopOrders: ShopOrders) {
@@ -212,7 +209,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         if (!productModel.location.lat.isEmpty() && !productModel.location.lon.isEmpty()) {
             coord = LatLng(productModel.location.lat.toDouble(), productModel.location.lon.toDouble())
             map.visibility = View.VISIBLE
-            progressDialog.show()
+            //progressDialog.show()
             val handler = Handler()
             handler.postDelayed({
                 map.onCreate(bundle)

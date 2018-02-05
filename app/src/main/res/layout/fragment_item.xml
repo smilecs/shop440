@@ -76,11 +76,13 @@
                     android:layout_height="36dp"
                     android:id="@+id/reduceItem"
                     android:layout_marginEnd="36dp"
+                    android:foreground="?android:selectableItemBackground"
                     app:srcCompat="@drawable/ic_subtract_24dp"/>
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:id="@+id/addItem"
+                    android:foreground="?android:selectableItemBackground"
                     app:srcCompat="@drawable/ic_plus_24dp"
                     />
             </LinearLayout>
