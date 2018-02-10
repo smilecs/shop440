@@ -3,8 +3,8 @@ package com.shop440.productview
 import android.arch.lifecycle.Observer
 import android.util.Log
 import com.shop440.R
-import com.shop440.kart.Item
-import com.shop440.kart.ShopOrders
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.models.ShopOrders
 import com.shop440.dao.models.CategoryModel
 import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.FileCache

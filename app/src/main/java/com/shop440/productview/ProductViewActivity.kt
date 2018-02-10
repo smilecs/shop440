@@ -27,9 +27,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.checkout.CheckoutActivity
-import com.shop440.kart.Item
-import com.shop440.kart.KartViewModel
-import com.shop440.kart.ShopOrders
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.kart.KartViewModel
+import com.shop440.checkout.models.ShopOrders
 import com.shop440.dao.models.Image
 import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.Metrics

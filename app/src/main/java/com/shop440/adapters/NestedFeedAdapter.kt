@@ -1,10 +1,10 @@
-package com.shop440.navigation.home.adapter
+package com.shop440.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.shop440.navigation.home.viewholders.BaseViewHolder
-import com.shop440.navigation.home.viewholders.TypesFactoryImpl
+import com.shop440.typefactory.TypesFactoryImpl
 import com.shop440.navigation.home.viewmodel.ViewModel
 
 /**

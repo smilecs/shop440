@@ -6,6 +6,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
+                                                 android:background="@android:color/white"
                                                  tools:context="com.shop440.checkout.CheckoutActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -22,15 +23,37 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:theme="@style/ToolBarStyle"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/checkout">
+            app:title="Summary">
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:orientation="vertical">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+            <Button
+                android:id="@+id/checkoutNextButton"
+                style="@style/buttonRounded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginStart="36dp"
+                android:foreground="?attr/selectableItemBackground"
+                tools:text="Next"/>
+
+        </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

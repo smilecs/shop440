@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_margin="8dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+        <com.shop440.widgets.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemName"
+            android:textSize="16sp"
+            android:inputType="textCapWords"
+            tools:text="item name"
+            style="@style/listTextDef"
+            app:fontName="RobotoMedium"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+            <com.shop440.widgets.FontTextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                style="@style/listTextDef"
+                android:id="@+id/quantityText"
+                tools:text="quantity"
+                app:fontName="RobotoMedium"/>
+            <com.shop440.widgets.FontTextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/listTextDef"
+                android:id="@+id/amountText"
+                tools:text="amount"
+                android:textAlignment="viewEnd"
+                android:textSize="14sp"
+                app:fontName="RobotoMedium"/>
+        </LinearLayout>
+</LinearLayout>

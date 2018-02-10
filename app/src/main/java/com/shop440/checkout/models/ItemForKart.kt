@@ -1,4 +1,4 @@
-package com.shop440.kart
+package com.shop440.checkout.models
 
 /**
  * Created by mmumene on 04/02/2018.

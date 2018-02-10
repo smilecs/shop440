@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.kart.BaseKartActivity
-import com.shop440.kart.KartFragment
+import com.shop440.checkout.kart.BaseKartActivity
+import com.shop440.checkout.kart.KartFragment
 import kotlinx.android.synthetic.main.activity_checkout.*
 
 class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
@@ -24,6 +25,7 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
         setContentView(R.layout.activity_checkout)
 
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -32,6 +34,23 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
         // .
         container.adapter = mSectionsPagerAdapter
         presenter = CheckoutPresenter(this@CheckoutActivity, NetModule.provideRetrofit())
+        container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            // checkoutNextButton.text =
+            }
+
+            override fun onPageSelected(position: Int) {
+
+            }
+        })
+        checkoutNextButton.text = getString(R.string.next_checkout_button)
+        checkoutNextButton.setOnClickListener {
+
+        }
     }
 
     override fun onError(errorMessage: Int) {
@@ -69,12 +88,17 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            return KartFragment()
+            return when(position){
+                0-> KartFragment()
+                else->{
+                    OrderSummaryFragment()
+                }
+            }
         }
 
         override fun getCount(): Int {
             // Show 3 total pages.
-            return 1
+            return 2
         }
     }
 }

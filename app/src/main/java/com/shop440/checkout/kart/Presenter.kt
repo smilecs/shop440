@@ -1,8 +1,10 @@
-package com.shop440.kart
+package com.shop440.checkout.kart
 
 import android.arch.lifecycle.Observer
 import android.util.Log
 import com.shop440.dao.models.ProductFeed
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.models.ItemForKart
 import io.realm.RealmResults
 
 /**

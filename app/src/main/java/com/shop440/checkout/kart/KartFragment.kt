@@ -1,4 +1,4 @@
-package com.shop440.kart
+package com.shop440.checkout.kart
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.shop440.R
 import com.shop440.checkout.CheckoutActivity
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.models.ItemForKart
 import io.realm.RealmResults
 
 

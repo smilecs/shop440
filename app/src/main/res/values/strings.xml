@@ -134,4 +134,5 @@
     <string name="quantity">quantity: %s</string>
     <string name="amount">amount: %s</string>
     <string name="checkout">Check Out</string>
+    <string name="next_checkout_button">Next</string>
 </resources>

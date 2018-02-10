@@ -1,9 +1,9 @@
 package com.shop440.dao
 
 import android.arch.lifecycle.LiveData
-import com.shop440.kart.Item
+import com.shop440.checkout.models.Item
 import com.shop440.dao.models.ProductFeed
-import com.shop440.kart.ItemForKart
+import com.shop440.checkout.models.ItemForKart
 import io.realm.Realm
 import io.realm.RealmResults
 import java.util.*
