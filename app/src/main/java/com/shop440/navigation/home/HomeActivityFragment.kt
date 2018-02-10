@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import com.shop440.navigation.home.adapter.TopFeedAdapter
+import com.shop440.adapters.TopFeedAdapter
 import com.shop440.navigation.home.viewmodel.ViewModel
 import com.shop440.R
 import com.shop440.api.NetModule

@@ -17,9 +17,9 @@
         android:id="@+id/productPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="140dp"
-        android:minHeight="136dp"
-        android:scaleType="fitXY"
+        android:maxHeight="160dp"
+        android:minHeight="160dp"
+        android:scaleType="centerCrop"
         />
 
     <LinearLayout

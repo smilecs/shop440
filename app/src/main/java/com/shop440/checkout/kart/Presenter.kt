@@ -1,14 +1,19 @@
-package com.shop440.kart
+package com.shop440.checkout.kart
 
 import android.arch.lifecycle.Observer
 import android.util.Log
 import com.shop440.dao.models.ProductFeed
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.models.ItemForKart
 import io.realm.RealmResults
 
 /**
  * Created by mmumene on 03/02/2018.
  */
 class Presenter(val view: KartContract.View) : KartContract.Presenter {
+    init {
+        view.presenter = this
+    }
     protected val viewModel by lazy {
         view.getViewModel()
     }

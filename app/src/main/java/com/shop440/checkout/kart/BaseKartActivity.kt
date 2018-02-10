@@ -1,4 +1,4 @@
-package com.shop440.kart
+package com.shop440.checkout.kart
 
 import android.support.v7.app.AppCompatActivity
 

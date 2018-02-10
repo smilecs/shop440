@@ -133,4 +133,8 @@
     <string name="title_activity_checkout">CheckoutActivity</string>
     <string name="quantity">quantity: %s</string>
     <string name="amount">amount: %s</string>
+    <string name="checkout">Check Out</string>
+    <string name="next_checkout_button">Next</string>
+    <string name="order_finish_button">Place Order</string>
+    <string name="prev_button">Prev</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.shop440.kart
+package com.shop440.checkout.kart
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.shop440.R
 import com.shop440.checkout.CheckoutActivity
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.models.ItemForKart
 import io.realm.RealmResults
 
 
@@ -67,9 +69,12 @@ class KartFragment : Fragment(), KartContract.View, KartAdapter.OnListFragmentIn
             kartItems.clear()
             for (results in it) {
                 if (!map.containsKey(results.itemName)) {
-                    map.put(results.itemName, ItemForKart(results.itemName, results.shopName, results.slug, results.totalPrice, results.id, results.shopSlug))
+                    map.put(results.itemName, ItemForKart(results.itemName, results.shopName, results.slug, results.id, results.shopSlug))
                 }
-                map[results.itemName]?.quantity?.plus(1)
+                map[results.itemName]?.apply {
+                    amount = amount.plus(results.totalPrice)
+                    quantity = map[results.itemName]?.quantity?.plus(1)!!
+                }
             }
             kartItems.addAll(map.values)
             kartAdapter.notifyDataSetChanged()

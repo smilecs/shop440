@@ -1,10 +1,11 @@
-package com.shop440.kart
+package com.shop440.checkout.kart
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.shop440.R
+import com.shop440.checkout.models.ItemForKart
 import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.fragment_item.view.*
 
