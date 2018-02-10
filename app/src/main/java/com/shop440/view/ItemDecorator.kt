@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView
 /**
  * Created by mmumene on 10/02/2018.
  */
-class ItemDecorator : RecyclerView.ItemDecoration(){
+class ItemDecorator(val context: Context, val orientation: Int) : RecyclerView.ItemDecoration(){
 
     private val ATTRS = intArrayOf(android.R.attr.listDivider)
 
@@ -18,21 +18,16 @@ class ItemDecorator : RecyclerView.ItemDecoration(){
 
     val VERTICAL_LIST = LinearLayoutManager.VERTICAL
 
-    private var mDivider: Drawable? = null
+    private val mDivider:Drawable
 
-    private var mOrientation: Int = 0
-
-    fun DividerItemDecoration(context: Context, orientation: Int) {
+    init {
         val a = context.obtainStyledAttributes(ATTRS)
-        mDivider = a.getDrawable(0)
+        mDivider =  a.getDrawable(0)
         a.recycle()
         setOrientation(orientation)
     }
 
-    fun DividerItemDecoration(divider: Drawable, orientation: Int){
-        mDivider = divider
-        setOrientation(orientation)
-    }
+    private var mOrientation: Int = 0
 
     fun setOrientation(orientation: Int) {
         if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
@@ -50,17 +45,17 @@ class ItemDecorator : RecyclerView.ItemDecoration(){
     }
 
     fun drawVertical(c: Canvas, parent: RecyclerView) {
-        val left = parent.paddingLeft
-        val right = parent.width - parent.paddingRight
+        val left = parent.paddingLeft - 15
+        val right = parent.width - parent.paddingRight -15
 
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin
-            val bottom = top + mDivider!!.intrinsicHeight
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.draw(c)
+            val bottom = top + mDivider.intrinsicHeight
+            mDivider.setBounds(left, top, right, bottom)
+            mDivider.draw(c)
         }
     }
 
@@ -74,17 +69,17 @@ class ItemDecorator : RecyclerView.ItemDecoration(){
             val params = child
                     .layoutParams as RecyclerView.LayoutParams
             val left = child.right + params.rightMargin
-            val right = left + mDivider!!.intrinsicHeight
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.draw(c)
+            val right = left + mDivider.intrinsicHeight
+            mDivider.setBounds(left, top, right, bottom)
+            mDivider.draw(c)
         }
     }
 
     override fun getItemOffsets(outRect: Rect?, itemPosition: Int, parent: RecyclerView?) {
         if (mOrientation == VERTICAL_LIST) {
-            outRect?.set(0, 0, 0, mDivider!!.intrinsicHeight)
+            outRect?.set(0, 0, 0, mDivider.intrinsicHeight)
         } else {
-            outRect?.set(0, 0, mDivider!!.intrinsicWidth, 0)
+            outRect?.set(0, 0, mDivider.intrinsicWidth, 0)
         }
     }
 }

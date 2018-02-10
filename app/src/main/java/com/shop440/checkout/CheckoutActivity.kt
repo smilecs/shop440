@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.checkout.kart.BaseKartActivity
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_checkout.*
 class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+    private val offScreenLimit = 2;
 
 
     override lateinit var presenter: CheckoutContract.Presenter
@@ -33,6 +35,7 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
         // Set up the ViewPager with the sections adapter
         // .
         container.adapter = mSectionsPagerAdapter
+        viewPagerIndicator.setupWithViewPager(container)
         presenter = CheckoutPresenter(this@CheckoutActivity, NetModule.provideRetrofit())
         container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -40,16 +43,46 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            // checkoutNextButton.text =
             }
 
             override fun onPageSelected(position: Int) {
-
+                checkoutNextButton.text = when (position) {
+                    1 -> getString(R.string.order_finish_button)
+                    else -> {
+                        getString(R.string.next_checkout_button)
+                    }
+                }
+                checkoutPrevButton.visibility = if (position == 0) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
             }
         })
-        checkoutNextButton.text = getString(R.string.next_checkout_button)
-        checkoutNextButton.setOnClickListener {
 
+        checkoutPrevButton.setOnClickListener {
+            prev()
+        }
+
+
+        checkoutNextButton.setOnClickListener {
+            if (container.currentItem != offScreenLimit) {
+                container.run {
+                    currentItem += 1
+                }
+                return@setOnClickListener
+            }
+            //doCheckOut
+        }
+    }
+
+    private fun prev(){
+        container.run {
+            if (currentItem != 0) {
+                currentItem -= 1
+                return
+            }
+            finish()
         }
     }
 
@@ -64,7 +97,7 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_checkout, menu)
-        return false
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -75,6 +108,10 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
 
         if (id == R.id.action_settings) {
             return true
+        }
+
+        if (id == android.R.id.home) {
+            prev()
         }
 
         return super.onOptionsItemSelected(item)
@@ -88,17 +125,16 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            return when(position){
-                0-> KartFragment()
-                else->{
+            return when (position) {
+                0 -> KartFragment()
+                else -> {
                     OrderSummaryFragment()
                 }
             }
         }
 
         override fun getCount(): Int {
-            // Show 3 total pages.
-            return 2
+            return offScreenLimit
         }
     }
 }

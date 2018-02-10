@@ -38,7 +38,7 @@
 
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
         <item name="actionMenuTextColor">@color/colorPrimaryDark</item>
         <item name="android:background">@color/actionBar</item>
     </style>
