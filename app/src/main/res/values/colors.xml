@@ -16,4 +16,5 @@
     <color name="invert_color">#6bd6bc</color>
     <color name="cartButton">#00ACC1</color>
     <color name="borderHighlight">#44b690</color>
+    <color name="TransColor">#29000000</color>
 </resources>

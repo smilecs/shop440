@@ -8,11 +8,10 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:id="@+id/cart"
+        android:icon="@drawable/ic_checkout_black"
         android:checkable="true"
-        android:visible="false"
-        android:title="@string/title_notifications" />
+        android:title="@string/proceed_to_checkout" />
 
     <item
         android:id="@+id/navigation_dashboard"

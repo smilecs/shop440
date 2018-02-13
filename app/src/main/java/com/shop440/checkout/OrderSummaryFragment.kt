@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +59,7 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
             adapter = modelAdapter
             addItemDecoration(ItemDecorator(context, LinearLayoutManager.VERTICAL))
         }
-        presenter.loadKart(activity as CheckoutActivity)
+        presenter.loadKart(this)
     }
 
     override fun onError(errorMessage: Int) {

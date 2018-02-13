@@ -9,9 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.shop440.R
-import com.shop440.checkout.CheckoutActivity
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.view.ItemDecorator
 import io.realm.RealmResults
 
 
@@ -45,14 +45,15 @@ class KartFragment : Fragment(), KartContract.View, KartAdapter.OnListFragmentIn
             val context = view.getContext()
             view.layoutManager = LinearLayoutManager(context)
             view.setHasFixedSize(true)
+            view.addItemDecoration(ItemDecorator(context, LinearLayoutManager.VERTICAL))
             view.adapter = kartAdapter
         }
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.loadKart(activity as CheckoutActivity)
+    override fun onResume() {
+        super.onResume()
+        presenter.loadKart(this)
     }
 
     override fun onError(errorMessage: Int) {

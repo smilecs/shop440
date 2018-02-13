@@ -1,5 +1,6 @@
 package com.shop440.checkout.kart
 
+import android.support.v4.app.Fragment
 import com.shop440.BasePresenter
 import com.shop440.BaseView
 import com.shop440.dao.models.ProductFeed
@@ -20,7 +21,7 @@ interface KartContract {
     }
 
     interface Presenter : BasePresenter {
-        fun loadKart(activity: BaseKartActivity)
+        fun loadKart(fragment: Fragment)
         fun addToKart(product: ProductFeed)
         fun addToKart(itemForKart: ItemForKart)
         fun deleteAll(slug:String)

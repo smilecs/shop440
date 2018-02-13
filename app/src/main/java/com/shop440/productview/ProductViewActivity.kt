@@ -3,6 +3,7 @@ package com.shop440.productview
 import android.app.ProgressDialog
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -10,9 +11,9 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.widget.NestedScrollView
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -26,7 +27,8 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.checkout.CheckoutActivity
+import com.shop440.checkout.CheckoutContainerActivity
+import com.shop440.checkout.CheckoutFragmentContainer
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.kart.KartViewModel
 import com.shop440.checkout.models.ShopOrders
@@ -38,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_product_view.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
 import kotlinx.android.synthetic.main.bottom_product_view.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.io.File
 
 
@@ -66,13 +69,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         super.onCreate(savedInstanceState)
         bundle = savedInstanceState
         setContentView(R.layout.activity_product_view)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(false)
+            setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@ProductViewActivity, R.color.TransColor)))
         }
         if (intent != null && !intent.dataString.isNullOrBlank()) {
             data = intent.dataString
@@ -93,12 +94,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+
+    override fun onResume() {
+        super.onResume()
         loadData()
     }
-
-
 
     override fun onMapReady(googleMap: GoogleMap) {
         val builder = LatLngBounds.builder()
@@ -116,12 +116,8 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.download) {
-            try {
-                //presenter.downloadImage(productModel?.image.path, productModel.name, fileCache)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        if (id == R.id.checkout) {
+            startActivity(Intent(this@ProductViewActivity, CheckoutContainerActivity::class.java))
         }
         if (id == android.R.id.home) {
             finish()
@@ -192,7 +188,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             }
             totalItems = realmResults.size
         }
-        cartItems.text = getString(R.string.cart_hint, totalItems.toString(), Metrics.getDisplayPriceWithCurrency(this, totalPrice))
+        cartItems.text = Html.fromHtml(getString(R.string.cart_hint, totalItems.toString(), Metrics.getDisplayPriceWithCurrency(this, totalPrice)))
     }
 
     override fun categoryNameResolved(category: String) {
@@ -243,49 +239,9 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     private fun bottomSheetControls() {
         productViewPrice.text = Metrics.getDisplayPriceWithCurrency(this, productModel.productPrice)
-        //sheetContainer.visibility = View.GONE
-        val behaviour = BottomSheetBehavior.from(bottomBar)
-        behaviour.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                //BottomSheetBehavior.STATE_EXPANDED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_downward_black))
-                //BottomSheetBehavior.STATE_COLLAPSED->imageToggle.setImageDrawable(getDrawable(R.drawable.ic_arrow_upward_black))
-                }
-            }
-        })
-        bottomBar.setOnClickListener {
-            if (behaviour.state == BottomSheetBehavior.STATE_EXPANDED) {
-                behaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                return@setOnClickListener
-            }
-            behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-        behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-        scrollContainer.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-            override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
-                v?.apply {
-                    val lastChild = getChildAt(childCount - 1) as View
-                    val diff = lastChild.bottom - (height + scrollY)
-                    if (diff != 0) {
-                        behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-                    } else {
-                        behaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                    }
-                }
-            }
-        })
         bottomSheetAddCartButton.setOnClickListener {
             presenter.addToCart(productModel)
         }
-
-        bottomSheetCheckout.setOnClickListener {
-            startActivity(Intent(this@ProductViewActivity, CheckoutActivity::class.java))
-        }
-
     }
 
 }

@@ -5,38 +5,35 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
-import android.view.Menu
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.shop440.R
 import com.shop440.api.NetModule
-import com.shop440.checkout.kart.BaseKartActivity
 import com.shop440.checkout.kart.KartFragment
-import kotlinx.android.synthetic.main.activity_checkout.*
+import kotlinx.android.synthetic.main.checkout_container_fragment.*
 
-class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
+class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-    private val offScreenLimit = 2;
+    private val offScreenLimit = 2
 
 
     override lateinit var presenter: CheckoutContract.Presenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkout)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater?.inflate(R.layout.checkout_container_fragment, container, false)
+    }
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager)
 
         // Set up the ViewPager with the sections adapter
         // .
         container.adapter = mSectionsPagerAdapter
         viewPagerIndicator.setupWithViewPager(container)
-        presenter = CheckoutPresenter(this@CheckoutActivity, NetModule.provideRetrofit())
+        presenter = CheckoutPresenter(this@CheckoutFragmentContainer, NetModule.provideRetrofit())
         container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -51,11 +48,6 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
                     else -> {
                         getString(R.string.next_checkout_button)
                     }
-                }
-                checkoutPrevButton.visibility = if (position == 0) {
-                    View.GONE
-                } else {
-                    View.VISIBLE
                 }
             }
         })
@@ -74,15 +66,15 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
             }
             //doCheckOut
         }
+
     }
 
-    private fun prev(){
+    fun prev(){
         container.run {
             if (currentItem != 0) {
                 currentItem -= 1
                 return
             }
-            finish()
         }
     }
 
@@ -92,29 +84,6 @@ class CheckoutActivity : BaseKartActivity(), CheckoutContract.View {
 
     override fun onDataLoading() {
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_checkout, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-
-        if (id == R.id.action_settings) {
-            return true
-        }
-
-        if (id == android.R.id.home) {
-            prev()
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onCheckOut() {
