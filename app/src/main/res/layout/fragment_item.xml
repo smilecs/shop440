@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
                 android:layout_gravity="end">
                 <ImageView
                     android:layout_width="24dp"
@@ -48,9 +49,9 @@
                 <com.shop440.widgets.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:textSize="24sp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     style="@style/titleTextDef"
                     android:id="@+id/quantityText"
                     tools:text="2"
@@ -60,15 +61,16 @@
                     android:layout_height="24dp"
                     android:id="@+id/addItem"
                     android:foreground="?android:selectableItemBackground"
-                    app:srcCompat="@drawable/ic_plus_24dp"
+                    app:srcCompat="@drawable/ic_add_black_24dp"
                     />
             </LinearLayout>
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:srcCompat="@drawable/ic_close_black_24dp"
+        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
         android:id="@+id/removeItem"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
         android:foreground="?android:selectableItemBackground"/>
 
 </LinearLayout>
