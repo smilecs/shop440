@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.github.vivchar.viewpagerindicator.ViewPagerIndicator
+        android:id="@+id/viewPagerIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        app:delimiterSize="3dp"
+        app:itemScale="1.5"
+        app:itemSelectedTint="@color/colorAccent"
+        app:itemSize="4dp"
+        app:itemTint="@color/colorPrimaryDark"
+        />
+
+    <com.shop440.widgets.DisabledViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="6dp"
+        android:layout_weight="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/checkoutPrevButton"
+            style="?buttonBarPositiveButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="@string/prev_button"
+            android:textAlignment="center"
+            tools:text="prev"/>
+
+        <Button
+            android:id="@+id/checkoutNextButton"
+            style="?buttonBarPositiveButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="@string/next_checkout_button"
+            android:textAlignment="center"
+            tools:text="Next"/>
+
+    </LinearLayout>
+</LinearLayout>

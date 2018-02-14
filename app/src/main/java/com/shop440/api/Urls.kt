@@ -5,7 +5,7 @@ package com.shop440.api
  */
 
 object Urls {
-    const val BASE_URL = "http://192.168.8.101:8080"
+    const val BASE_URL = "http://192.168.1.55:8080"
     const val NEW_USER = "/api/users/signup"
     //const val BASE_URL = "http://192.168.8.104:8080"
     //const val BASE_URL = "https://shop440.com"
@@ -15,5 +15,6 @@ object Urls {
     const val OTP = "/api/users/verifyphone"
     const val TOKEN = "tokens"
     const val CATEGORY = "/api/categories"
+    const val GET_PRODUCT = "/api/{shopid}/{productslug}"
     const val TINYFILES = "https://tinyfiles.past3dev.com/resize?width=200&height=0&type=jpeg&nocrop=true&url="
 }

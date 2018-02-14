@@ -1,6 +1,7 @@
 package com.shop440.checkout.kart
 
 import android.arch.lifecycle.Observer
+import android.support.v4.app.Fragment
 import android.util.Log
 import com.shop440.dao.models.ProductFeed
 import com.shop440.checkout.models.Item
@@ -18,8 +19,8 @@ class Presenter(val view: KartContract.View) : KartContract.Presenter {
         view.getViewModel()
     }
 
-    override fun loadKart(activity: BaseKartActivity) {
-        viewModel.getKartData().observe(activity, Observer<RealmResults<Item>> { t ->
+    override fun loadKart(fragment: Fragment) {
+        viewModel.getKartData().observe(fragment, Observer<RealmResults<Item>> { t ->
             Log.i("presenter", t?.size.toString())
             view.onKartLoaded(t)
         })

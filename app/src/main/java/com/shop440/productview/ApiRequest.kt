@@ -1,5 +1,6 @@
 package com.shop440.productview
 
+import com.shop440.api.Urls
 import com.shop440.dao.models.ProductFeed
 import retrofit2.Call
 import retrofit2.http.GET
@@ -10,6 +11,6 @@ import retrofit2.http.Path
  */
 
 interface ApiRequest {
-    @GET("")
-    fun getProduct(@Path("slug") slug: String): Call<ProductFeed>
+    @GET(Urls.GET_PRODUCT)
+    fun getProduct(@Path("shopid") shop:String, @Path("productslug") slug: String): Call<ProductFeed>
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import com.shop440.R
 import com.shop440.api.NetModule
+import com.shop440.checkout.CheckoutFragmentContainer
 import com.shop440.navigation.home.HomeActivityFragment
 import com.shop440.navigation.profile.ProfileContainerFragment
 import com.shop440.utils.ProgressHelper
@@ -21,8 +22,8 @@ class MainNavigation : AppCompatActivity(), AppContract.AppView {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> return@OnNavigationItemSelectedListener navItemSelector(0)
-            R.id.navigation_dashboard -> return@OnNavigationItemSelectedListener navItemSelector(1)
-        //R.id.navigation_notifications -> return@OnNavigationItemSelectedListener true
+            R.id.navigation_dashboard -> return@OnNavigationItemSelectedListener navItemSelector(2)
+            R.id.cart -> return@OnNavigationItemSelectedListener navItemSelector(1)
         }
         false
     }
@@ -33,6 +34,7 @@ class MainNavigation : AppCompatActivity(), AppContract.AppView {
         navigationViewPager.adapter = Pager.PagerAdapter(supportFragmentManager)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigationViewPager.currentItem = 0
+        navigationViewPager.offscreenPageLimit = 3
         progressDialog = ProgressHelper.progressDialog(this)
         AppPresenter(NetModule.provideRetrofit(), this)
         presenter.start()
@@ -48,11 +50,11 @@ class MainNavigation : AppCompatActivity(), AppContract.AppView {
             override fun getItem(position: Int): Fragment =
                     when (position) {
                         0 -> HomeActivityFragment()
-                        1 -> ProfileContainerFragment()
-                        else -> HomeActivityFragment()
+                        1 -> CheckoutFragmentContainer()
+                        else -> ProfileContainerFragment()
                     }
 
-            override fun getCount() = 2
+            override fun getCount() = 3
 
 
         }

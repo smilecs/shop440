@@ -60,7 +60,7 @@
             android:exported="true"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
+            android:theme="@style/TransBar">
 
             <!-- web and mobile urls differ web client uses /products for requests -->
             <intent-filter android:label="@string/app_name">
@@ -148,10 +148,8 @@
         </activity>
         <activity android:name=".auth.AuthActivity">
         </activity>
-        <activity
-            android:name=".checkout.CheckoutActivity"
-            android:label="@string/title_activity_checkout"
-            android:theme="@style/AppTheme">
+        <activity android:name=".checkout.CheckoutContainerActivity"
+                  android:theme="@style/AppTheme">
         </activity>
     </application>
 
