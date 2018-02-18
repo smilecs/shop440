@@ -29,8 +29,8 @@ class KartAdapter(val items:ArrayList<ItemForKart>, val listener:OnListFragmentI
         fun onBind(item: ItemForKart){
             mView.itemName.text = item.itemName
             mView.shopName.text = item.shopName
-            mView.quantityText.text = mView.context.getString(R.string.quantity, item.quantity.toString())
-            mView.amountText.text = mView.context.getString(R.string.amount, Metrics.getDisplayPriceWithCurrency(mView.context, item.amount))
+            mView.quantityText.text = item.quantity.toString()
+            mView.amountText.text = Metrics.getDisplayPriceWithCurrency(mView.context, item.amount)
             mView.removeItem.setOnClickListener {
                 listener.onItemDelete(item)
             }

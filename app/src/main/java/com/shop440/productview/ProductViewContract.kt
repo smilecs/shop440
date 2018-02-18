@@ -3,7 +3,7 @@ package com.shop440.productview
 import com.shop440.BasePresenter
 import com.shop440.BaseView
 import com.shop440.checkout.models.Item
-import com.shop440.checkout.kart.KartViewModel
+import com.shop440.viewmodel.KartViewModel
 import com.shop440.checkout.models.ShopOrders
 import com.shop440.dao.models.ProductFeed
 import com.shop440.utils.FileCache

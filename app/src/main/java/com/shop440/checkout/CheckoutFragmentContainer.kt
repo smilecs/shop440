@@ -17,6 +17,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private val offScreenLimit = 2
+    private val orderSummaryFragment = OrderSummaryFragment()
 
 
     override lateinit var presenter: CheckoutContract.Presenter
@@ -64,7 +65,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
                 }
                 return@setOnClickListener
             }
-            //doCheckOut
+          //  presenter.checkOut()
         }
 
     }
@@ -87,7 +88,6 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
     }
 
     override fun onCheckOut() {
-
     }
 
 
@@ -97,7 +97,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
             return when (position) {
                 0 -> KartFragment()
                 else -> {
-                    OrderSummaryFragment()
+                    orderSummaryFragment
                 }
             }
         }

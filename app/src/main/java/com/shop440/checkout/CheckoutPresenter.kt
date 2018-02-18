@@ -1,5 +1,6 @@
 package com.shop440.checkout
 
+import com.shop440.checkout.models.Order
 import retrofit2.Retrofit
 
 /**
@@ -15,7 +16,7 @@ class CheckoutPresenter(view: CheckoutContract.View, retrofit: Retrofit): Checko
 
     }
 
-    override fun checkOut() {
+    override fun checkOut(order:Order) {
 
     }
 }

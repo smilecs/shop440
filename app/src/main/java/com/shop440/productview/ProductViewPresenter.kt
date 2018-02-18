@@ -40,7 +40,7 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
 
     override fun loadData(path: String) {
         productView.onDataLoading()
-        val data: Call<ProductFeed> = retrofit.create(ApiRequest::class.java).getProduct(path)
+        val data: Call<ProductFeed> = retrofit.create(ApiRequest::class.java).getProduct(path, "")
         data.enqueue(object : Callback<ProductFeed> {
             override fun onResponse(call: Call<ProductFeed>?, response: Response<ProductFeed>?) {
                 if (response!!.isSuccessful) {

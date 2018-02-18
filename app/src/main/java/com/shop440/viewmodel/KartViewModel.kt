@@ -1,4 +1,4 @@
-package com.shop440.checkout.kart
+package com.shop440.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel

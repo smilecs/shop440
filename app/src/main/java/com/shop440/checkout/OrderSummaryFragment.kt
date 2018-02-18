@@ -8,30 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.shop440.R
+import com.shop440.adapters.TopFeedAdapter
 import com.shop440.checkout.kart.KartContract
-import com.shop440.checkout.kart.KartViewModel
+import com.shop440.viewmodel.KartViewModel
 import com.shop440.checkout.kart.Presenter
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.checkout.models.ShopOrders
 import com.shop440.checkout.models.SummaryViewModel
-import com.shop440.adapters.TopFeedAdapter
 import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.utils.Metrics
 import com.shop440.view.ItemDecorator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_order_summary.*
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [OrderSummaryFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [OrderSummaryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class OrderSummaryFragment : Fragment(), KartContract.View {
 
     val viewModel = arrayListOf<ViewModel>()
     override lateinit var presenter: KartContract.Presenter
+    val shopOrders = arrayListOf<ShopOrders>()
     private val kartViewModel: KartViewModel by lazy {
         ViewModelProviders.of(this).get(KartViewModel::class.java)
     }
@@ -75,6 +71,7 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
         val shopNames = HashSet<String>()
         realmResults?.let {
             viewModel.clear()
+            var amountForTotal = 0.0
             for (results in it) {
                 if (!map.containsKey(results.itemName)) {
                     map.put(results.itemName, ItemForKart(results.itemName, results.shopName, results.slug, results.id, results.shopSlug))
@@ -82,21 +79,36 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
                 map[results.itemName]?.apply {
                     amount = amount.plus(results.totalPrice)
                     quantity = map[results.itemName]?.quantity?.plus(1)!!
+                    item = results
                 }
                 if (!shopNames.contains(results.shopName)) {
                     shopNames.add(results.shopName)
                 }
+                amountForTotal += results.totalPrice
             }
 
             for (key in shopNames.toList()) {
                 val itemList = arrayListOf<ItemForKart>()
+                var totalPerShop = 0.0
                 for ((_, value) in map) {
                     if (value.shopName == key) {
                         itemList.add(value)
+                        //for now no shipping so itemCost and total are the same
+                        totalPerShop.plus(value.amount)
                     }
                 }
+                val shop = ShopOrders().apply {
+                    shopName = itemList[0].shopName
+                    shopId = itemList[0].shopSlug
+                    total = totalPerShop
+                    itemList.mapTo(items, { t->
+                        t.item
+                    })
+                }
+                shopOrders.add(shop)
                 viewModel.add(SummaryViewModel(key, itemList))
             }
+            total.text = Metrics.getDisplayPriceWithCurrency(context, amountForTotal)
         }
         modelAdapter.notifyDataSetChanged()
     }

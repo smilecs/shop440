@@ -137,4 +137,7 @@
     <string name="next_checkout_button">Next</string>
     <string name="order_finish_button">Place Order</string>
     <string name="prev_button">Prev</string>
+    <string name="sub_total">Sub total</string>
+    <string name="total">Total</string>
+    <string name="shop_total">Shop total</string>
 </resources>

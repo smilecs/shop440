@@ -36,14 +36,6 @@ class PreferenceManager : Preference() {
         }?.savePreference()
     }
 
-    /*fun getSavedImage() = PrefData.getPreferenceManager()?.image
-
-    fun getSavedPhone() = PrefData.getPreferenceManager()?.phone
-
-    fun getSavedName() = PrefData.getPreferenceManager()?.name
-
-    fun getSavedToken() = PrefData.getPreferenceManager()?.token*/
-
     object PrefData {
         fun getPreferenceManager(): PreferenceManager? = Preference.getPreference(PreferenceManager::class.java)
     }
