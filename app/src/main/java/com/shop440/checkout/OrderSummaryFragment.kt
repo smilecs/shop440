@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_order_summary.*
 class OrderSummaryFragment : Fragment(), KartContract.View {
 
     val viewModel = arrayListOf<ViewModel>()
+    var amountForTotal = 0.0
     override lateinit var presenter: KartContract.Presenter
     val shopOrders = arrayListOf<ShopOrders>()
     private val kartViewModel: KartViewModel by lazy {
@@ -71,7 +72,6 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
         val shopNames = HashSet<String>()
         realmResults?.let {
             viewModel.clear()
-            var amountForTotal = 0.0
             for (results in it) {
                 if (!map.containsKey(results.itemName)) {
                     map.put(results.itemName, ItemForKart(results.itemName, results.shopName, results.slug, results.id, results.shopSlug))

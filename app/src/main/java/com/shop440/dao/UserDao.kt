@@ -9,12 +9,12 @@ import io.realm.Realm
  */
 class UserDao(val realm: Realm) {
     fun addAddress(userAdress: UserAdress) {
-        realm.executeTransactionAsync {
+        /*realm.executeTransactionAsync {
             it.insert(userAdress)
-        }
+        }*/
     }
 
-    fun getUserAddress(): LiveData<UserAdress> {
+    /*fun getUserAddress(): LiveData<UserAdress> {
         return realm.where(UserAdress::class.java).findFirstAsync().toLiveObject()
-    }
+    }*/
 }

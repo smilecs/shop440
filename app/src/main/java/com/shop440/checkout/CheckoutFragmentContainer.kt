@@ -1,6 +1,9 @@
 package com.shop440.checkout
 
+import android.app.ProgressDialog
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -11,13 +14,23 @@ import android.view.ViewGroup
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.checkout.kart.KartFragment
+import com.shop440.checkout.models.Order
+import com.shop440.dao.models.UserAdress
+import com.shop440.utils.PreferenceManager
+import com.shop440.utils.ProgressHelper
+import com.shop440.viewmodel.KartViewModel
+import com.shop440.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.checkout_container_fragment.*
 
-class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
+class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressSheetFragment.OnFragmentAddressListener {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private val offScreenLimit = 2
     private val orderSummaryFragment = OrderSummaryFragment()
+    private lateinit var progressDialog: ProgressDialog
+    private val userViewModel:KartViewModel by lazy {
+        ViewModelProviders.of(this).get(KartViewModel::class.java)
+    }
 
 
     override lateinit var presenter: CheckoutContract.Presenter
@@ -34,6 +47,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
         // .
         container.adapter = mSectionsPagerAdapter
         viewPagerIndicator.setupWithViewPager(container)
+        progressDialog = ProgressHelper.progressDialog(context)
         presenter = CheckoutPresenter(this@CheckoutFragmentContainer, NetModule.provideRetrofit())
         container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -53,21 +67,49 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
             }
         })
 
+        val bottomSheetB = BottomSheetBehavior.from(bottomBar)
+        val sheetBehaviourCallback: BottomSheetBehavior.BottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if(newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetB.peekHeight = 0
+                }
+            }
+        }
+
+
+        bottomSheetB.setBottomSheetCallback(sheetBehaviourCallback)
+
         checkoutPrevButton.setOnClickListener {
             prev()
         }
 
 
         checkoutNextButton.setOnClickListener {
-            if (container.currentItem != offScreenLimit) {
+            if (container.currentItem != offScreenLimit -1) {
                 container.run {
                     currentItem += 1
                 }
                 return@setOnClickListener
             }
-          //  presenter.checkOut()
+            val prefManager = PreferenceManager.PrefData.getPreferenceManager()
+            if(prefManager?.address != null && prefManager.city != null){
+                val order = Order().apply {
+                    shopOrders.addAll(orderSummaryFragment.shopOrders)
+                    phone = prefManager.phone!!
+                    city = prefManager.city!!
+                    address = prefManager.address!!
+                    total = orderSummaryFragment.amountForTotal
+                }
+                presenter.checkOut(order)
+            }else{
+                val bottomSheetFrag = AddressSheetFragment.newInstance(this)
+                bottomSheetFrag.show(childFragmentManager, "sheet")
+            }
         }
-
     }
 
     fun prev(){
@@ -84,10 +126,15 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
     }
 
     override fun onDataLoading() {
+        if (progressDialog.isShowing) {
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
 
     }
-
     override fun onCheckOut() {
+
     }
 
 
@@ -106,4 +153,13 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View {
             return offScreenLimit
         }
     }
+
+    override fun onFragmentInteraction(userAdress: UserAdress) {
+        PreferenceManager().run {
+            persistAddress(userAdress.address)
+            persistCity(userAdress.city)
+        }
+    }
+
+    override fun getViewModel() = userViewModel
 }

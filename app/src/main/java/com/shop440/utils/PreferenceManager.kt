@@ -11,6 +11,8 @@ class PreferenceManager : Preference() {
     var name: String? = null
     var image: String? = null
     var phone: String? = null
+    var city: String? = null
+    var address: String? = null
     fun persistToken(userToken: String) {
         PrefData.getPreferenceManager()?.apply {
             token = userToken
@@ -33,6 +35,18 @@ class PreferenceManager : Preference() {
     fun persistImage(image:String){
         PrefData.getPreferenceManager()?.apply {
             this.image = image
+        }?.savePreference()
+    }
+
+    fun persistCity(city:String){
+        PrefData.getPreferenceManager()?.apply {
+            this.city = city
+        }?.savePreference()
+    }
+
+    fun persistAddress(address:String){
+        PrefData.getPreferenceManager()?.apply {
+            this.address = address
         }?.savePreference()
     }
 

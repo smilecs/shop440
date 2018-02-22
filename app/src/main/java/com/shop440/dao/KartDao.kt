@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import com.shop440.checkout.models.Item
 import com.shop440.dao.models.ProductFeed
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.checkout.models.Order
 import io.realm.Realm
 import io.realm.RealmResults
 import java.util.*
@@ -24,6 +25,12 @@ class KartDao(val realm: Realm) {
             item.itemName = productFeed.productName
             item.id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.randomUUID().toString()
             it.insert(item)
+        }
+    }
+
+    fun persistOrder(order: Order){
+        realm.executeTransactionAsync {
+            it.insert(order)
         }
     }
 

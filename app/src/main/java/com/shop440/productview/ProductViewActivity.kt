@@ -150,10 +150,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         initUi()
     }
 
-    override fun imageDownloaded(filePath: File) {
-        runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
-    }
-
     internal class ViewAdapter(fm: FragmentManager, val image: List<Image>) : FragmentStatePagerAdapter(fm) {
 
         override fun getCount(): Int = image.size

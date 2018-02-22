@@ -63,37 +63,6 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
         })
     }
 
-    @Throws(MalformedURLException::class)
-    override fun downloadImage(imageUrl: String, productName: String, filePath: FileCache) {
-        val type = "jpg"
-        val file = filePath.getFile(productName, type)
-        val url = URL(imageUrl)
-        val tm = Thread(Runnable {
-            try {
-                val ucon = url.openConnection()
-                val `is` = ucon.getInputStream()
-                val inStream = BufferedInputStream(`is`, 5 * 1024)
-                val outStream = FileOutputStream(file)
-                val buff = ByteArray(5 * 1024)
-
-                //Read bytes (and store them) until there is nothing more to read(-1)
-                var len: Int = 0
-                while (len != -1) {
-                    len = inStream.read(buff)
-                    outStream.write(buff, 0, len)
-                }
-                outStream.flush()
-                outStream.close()
-                inStream.close()
-                productView.imageDownloaded(file)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        })
-        tm.start()
-
-    }
-
     override fun loadCart(activity: ProductViewActivity) {
         //productView.cartLoaded(Realm.getDefaultInstance().where(Item::class.java).findAll())
        productViewModel.getKartData().observe(activity, Observer<RealmResults<Item>> { t ->
@@ -104,13 +73,11 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
 
     override fun resolveCategory(slug: String) {
         val realm = Realm.getDefaultInstance()
-        realm.where(CategoryModel::class.java).equalTo("slug", slug).findFirstAsync().addChangeListener(object : RealmObjectChangeListener<CategoryModel> {
-            override fun onChange(t: CategoryModel?, changeSet: ObjectChangeSet?) {
-                t?.let {
-                    if (t.isLoaded) {
-                        productView.categoryNameResolved(t.catName)
-                        realm.close()
-                    }
+        realm.where(CategoryModel::class.java).equalTo("slug", slug).findFirstAsync().addChangeListener(RealmObjectChangeListener<CategoryModel> { t, changeSet ->
+            t.let {
+                if (t.isLoaded) {
+                    productView.categoryNameResolved(t.catName)
+                    realm.close()
                 }
             }
         })

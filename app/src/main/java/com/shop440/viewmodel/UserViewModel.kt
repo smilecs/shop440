@@ -10,17 +10,8 @@ import io.realm.Realm
  * Created by mmumene on 18/02/2018.
  */
 class UserViewModel : ViewModel(){
-    val realm: Realm by lazy {
+    private val realm: Realm by lazy {
         Realm.getDefaultInstance()
-    }
-
-
-    fun addAddress(userAdress: UserAdress){
-        realm.UserDao().addAddress(userAdress)
-    }
-
-    fun getUserAddress() : LiveData<UserAdress>{
-        return realm.UserDao().getUserAddress()
     }
 
     override fun onCleared() {

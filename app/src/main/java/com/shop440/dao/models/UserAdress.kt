@@ -5,7 +5,7 @@ import io.realm.RealmObject
 /**
  * Created by mmumene on 18/02/2018.
  */
-class UserAdress :RealmObject(){
+open class UserAdress{
     var name:String = ""
     var email:String = ""
     var phone:String = ""

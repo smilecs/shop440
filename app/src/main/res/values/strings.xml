@@ -140,4 +140,8 @@
     <string name="sub_total">Sub total</string>
     <string name="total">Total</string>
     <string name="shop_total">Shop total</string>
+    <string name="current_address">Current address</string>
+    <string name="current_city">Current city</string>
+    <string name="convince_addr_text">We would love to know where you stay.</string>
+    <string name="save_button_text">save</string>
 </resources>
