@@ -4,6 +4,7 @@ import com.shop440.api.Urls
 import com.shop440.checkout.models.Order
 import com.shop440.response.GenericResponse
 import retrofit2.Call
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -12,4 +13,7 @@ import retrofit2.http.POST
 interface ApiRequest {
     @POST(Urls.NEW_ORDER)
     fun newOrder(order:Order) : Call<GenericResponse>
+
+    @GET(Urls.GET_ORDER)
+    fun getOrders() : Call<Order>
 }

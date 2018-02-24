@@ -40,6 +40,7 @@ class CheckoutPresenter(val view: CheckoutContract.View, val retrofit: Retrofit)
             }
 
             override fun onFailure(call: Call<GenericResponse>?, t: Throwable?) {
+                view.onDataLoading()
                 view.onError(R.string.api_data_load_error)
             }
         })

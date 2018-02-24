@@ -67,6 +67,7 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
 
     }
 
+    //pasta do not modify anyhow!!!!!
     override fun onKartLoaded(realmResults: RealmResults<Item>?) {
         val map = HashMap<String, ItemForKart>()
         val shopNames = HashSet<String>()

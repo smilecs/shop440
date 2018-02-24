@@ -32,6 +32,7 @@ class KartDao(val realm: Realm) {
         realm.executeTransactionAsync {
             it.insert(order)
         }
+        clearkart()
     }
 
     fun addToKart(item: ItemForKart){
@@ -61,6 +62,13 @@ class KartDao(val realm: Realm) {
     fun deleteAll(slug: String) {
         realm.executeTransactionAsync {
             val result = it.where(Item::class.java).equalTo("slug", slug).findAll()
+            result.deleteAllFromRealm()
+        }
+    }
+
+    private fun clearkart(){
+        realm.executeTransactionAsync {
+            val result = it.where(Item::class.java).findAll()
             result.deleteAllFromRealm()
         }
     }

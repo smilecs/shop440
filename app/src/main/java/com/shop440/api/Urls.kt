@@ -17,5 +17,6 @@ object Urls {
     const val CATEGORY = "/api/categories"
     const val GET_PRODUCT = "/api/{shopid}/{productslug}"
     const val NEW_ORDER = "/api/new"
+    const val GET_ORDER = "/api/user/{userPhone}"
     const val TINYFILES = "https://tinyfiles.past3dev.com/resize?width=200&height=0&type=jpeg&nocrop=true&url="
 }
