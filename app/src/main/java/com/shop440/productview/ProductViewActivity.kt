@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -17,7 +16,6 @@ import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,9 +26,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.checkout.CheckoutContainerActivity
-import com.shop440.checkout.CheckoutFragmentContainer
 import com.shop440.checkout.models.Item
-import com.shop440.checkout.kart.KartViewModel
+import com.shop440.viewmodel.KartViewModel
 import com.shop440.checkout.models.ShopOrders
 import com.shop440.dao.models.Image
 import com.shop440.dao.models.ProductFeed
@@ -151,10 +148,6 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     override fun showProduct(product: ProductFeed) {
         this@ProductViewActivity.productModel = product
         initUi()
-    }
-
-    override fun imageDownloaded(filePath: File) {
-        runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
     }
 
     internal class ViewAdapter(fm: FragmentManager, val image: List<Image>) : FragmentStatePagerAdapter(fm) {

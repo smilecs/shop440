@@ -2,6 +2,7 @@ package com.shop440.dao
 
 import io.realm.Realm
 import io.realm.RealmModel
+import io.realm.RealmObject
 import io.realm.RealmResults
 
 /**
@@ -9,3 +10,5 @@ import io.realm.RealmResults
  */
 fun <T: RealmModel> RealmResults<T>.asLiveData() = RealmLiveData<T>(this)
 fun Realm.kartDao() : KartDao = KartDao(this)
+fun <T:RealmObject>RealmObject.toLiveObject() = RealmLiveData.SingleLiveData.LiveObject<T>(this)
+fun Realm.UserDao() : UserDao = UserDao(this)

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.support.v7.graphics.Palette
 import android.view.View
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.home_feed_product_layout.view.*
  * Created by mmumene on 21/11/2017.
  */
 
-class ProductViewHolder(val view: View) : BaseViewHolder<ProductViewModel>(view) {
+class ProductViewHolder(val view: View, val requestManager: RequestManager) : BaseViewHolder<ProductViewModel>(view) {
     private val productTitle = view.productFeedTitle
     private val productPrice = view.productFeedPrice
     private val productShopTitle = view.productShopTitle
@@ -58,8 +59,7 @@ class ProductViewHolder(val view: View) : BaseViewHolder<ProductViewModel>(view)
                     return false
                 }
             }
-            Glide.with(view)
-                    .load("https://tinyfiles.past3dev.com/resize?width=600&height=0&type=jpeg&nocrop=true&url=" + it.url)
+            requestManager.load("https://tinyfiles.past3dev.com/resize?width=600&height=0&type=jpeg&nocrop=true&url=" + it.url)
                     .apply(RequestOptions().placeholder(BitmapDrawable(view.resources, Image.base64ToBitmap(it.placeholder!!))))
                     .listener(requestListener)
                     .into(preview)

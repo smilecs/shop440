@@ -1,9 +1,7 @@
 package com.shop440.dao
 
 import android.arch.lifecycle.LiveData
-import io.realm.RealmChangeListener
-import io.realm.RealmModel
-import io.realm.RealmResults
+import io.realm.*
 
 
 /**
@@ -19,5 +17,22 @@ class RealmLiveData <T : RealmModel>(val realmResults: RealmResults<T>) : LiveDa
 
     override fun onInactive() {
         realmResults.removeChangeListener(listener)
+    }
+
+    object SingleLiveData{
+        class LiveObject<T : RealmObject>(val result:RealmObject):LiveData<T>(){
+
+            private val listener = RealmChangeListener<T> { results -> value = results }
+
+            override fun onActive() {
+                result.addChangeListener(listener)
+            }
+
+
+
+            override fun onInactive() {
+                result.removeChangeListener(listener)
+            }
+        }
     }
 }

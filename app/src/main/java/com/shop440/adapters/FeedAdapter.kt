@@ -7,10 +7,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.shop440.R
+import com.shop440.checkout.models.SummaryViewModel
 import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.utils.Metrics
 import com.shop440.view.ItemDecorator
 import com.shop440.widgets.FontTextView
+import kotlinx.android.synthetic.main.linear_recycler.view.*
 
 /**
  * Created by mmumene on 19/11/2017.
@@ -27,10 +31,10 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val i
         holder?.onBind(model)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder.BaseViewHolder{
-        val viewHolder = if(isLinear){
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder.BaseViewHolder {
+        val viewHolder = if (isLinear) {
             ViewHolder.LinearViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.linear_recycler, parent, false))
-        }else{
+        } else {
             ViewHolder.GridViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.nested_reycler, parent, false))
         }
         viewHolder.recyclerView.recycledViewPool = viewPool
@@ -42,7 +46,7 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val i
 
     object ViewHolder {
 
-        abstract class BaseViewHolder(val view:View) : RecyclerView.ViewHolder(view){
+        abstract class BaseViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val recyclerView: RecyclerView by lazy {
                 view.findViewById<RecyclerView>(R.id.nestedRecycler)
             }
@@ -51,28 +55,43 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val i
                 view.findViewById<FontTextView>(R.id.nestedTitle)
             }
 
-            abstract fun onBind(viewModel:ViewModel)
+            val requestManager by lazy {
+                Glide.with(view.context)
+            }
+
+            abstract fun onBind(viewModel: ViewModel)
         }
 
-        class GridViewHolder(val views: View) : BaseViewHolder(views){
+        class GridViewHolder(val views: View) : BaseViewHolder(views) {
             override fun onBind(viewModel: ViewModel) {
                 title.text = viewModel.title
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
-                    adapter = NestedFeedAdapter(viewModel)
+                    adapter = NestedFeedAdapter(viewModel, requestManager)
                 }
             }
         }
 
-        class LinearViewHolder(views:View) : BaseViewHolder(views){
+        class LinearViewHolder(views: View) : BaseViewHolder(views) {
+            val subText:FontTextView by lazy {
+                view.subTotal
+            }
             override fun onBind(viewModel: ViewModel) {
                 title.text = viewModel.title
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)
                     addItemDecoration(ItemDecorator(context, LinearLayoutManager.VERTICAL))
-                    adapter = NestedFeedAdapter(viewModel)
+                    adapter = NestedFeedAdapter(viewModel, requestManager)
+                }
+                if (viewModel is SummaryViewModel) {
+                    val sub = viewModel.item.run {
+                        var subAmount = 0.0
+                        this.forEach { data -> subAmount += data.amount }
+                        subAmount
+                    }
+                    subText.text = Metrics.getDisplayPriceWithCurrency(view.context, sub)
                 }
             }
         }

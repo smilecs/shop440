@@ -1,6 +1,7 @@
 package com.shop440.typefactory
 
 import android.view.View
+import com.bumptech.glide.RequestManager
 import com.shop440.R
 import com.shop440.checkout.viewholder.SummaryViewHolder
 import com.shop440.navigation.home.viewholders.BaseViewHolder
@@ -13,9 +14,9 @@ import com.shop440.navigation.home.viewholders.StoreViewHolder
 
 class TypesFactoryImpl : TypeFactory {
 
-    override fun holder(type: Int, view: View): BaseViewHolder<*> =
+    override fun holder(type: Int, view: View, requestManager: RequestManager): BaseViewHolder<*> =
             when (type) {
-                R.layout.home_feed_product_layout -> ProductViewHolder(view)
+                R.layout.home_feed_product_layout -> ProductViewHolder(view, requestManager)
                 R.layout.home_feed_shop_layout -> StoreViewHolder(view)
                 R.layout.summary_item_layout -> SummaryViewHolder(view)
                 else -> throw RuntimeException("Illegal view type")

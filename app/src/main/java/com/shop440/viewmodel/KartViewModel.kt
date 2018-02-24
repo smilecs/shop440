@@ -1,11 +1,14 @@
-package com.shop440.checkout.kart
+package com.shop440.viewmodel
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.shop440.dao.kartDao
 import com.shop440.dao.models.ProductFeed
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.checkout.models.Order
 import io.realm.Realm
 import io.realm.RealmResults
 
@@ -35,6 +38,10 @@ open class KartViewModel : ViewModel() {
 
     fun deleteAll(slug:String){
         realm.kartDao().deleteAll(slug)
+    }
+
+    fun persistOrder(order: Order){
+        realm.kartDao().persistOrder(order)
     }
 
     override fun onCleared() {

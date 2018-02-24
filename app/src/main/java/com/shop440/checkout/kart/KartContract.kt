@@ -6,6 +6,7 @@ import com.shop440.BaseView
 import com.shop440.dao.models.ProductFeed
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.viewmodel.KartViewModel
 import io.realm.RealmResults
 
 /**
