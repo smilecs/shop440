@@ -1,7 +1,9 @@
 package com.shop440.checkout
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
@@ -13,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.shop440.R
 import com.shop440.api.NetModule
+import com.shop440.auth.AuthActivity
 import com.shop440.checkout.kart.KartFragment
 import com.shop440.checkout.models.Order
 import com.shop440.dao.models.UserAdress
@@ -27,7 +30,9 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private val offScreenLimit = 2
     private val orderSummaryFragment = OrderSummaryFragment()
+    private val CHECK_OUT = 8000
     private lateinit var progressDialog: ProgressDialog
+    private val prefManager = PreferenceManager.PrefData.getPreferenceManager()
     private val userViewModel:KartViewModel by lazy {
         ViewModelProviders.of(this).get(KartViewModel::class.java)
     }
@@ -95,13 +100,22 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
                 }
                 return@setOnClickListener
             }
-            val prefManager = PreferenceManager.PrefData.getPreferenceManager()
-            if(prefManager?.address != null && prefManager.city != null){
+            prefManager?.let {
+                performCheckout(it)
+                return@setOnClickListener
+            }
+            startActivityForResult(Intent(context, AuthActivity::class.java), CHECK_OUT)
+        }
+    }
+
+    private fun performCheckout(prefManager: PreferenceManager){
+        prefManager.let {
+            if(it.address != null && it.city != null){
                 val order = Order().apply {
                     shopOrders.addAll(orderSummaryFragment.shopOrders)
-                    phone = prefManager.phone!!
-                    city = prefManager.city!!
-                    address = prefManager.address!!
+                    phone = this.phone
+                    city = this.city
+                    address = this.address
                     total = orderSummaryFragment.amountForTotal
                 }
                 presenter.checkOut(order)
@@ -162,4 +176,13 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
     }
 
     override fun getViewModel() = userViewModel
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            prefManager?.let {
+                performCheckout(it)
+            }
+        }
+    }
 }
