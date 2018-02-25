@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.home_feed_product_layout.view.*
  * Created by mmumene on 21/11/2017.
  */
 
-class ProductViewHolder(val view: View, val requestManager: RequestManager) : BaseViewHolder<ProductViewModel>(view) {
+class ProductViewHolder(val view: View, val requestManager: RequestManager?) : BaseViewHolder<ProductViewModel>(view) {
     private val productTitle = view.productFeedTitle
     private val productPrice = view.productFeedPrice
     private val productShopTitle = view.productShopTitle
@@ -59,10 +59,10 @@ class ProductViewHolder(val view: View, val requestManager: RequestManager) : Ba
                     return false
                 }
             }
-            requestManager.load("https://tinyfiles.past3dev.com/resize?width=600&height=0&type=jpeg&nocrop=true&url=" + it.url)
-                    .apply(RequestOptions().placeholder(BitmapDrawable(view.resources, Image.base64ToBitmap(it.placeholder!!))))
-                    .listener(requestListener)
-                    .into(preview)
+            requestManager?.load("https://tinyfiles.past3dev.com/resize?width=600&height=0&type=jpeg&nocrop=true&url=" + it.url)
+                    ?.apply(RequestOptions().placeholder(BitmapDrawable(view.resources, Image.base64ToBitmap(it.placeholder!!))))
+                    ?.listener(requestListener)
+                    ?.into(preview)
         }
 
         view.setOnClickListener {

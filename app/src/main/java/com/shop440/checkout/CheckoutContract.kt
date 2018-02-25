@@ -1,5 +1,7 @@
 package com.shop440.checkout
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ViewModel
 import com.shop440.BasePresenter
 import com.shop440.BaseView
@@ -17,6 +19,6 @@ interface CheckoutContract{
     }
 
     interface Presenter : BasePresenter{
-        fun checkOut(order:Order)
+        fun checkOut(order:Order, lifecycle: LifecycleOwner)
     }
 }

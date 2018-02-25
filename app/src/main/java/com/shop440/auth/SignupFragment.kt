@@ -54,13 +54,20 @@ class SignupFragment : Fragment(), AuthContract.View {
                     EditTextRequiredInputValidator(passwordReSignUp))) {
                 return@setOnClickListener
             }
-            if(passwordReSignUp.text.toString() != passwordSignUp.text.toString()){
+            if (passwordReSignUp.text.toString() != passwordSignUp.text.toString()) {
                 passwordReSignUp.error = getString(R.string.password_match_error)
                 return@setOnClickListener
             }
             val user = User()
             user.name = nameSignUp.text.toString()
-            user.phone = phoneSignUp.text.toString().replace("+", "").replace(" ", "").replace("234", "0")
+            user.phone = phoneSignUp.text.toString().apply {
+                replace("+", "")
+                replace(" ", "")
+                replace("234", "0")
+                replace("(", "")
+                replace(")", "")
+                replace("-", "")
+            }
             user.email = emailSignUp.text.toString()
             user.password = passwordSignUp.text.toString()
             user.image = Image.base64String(bitmap)

@@ -14,7 +14,7 @@ import com.shop440.navigation.home.viewholders.StoreViewHolder
 
 class TypesFactoryImpl : TypeFactory {
 
-    override fun holder(type: Int, view: View, requestManager: RequestManager): BaseViewHolder<*> =
+    override fun holder(type: Int, view: View, requestManager: RequestManager?): BaseViewHolder<*> =
             when (type) {
                 R.layout.home_feed_product_layout -> ProductViewHolder(view, requestManager)
                 R.layout.home_feed_shop_layout -> StoreViewHolder(view)

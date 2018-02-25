@@ -2,6 +2,8 @@ package com.shop440.checkout
 
 import android.app.Activity
 import android.app.ProgressDialog
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -10,9 +12,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.auth.AuthActivity
@@ -32,8 +36,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
     private val orderSummaryFragment = OrderSummaryFragment()
     private val CHECK_OUT = 8000
     private lateinit var progressDialog: ProgressDialog
-    private val prefManager = PreferenceManager.PrefData.getPreferenceManager()
-    private val userViewModel:KartViewModel by lazy {
+    private val userViewModel: KartViewModel by lazy {
         ViewModelProviders.of(this).get(KartViewModel::class.java)
     }
 
@@ -79,7 +82,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if(newState == BottomSheetBehavior.STATE_COLLAPSED){
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     bottomSheetB.peekHeight = 0
                 }
             }
@@ -94,23 +97,27 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
 
 
         checkoutNextButton.setOnClickListener {
-            if (container.currentItem != offScreenLimit -1) {
+            if (container.currentItem != offScreenLimit - 1) {
                 container.run {
                     currentItem += 1
                 }
                 return@setOnClickListener
             }
-            prefManager?.let {
-                performCheckout(it)
-                return@setOnClickListener
+            PreferenceManager.PrefData.getPreferenceManager()?.let {
+                if (!it.token.isNullOrBlank()) {
+                    Log.i("something", "here2222")
+                    performCheckout(it)
+                    return@setOnClickListener
+                }
+                startActivityForResult(Intent(context, AuthActivity::class.java), CHECK_OUT)
             }
-            startActivityForResult(Intent(context, AuthActivity::class.java), CHECK_OUT)
         }
     }
 
-    private fun performCheckout(prefManager: PreferenceManager){
-        prefManager.let {
-            if(it.address != null && it.city != null){
+    private fun performCheckout(prefManager: PreferenceManager?) {
+        Log.i("something", "here")
+        prefManager?.let {
+            if (it.address != null && it.city != null) {
                 val order = Order().apply {
                     shopOrders.addAll(orderSummaryFragment.shopOrders)
                     phone = this.phone
@@ -118,15 +125,15 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
                     address = this.address
                     total = orderSummaryFragment.amountForTotal
                 }
-                presenter.checkOut(order)
-            }else{
+                presenter.checkOut(order, this)
+            } else {
                 val bottomSheetFrag = AddressSheetFragment.newInstance(this)
                 bottomSheetFrag.show(childFragmentManager, "sheet")
             }
         }
     }
 
-    fun prev(){
+    fun prev() {
         container.run {
             if (currentItem != 0) {
                 currentItem -= 1
@@ -136,7 +143,7 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
     }
 
     override fun onError(errorMessage: Int) {
-
+        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onDataLoading() {
@@ -144,9 +151,11 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
             progressDialog.hide()
             return
         }
+        Log.i("something", "h")
         progressDialog.show()
 
     }
+
     override fun onCheckOut() {
 
     }
@@ -169,9 +178,10 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
     }
 
     override fun onFragmentInteraction(userAdress: UserAdress) {
-        PreferenceManager().run {
+        PreferenceManager.PrefData.getPreferenceManager()?.run {
             persistAddress(userAdress.address)
             persistCity(userAdress.city)
+            performCheckout(this)
         }
     }
 
@@ -179,10 +189,9 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            prefManager?.let {
-                performCheckout(it)
-            }
+        if (resultCode == Activity.RESULT_OK) {
+            performCheckout(PreferenceManager.PrefData.getPreferenceManager())
+
         }
     }
 }

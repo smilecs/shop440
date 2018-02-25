@@ -12,7 +12,7 @@ import com.shop440.navigation.home.viewmodel.ViewModel
  * Created by mmumene on 22/11/2017.
  */
 
-class NestedFeedAdapter(val viewModel: ViewModel, val requestManager: RequestManager) : RecyclerView.Adapter<BaseViewHolder<ViewModel>>(){
+class NestedFeedAdapter(val viewModel: ViewModel, val requestManager: RequestManager?) : RecyclerView.Adapter<BaseViewHolder<ViewModel>>(){
     private val typeFactory = TypesFactoryImpl()
     override fun onBindViewHolder(holder: BaseViewHolder<ViewModel>?, position: Int) {
         holder?.bind(viewModel, position)

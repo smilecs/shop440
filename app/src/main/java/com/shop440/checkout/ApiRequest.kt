@@ -4,16 +4,18 @@ import com.shop440.api.Urls
 import com.shop440.checkout.models.Order
 import com.shop440.response.GenericResponse
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 /**
  * Created by mmumene on 22/02/2018.
  */
 interface ApiRequest {
     @POST(Urls.NEW_ORDER)
-    fun newOrder(order:Order) : Call<GenericResponse>
+    fun newOrder(@Body order:Order) : Call<GenericResponse>
 
     @GET(Urls.GET_ORDER)
-    fun getOrders() : Call<Order>
+    fun getOrders(@Path("userPhone") phone:String) : Call<Order>
 }

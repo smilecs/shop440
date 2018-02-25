@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:hint="@string/current_city"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="text"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryDark"

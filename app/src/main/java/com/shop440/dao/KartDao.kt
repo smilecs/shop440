@@ -1,6 +1,7 @@
 package com.shop440.dao
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import com.shop440.checkout.models.Item
 import com.shop440.dao.models.ProductFeed
 import com.shop440.checkout.models.ItemForKart
@@ -28,11 +29,13 @@ class KartDao(val realm: Realm) {
         }
     }
 
-    fun persistOrder(order: Order){
-        realm.executeTransactionAsync {
-            it.insert(order)
+    fun persistOrder(order: Order) : LiveData<Order>{
+        val liveData = MutableLiveData<Order>()
+        realm.executeTransactionAsync { obj ->
+            val ob = obj.copyToRealm(order)
+            liveData.postValue(ob)
         }
-        clearKart()
+        return liveData
     }
 
     fun addToKart(item: ItemForKart){
@@ -66,7 +69,7 @@ class KartDao(val realm: Realm) {
         }
     }
 
-    private fun clearKart(){
+    fun clearKart(){
         realm.executeTransactionAsync {
             val result = it.where(Item::class.java).findAll()
             result.deleteAllFromRealm()

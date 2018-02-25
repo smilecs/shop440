@@ -40,8 +40,12 @@ open class KartViewModel : ViewModel() {
         realm.kartDao().deleteAll(slug)
     }
 
-    fun persistOrder(order: Order){
-        realm.kartDao().persistOrder(order)
+    fun persistOrder(order: Order) : LiveData<Order>{
+        return realm.kartDao().persistOrder(order)
+    }
+
+    fun clearKart(){
+        realm.kartDao().clearKart()
     }
 
     override fun onCleared() {
