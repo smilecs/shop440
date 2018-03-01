@@ -7,13 +7,13 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v7.graphics.Palette
 import android.view.View
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.shop440.BaseViewHolder
 import com.shop440.R
 import com.shop440.navigation.home.viewmodel.ProductViewModel
 import com.shop440.productview.ProductViewActivity

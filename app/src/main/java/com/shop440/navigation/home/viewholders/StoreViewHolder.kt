@@ -1,6 +1,7 @@
 package com.shop440.navigation.home.viewholders
 
 import android.view.View
+import com.shop440.BaseViewHolder
 import com.shop440.navigation.home.viewmodel.StoreViewModel
 import com.shop440.utils.Image
 import kotlinx.android.synthetic.main.home_feed_shop_layout.view.*

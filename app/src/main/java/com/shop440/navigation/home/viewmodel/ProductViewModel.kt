@@ -1,13 +1,13 @@
 package com.shop440.navigation.home.viewmodel
 
 import com.shop440.R
-import com.shop440.dao.models.ProductFeed
+import com.shop440.dao.models.Product
 
 /**
  * Created by mmumene on 21/11/2017.
  */
 
-class ProductViewModel(viewTitle: String, val viewModel: List<ProductFeed>) : ViewModel(viewTitle) {
+class ProductViewModel(viewTitle: String, val viewModel: MutableList<Product>) : ViewModel(viewTitle) {
 
     override fun size() = viewModel.size
 

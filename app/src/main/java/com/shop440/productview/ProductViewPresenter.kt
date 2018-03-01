@@ -6,9 +6,7 @@ import com.shop440.R
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ShopOrders
 import com.shop440.dao.models.CategoryModel
-import com.shop440.dao.models.ProductFeed
-import com.shop440.utils.FileCache
-import io.realm.ObjectChangeSet
+import com.shop440.dao.models.Product
 import io.realm.Realm
 import io.realm.RealmObjectChangeListener
 import io.realm.RealmResults
@@ -16,22 +14,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import java.io.BufferedInputStream
-import java.io.FileOutputStream
-import java.net.MalformedURLException
-import java.net.URL
 
 /**
  * Created by mmumene on 09/09/2017.
  */
-class ProductViewPresenter(val productView: ProductViewContract.View, val retrofit: Retrofit) : ProductViewContract.Presenter {
+class ProductViewPresenter(val productView: ProductViewContract.View?, val retrofit: Retrofit) : ProductViewContract.Presenter {
 
    private val productViewModel by lazy {
-        productView.getViewModel()
+        productView?.getViewModel()
     }
 
     init {
-        productView.presenter = this
+        productView?.presenter = this
     }
 
     override fun start() {
@@ -39,35 +33,33 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
     }
 
     override fun loadData(path: String) {
-        productView.onDataLoading()
-        val data: Call<ProductFeed> = retrofit.create(ApiRequest::class.java).getProduct(path, "")
-        data.enqueue(object : Callback<ProductFeed> {
-            override fun onResponse(call: Call<ProductFeed>?, response: Response<ProductFeed>?) {
+        productView?.onDataLoading()
+        val data: Call<Product> = retrofit.create(ApiRequest::class.java).getProduct(path, "")
+        data.enqueue(object : Callback<Product> {
+            override fun onResponse(call: Call<Product>?, response: Response<Product>?) {
                 if (response!!.isSuccessful) {
-                    productView.onDataLoading()
+                    productView?.onDataLoading()
                     if (response.body() != null) {
-                        productView.showProduct(response.body()!!)
+                        productView?.showProduct(response.body()!!)
                         return
                     }
-                    productView.onError(R.string.api_data_load_error)
+                    productView?.onError(R.string.api_data_load_error)
                 } else {
-                    productView.onDataLoading()
-                    productView.onError(R.string.api_data_load_error)
+                    productView?.onDataLoading()
+                    productView?.onError(R.string.api_data_load_error)
                 }
             }
 
-            override fun onFailure(call: Call<ProductFeed>?, t: Throwable?) {
-                productView.onDataLoading()
-                productView.onError(R.string.internet_error_message)
+            override fun onFailure(call: Call<Product>?, t: Throwable?) {
+                productView?.onDataLoading()
+                productView?.onError(R.string.internet_error_message)
             }
         })
     }
 
     override fun loadCart(activity: ProductViewActivity) {
-        //productView.cartLoaded(Realm.getDefaultInstance().where(Item::class.java).findAll())
-       productViewModel.getKartData().observe(activity, Observer<RealmResults<Item>> { t ->
-            Log.i("presenter", t?.size.toString())
-            productView.cartLoaded(t)
+       productViewModel?.getKartData()?.observe(activity, Observer<RealmResults<Item>> { t ->
+            productView?.cartLoaded(t)
         })
     }
 
@@ -76,15 +68,15 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
         realm.where(CategoryModel::class.java).equalTo("slug", slug).findFirstAsync().addChangeListener(RealmObjectChangeListener<CategoryModel> { t, changeSet ->
             t.let {
                 if (t.isLoaded) {
-                    productView.categoryNameResolved(t.catName)
+                    productView?.categoryNameResolved(t.catName)
                     realm.close()
                 }
             }
         })
     }
 
-    override fun addToCart(product: ProductFeed) {
-       productViewModel.addToKart(product)
+    override fun addToCart(product: Product) {
+       productViewModel?.addToKart(product)
     }
 
     //check usefullness of this method, might be pointless
@@ -93,7 +85,7 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
             it.where(ShopOrders::class.java).equalTo("shopId", shopId).findFirstAsync().addChangeListener(RealmObjectChangeListener<ShopOrders> { t, changeSet ->
                 if (t.isLoaded) {
                     it.removeAllChangeListeners()
-                    productView.shopOrder(t)
+                    productView?.shopOrder(t)
                 }
             })
         }

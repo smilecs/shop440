@@ -3,7 +3,7 @@ package com.shop440.checkout.kart
 import android.arch.lifecycle.Observer
 import android.support.v4.app.Fragment
 import android.util.Log
-import com.shop440.dao.models.ProductFeed
+import com.shop440.dao.models.Product
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
 import io.realm.RealmResults
@@ -26,7 +26,7 @@ class Presenter(val view: KartContract.View) : KartContract.Presenter {
         })
     }
 
-    override fun addToKart(product: ProductFeed) {
+    override fun addToKart(product: Product) {
         viewModel.addToKart(product)
     }
 

@@ -3,7 +3,7 @@ package com.shop440.dao
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.shop440.checkout.models.Item
-import com.shop440.dao.models.ProductFeed
+import com.shop440.dao.models.Product
 import com.shop440.checkout.models.ItemForKart
 import com.shop440.checkout.models.Order
 import io.realm.Realm
@@ -16,14 +16,14 @@ import java.util.*
  */
 class KartDao(val realm: Realm) {
 
-    fun addToKart(productFeed: ProductFeed) {
+    fun addToKart(product: Product) {
         realm.executeTransactionAsync {
             val item = Item()
-            item.totalPrice = productFeed.productPrice
-            item.slug = productFeed.slug
-            item.shopName = productFeed.shop.title
-            item.shopSlug = productFeed.shop.shopId
-            item.itemName = productFeed.productName
+            item.totalPrice = product.productPrice
+            item.slug = product.slug
+            item.shopName = product.shop.title
+            item.shopSlug = product.shop.shopId
+            item.itemName = product.productName
             item.id = Calendar.getInstance().timeInMillis.toString() + " " + UUID.randomUUID().toString()
             it.insert(item)
         }

@@ -10,8 +10,6 @@ import android.util.Log
 import android.widget.TextView
 import com.shop440.R
 import com.shop440.api.Urls
-import com.shop440.dao.models.Datum
-import com.shop440.productview.adapter.ProductAdapter
 import com.shop440.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.searchresult.*
 import java.io.UnsupportedEncodingException
@@ -22,8 +20,6 @@ class SearchResultActivity : AppCompatActivity() {
     lateinit var query: String
     lateinit var page: String
     lateinit var list: RecyclerView
-    lateinit var mainAdapter: ProductAdapter
-    lateinit var model: ArrayList<Datum>
     lateinit var c: Context
     lateinit var layoutManager: StaggeredGridLayoutManager
     lateinit var refreshLayout: SwipeRefreshLayout
@@ -50,13 +46,13 @@ class SearchResultActivity : AppCompatActivity() {
         )
 
         refreshLayout.setOnRefreshListener { }
-        model = ArrayList()
-        mainAdapter = ProductAdapter(c, model)
+        /*model = ArrayList()
+        mainAdapter = ProductAdapter(c, model)*/
         list = findViewById<RecyclerView>(R.id.recyclerView)
         layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         list.setHasFixedSize(true)
         list.layoutManager = layoutManager
-        list.adapter = mainAdapter
+        //list.adapter = mainAdapter
         list.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 Log.d(TAG, page.toString())

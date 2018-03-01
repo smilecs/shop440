@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.RequestManager
-import com.shop440.navigation.home.viewholders.BaseViewHolder
+import com.shop440.BaseViewHolder
 import com.shop440.typefactory.TypesFactoryImpl
 import com.shop440.navigation.home.viewmodel.ViewModel
 

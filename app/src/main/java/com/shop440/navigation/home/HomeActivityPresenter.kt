@@ -57,7 +57,7 @@ class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.V
 
     private fun selectType(sectionResponse: SectionResponse.SectionResponse): ViewModel {
         return when(sectionResponse.feedType){
-            "productfeed"-> ProductViewModel(sectionResponse.title, sectionResponse.productFeed)
+            "productfeed"-> ProductViewModel(sectionResponse.title, sectionResponse.product)
             else-> StoreViewModel(sectionResponse.title, sectionResponse.shopFeed)
         }
     }

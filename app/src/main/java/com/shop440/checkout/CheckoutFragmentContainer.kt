@@ -115,7 +115,6 @@ class CheckoutFragmentContainer : Fragment(), CheckoutContract.View, AddressShee
     }
 
     private fun performCheckout(prefManager: PreferenceManager?) {
-        Log.i("something", "here")
         prefManager?.let {
             if (it.address != null && it.city != null) {
                 val order = Order().apply {

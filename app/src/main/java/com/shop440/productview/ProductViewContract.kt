@@ -5,10 +5,8 @@ import com.shop440.BaseView
 import com.shop440.checkout.models.Item
 import com.shop440.viewmodel.KartViewModel
 import com.shop440.checkout.models.ShopOrders
-import com.shop440.dao.models.ProductFeed
-import com.shop440.utils.FileCache
+import com.shop440.dao.models.Product
 import io.realm.RealmResults
-import java.io.File
 
 /**
  * Created by mmumene on 09/09/2017.
@@ -17,7 +15,7 @@ import java.io.File
 interface ProductViewContract {
 
     interface View : BaseView<Presenter> {
-        fun showProduct(product: ProductFeed)
+        fun showProduct(product: Product)
         fun cartLoaded(realmResults: RealmResults<Item>?)
         fun categoryNameResolved(category:String)
         fun shopOrder(shopOrders: ShopOrders)
@@ -28,7 +26,7 @@ interface ProductViewContract {
         fun loadCart(activity: ProductViewActivity)
         fun loadData(path: String)
         fun resolveCategory(slug:String)
-        fun addToCart(product: ProductFeed)
+        fun addToCart(product: Product)
         fun getShopOrder(shopId:String)
     }
 }
