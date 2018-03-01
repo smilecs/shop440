@@ -148,8 +148,11 @@
         </activity>
         <activity android:name=".auth.AuthActivity">
         </activity>
-        <activity android:name=".checkout.CheckoutContainerActivity"
-                  android:theme="@style/AppTheme">
+        <activity
+            android:name=".checkout.CheckoutContainerActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".search.SearchContainer">
         </activity>
     </application>
 

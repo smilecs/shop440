@@ -1,11 +1,9 @@
 package com.shop440.viewmodel
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.shop440.dao.kartDao
-import com.shop440.dao.models.ProductFeed
+import com.shop440.dao.models.Product
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
 import com.shop440.checkout.models.Order
@@ -24,8 +22,8 @@ open class KartViewModel : ViewModel() {
         return realm.kartDao().getKart()
     }
 
-    fun addToKart(productFeed: ProductFeed){
-        realm.kartDao().addToKart(productFeed)
+    fun addToKart(product: Product){
+        realm.kartDao().addToKart(product)
     }
 
     fun addToKart(productFeed: ItemForKart){
@@ -40,8 +38,12 @@ open class KartViewModel : ViewModel() {
         realm.kartDao().deleteAll(slug)
     }
 
-    fun persistOrder(order: Order){
-        realm.kartDao().persistOrder(order)
+    fun persistOrder(order: Order) : LiveData<Order>{
+        return realm.kartDao().persistOrder(order)
+    }
+
+    fun clearKart(){
+        realm.kartDao().clearKart()
     }
 
     override fun onCleared() {

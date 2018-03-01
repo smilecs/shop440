@@ -3,7 +3,7 @@ package com.shop440.checkout.viewholder
 import android.view.View
 import com.shop440.R
 import com.shop440.checkout.models.SummaryViewModel
-import com.shop440.navigation.home.viewholders.BaseViewHolder
+import com.shop440.BaseViewHolder
 import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.summary_item_layout.view.*
 

@@ -30,7 +30,6 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
     private val TAG = "MainActivityFragment"
     lateinit var sharedPreferences: SharedPreferences
     lateinit var token: String
-    lateinit var viewRoot: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,7 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        viewRoot = inflater!!.inflate(R.layout.fragment_main, container, false)
+        val viewRoot = inflater?.inflate(R.layout.fragment_main, container, false)
 
         HomeActivityPresenter(this, NetModule.provideRetrofit())
         mainAdapter = TopFeedAdapter(model, c)
@@ -49,7 +48,7 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val editText = searchViewQuery.findViewById<EditText>(android.support.v7.appcompat.R.id.search_src_text) as EditText
+        val editText = searchViewQuery.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
         editText.setHintTextColor(resources.getColor(R.color.colorAccent))
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,

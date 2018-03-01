@@ -58,7 +58,7 @@
             android:textSize="18sp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            app:fontName="RobotoRegular"
+            app:fontName="OpenSansRegular"
             tools:text="@string/cart_hint"
             />
 

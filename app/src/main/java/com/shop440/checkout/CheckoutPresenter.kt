@@ -1,5 +1,7 @@
 package com.shop440.checkout
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.Observer
 import com.shop440.R
 import com.shop440.checkout.models.Order
 import com.shop440.response.GenericResponse
@@ -25,25 +27,29 @@ class CheckoutPresenter(val view: CheckoutContract.View, val retrofit: Retrofit)
 
     }
 
-    override fun checkOut(order: Order) {
+    override fun checkOut(order: Order, lifecycle: LifecycleOwner) {
         view.onDataLoading()
-        val call = retrofit.create(ApiRequest::class.java).newOrder(order)
-        call.enqueue(object : Callback<GenericResponse> {
-            override fun onResponse(call: Call<GenericResponse>?, response: Response<GenericResponse>?) {
-                view.onDataLoading()
-                if(response?.body() != null){
-                    view.onCheckOut()
-                    viewModel.persistOrder(order)
-                    return
-                }
-                onFailure(call, null)
-            }
+        viewModel.persistOrder(order).observe(lifecycle, Observer<Order> {t ->
+            t?.let {
+                val call : Call<GenericResponse> = retrofit.create(ApiRequest::class.java).newOrder(it)
+                call.enqueue(object : Callback<GenericResponse> {
+                    override fun onResponse(call: Call<GenericResponse>?, response: Response<GenericResponse>?) {
+                        view.onDataLoading()
+                        if(response?.body() != null){
+                            view.onCheckOut()
+                            viewModel.clearKart()
+                            return
+                        }
+                        onFailure(call, null)
+                    }
 
-            override fun onFailure(call: Call<GenericResponse>?, t: Throwable?) {
-                view.onDataLoading()
-                view.onError(R.string.api_data_load_error)
+                    override fun onFailure(call: Call<GenericResponse>?, t: Throwable?) {
+                        view.onDataLoading()
+                        t?.printStackTrace()
+                        view.onError(R.string.api_data_load_error)
+                    }
+                })
             }
         })
-
     }
 }

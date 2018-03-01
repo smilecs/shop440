@@ -1,6 +1,7 @@
 package com.shop440.productview
 
 import android.app.ProgressDialog
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
@@ -30,7 +31,7 @@ import com.shop440.checkout.models.Item
 import com.shop440.viewmodel.KartViewModel
 import com.shop440.checkout.models.ShopOrders
 import com.shop440.dao.models.Image
-import com.shop440.dao.models.ProductFeed
+import com.shop440.dao.models.Product
 import com.shop440.utils.Metrics
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_product_view.*
@@ -38,14 +39,13 @@ import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
 import kotlinx.android.synthetic.main.bottom_product_view.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.io.File
 
 
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
     override lateinit var presenter: ProductViewContract.Presenter
     var TAG = "ProductViewActivity"
 
-    lateinit var productModel: ProductFeed
+    lateinit var productModel: Product
     private val kartViewModel: KartViewModel by lazy {
         ViewModelProviders.of(this).get(KartViewModel::class.java)
     }
@@ -122,14 +122,12 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadData() {
-        if (data != null) {
-            val resolvedUrl: String = data!!.substring(data!!.lastIndexOf("/") + 1)
-            presenter.loadData(resolvedUrl)
-        } else {
-            productModel = intent.getSerializableExtra("data") as ProductFeed
-            initUi()
-        }
+    private fun loadData() = if (data != null) {
+        val resolvedUrl: String = data!!.substring(data!!.lastIndexOf("/") + 1)
+        presenter.loadData(resolvedUrl)
+    } else {
+        productModel = intent.getSerializableExtra("data") as Product
+        initUi()
     }
 
     override fun onError(errorMessage: Int) {
@@ -145,7 +143,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     }
 
-    override fun showProduct(product: ProductFeed) {
+    override fun showProduct(product: Product) {
         this@ProductViewActivity.productModel = product
         initUi()
     }

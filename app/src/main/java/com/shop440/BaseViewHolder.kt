@@ -1,4 +1,4 @@
-package com.shop440.navigation.home.viewholders
+package com.shop440
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
