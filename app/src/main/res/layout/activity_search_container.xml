@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.shop440.search.SearchContainer">
-    <android.support.design.widget.AppBarLayout
+    tools:context="com.shop440.search.SearchContainerActivity">
+    <android.support.v7.widget.SearchView
+        android:id="@+id/searchViewQuery"
+        style="@style/SearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:theme="@style/ToolBarStyle"
-            android:titleTextColor="@color/colorPrimaryDark"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+        app:defaultQueryHint="@string/search_text"
+        app:iconifiedByDefault="false"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:queryHint="@string/search_text"
+        app:searchIcon="@drawable/ic_search_black_24dp">
+    </android.support.v7.widget.SearchView>
 
-    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:id="@+id/container"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

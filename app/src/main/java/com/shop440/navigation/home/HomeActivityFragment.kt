@@ -2,6 +2,7 @@ package com.shop440.navigation.home
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,9 +13,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import com.shop440.adapters.TopFeedAdapter
-import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.R
 import com.shop440.api.NetModule
+import com.shop440.search.SearchContainerActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
@@ -23,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class HomeActivityFragment : Fragment(), HomeActivityContract.View {
     override lateinit var presenter: HomeActivityContract.Presenter
     private lateinit var mainAdapter: TopFeedAdapter
-    private val model = mutableListOf<ViewModel>()
+    private val model = mutableListOf<AdapterModel>()
     private val c: Context by lazy {
         context
     }
@@ -48,8 +50,6 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val editText = searchViewQuery.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
-        editText.setHintTextColor(resources.getColor(R.color.colorAccent))
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -65,6 +65,11 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
             adapter = mainAdapter
         }
         getProducts()
+        searchView.setOnClickListener {
+            val intent = Intent(context, SearchContainerActivity::class.java)
+            activity.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
+            startActivity(intent)
+        }
     }
 
     override fun onError(errorMessage: Int) {
@@ -77,7 +82,7 @@ class HomeActivityFragment : Fragment(), HomeActivityContract.View {
         swipeContainer?.isRefreshing = !swipeContainer.isRefreshing
     }
 
-    override fun productDataAvailable(homeSection: List<ViewModel>) {
+    override fun productDataAvailable(homeSection: List<AdapterModel>) {
         model.clear()
         model.addAll(homeSection)
         mainAdapter.notifyDataSetChanged()

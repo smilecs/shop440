@@ -6,24 +6,24 @@ import android.view.ViewGroup
 import com.bumptech.glide.RequestManager
 import com.shop440.BaseViewHolder
 import com.shop440.typefactory.TypesFactoryImpl
-import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 
 /**
  * Created by mmumene on 22/11/2017.
  */
 
-class NestedFeedAdapter(val viewModel: ViewModel, val requestManager: RequestManager?) : RecyclerView.Adapter<BaseViewHolder<ViewModel>>(){
+class NestedFeedAdapter(val adapterModel: AdapterModel, val requestManager: RequestManager?) : RecyclerView.Adapter<BaseViewHolder<AdapterModel>>(){
     private val typeFactory = TypesFactoryImpl()
-    override fun onBindViewHolder(holder: BaseViewHolder<ViewModel>?, position: Int) {
-        holder?.bind(viewModel, position)
+    override fun onBindViewHolder(holder: BaseViewHolder<AdapterModel>?, position: Int) {
+        holder?.bind(adapterModel, position)
     }
 
-    override fun getItemCount() = viewModel.size()
+    override fun getItemCount() = adapterModel.size()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<ViewModel> {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<AdapterModel> {
         val view = LayoutInflater.from(parent?.context).inflate(viewType, parent, false)
-        return typeFactory.holder(viewType, view, requestManager) as BaseViewHolder<ViewModel>
+        return typeFactory.holder(viewType, view, requestManager) as BaseViewHolder<AdapterModel>
     }
 
-    override fun getItemViewType(position: Int) = viewModel.type()
+    override fun getItemViewType(position: Int) = adapterModel.type()
 }

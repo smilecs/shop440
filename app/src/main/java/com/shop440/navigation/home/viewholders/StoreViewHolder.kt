@@ -2,7 +2,7 @@ package com.shop440.navigation.home.viewholders
 
 import android.view.View
 import com.shop440.BaseViewHolder
-import com.shop440.navigation.home.viewmodel.StoreViewModel
+import com.shop440.navigation.home.adaptermodel.StoreAdapterModel
 import com.shop440.utils.Image
 import kotlinx.android.synthetic.main.home_feed_shop_layout.view.*
 
@@ -11,11 +11,11 @@ import kotlinx.android.synthetic.main.home_feed_shop_layout.view.*
  */
 
 
-class StoreViewHolder(view:View): BaseViewHolder<StoreViewModel>(view){
+class StoreViewHolder(view:View): BaseViewHolder<StoreAdapterModel>(view){
     val shopPreview = view.shopPreview
     val shopTitle = view.shopFeedTitle
     val shopAddress = view.shopFeedAddress
-    override fun bind(item: StoreViewModel, position:Int) {
+    override fun bind(item: StoreAdapterModel, position:Int) {
         val feed = item.viewModel[position]
         shopAddress.text = feed.address
         shopTitle.text = feed.shopName

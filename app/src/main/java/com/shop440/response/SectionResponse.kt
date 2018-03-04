@@ -11,8 +11,8 @@ object SectionResponse{
     data class SectionResponse(@SerializedName("type") val feedType:String,
                                @SerializedName("title") val title:String,
                                val content:String,
-                               @SerializedName("product_feed") val product:List<Product>,
-                               @SerializedName("shop_feed") val shopFeed:List<StoreFeed>
+                               @SerializedName("product_feed") val product:MutableList<Product>,
+                               @SerializedName("shop_feed") val shopFeed:MutableList<StoreFeed>
     )
     data class HomeSection(val sections:List<SectionResponse>)
 }

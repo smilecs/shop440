@@ -1,7 +1,11 @@
 package com.shop440.search
 
+import android.arch.lifecycle.LifecycleOwner
 import com.shop440.BasePresenter
 import com.shop440.BaseView
+import com.shop440.dao.models.CategoryModel
+import com.shop440.dao.models.Page
+import com.shop440.navigation.home.adaptermodel.ProductModel
 import com.shop440.response.FilterResponse
 
 /**
@@ -10,10 +14,13 @@ import com.shop440.response.FilterResponse
 interface SearchContract{
 
     interface View : BaseView<Presenter>{
-        fun onSearchResults(filter:FilterResponse)
+        fun onSearchResults(productModel: ProductModel, page: Page)
+        fun onCategories(categories:ArrayList<CategoryModel>)
+        val lifeCycle : LifecycleOwner
     }
 
     interface Presenter : BasePresenter{
         fun performSearch(q:String, p:String, cat:String, tag:String)
+        fun getCategories()
     }
 }

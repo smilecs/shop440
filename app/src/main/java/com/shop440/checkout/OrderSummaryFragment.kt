@@ -15,8 +15,8 @@ import com.shop440.checkout.kart.Presenter
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
 import com.shop440.checkout.models.ShopOrders
-import com.shop440.checkout.models.SummaryViewModel
-import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.checkout.models.SummaryAdapterModel
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.utils.Metrics
 import com.shop440.view.ItemDecorator
 import io.realm.RealmResults
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_order_summary.*
 
 class OrderSummaryFragment : Fragment(), KartContract.View {
 
-    val viewModel = arrayListOf<ViewModel>()
+    val viewModel = arrayListOf<AdapterModel>()
     var amountForTotal = 0.0
     override lateinit var presenter: KartContract.Presenter
     val shopOrders = arrayListOf<ShopOrders>()
@@ -107,7 +107,7 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
                     })
                 }
                 shopOrders.add(shop)
-                viewModel.add(SummaryViewModel(key, itemList))
+                viewModel.add(SummaryAdapterModel(key, itemList))
             }
             total.text = Metrics.getDisplayPriceWithCurrency(context, amountForTotal)
         }
