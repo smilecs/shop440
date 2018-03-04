@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.shop440.R
-import com.shop440.checkout.models.SummaryViewModel
-import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.checkout.models.SummaryAdapterModel
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.utils.Metrics
 import com.shop440.view.ItemDecorator
 import com.shop440.widgets.FontTextView
@@ -19,15 +19,15 @@ import kotlinx.android.synthetic.main.linear_recycler.view.*
 /**
  * Created by mmumene on 19/11/2017.
  */
-class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val isLinear: Boolean) : RecyclerView.Adapter<TopFeedAdapter.ViewHolder.BaseViewHolder>() {
-    constructor(viewModel: List<ViewModel>, context: Context) : this(viewModel, context, false)
+class TopFeedAdapter(val adapterModel: List<AdapterModel>, val context: Context, val isLinear: Boolean) : RecyclerView.Adapter<TopFeedAdapter.ViewHolder.BaseViewHolder>() {
+    constructor(adapterModel: List<AdapterModel>, context: Context) : this(adapterModel, context, false)
 
     private val viewPool: RecyclerView.RecycledViewPool by lazy {
         RecyclerView.RecycledViewPool()
     }
 
     override fun onBindViewHolder(holder: ViewHolder.BaseViewHolder?, position: Int) {
-        val model = viewModel[position]
+        val model = adapterModel[position]
         holder?.onBind(model)
     }
 
@@ -42,7 +42,7 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val i
         return viewHolder
     }
 
-    override fun getItemCount() = viewModel.size
+    override fun getItemCount() = adapterModel.size
 
     object ViewHolder {
 
@@ -59,16 +59,16 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val i
                 Glide.with(view.context)
             }
 
-            abstract fun onBind(viewModel: ViewModel)
+            abstract fun onBind(adapterModel: AdapterModel)
         }
 
         class GridViewHolder(val views: View) : BaseViewHolder(views) {
-            override fun onBind(viewModel: ViewModel) {
-                title.text = viewModel.title
+            override fun onBind(adapterModel: AdapterModel) {
+                title.text = adapterModel.title
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
-                    adapter = NestedFeedAdapter(viewModel, requestManager)
+                    adapter = NestedFeedAdapter(adapterModel, requestManager)
                 }
             }
         }
@@ -77,16 +77,16 @@ class TopFeedAdapter(val viewModel: List<ViewModel>, val context: Context, val i
             val subText:FontTextView by lazy {
                 view.subTotal
             }
-            override fun onBind(viewModel: ViewModel) {
-                title.text = viewModel.title
+            override fun onBind(adapterModel: AdapterModel) {
+                title.text = adapterModel.title
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)
                     addItemDecoration(ItemDecorator(context, LinearLayoutManager.VERTICAL))
-                    adapter = NestedFeedAdapter(viewModel, requestManager)
+                    adapter = NestedFeedAdapter(adapterModel, requestManager)
                 }
-                if (viewModel is SummaryViewModel) {
-                    val sub = viewModel.item.run {
+                if (adapterModel is SummaryAdapterModel) {
+                    val sub = adapterModel.item.run {
                         var subAmount = 0.0
                         this.forEach { data -> subAmount += data.amount }
                         subAmount

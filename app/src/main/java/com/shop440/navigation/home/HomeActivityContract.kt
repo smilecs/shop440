@@ -1,6 +1,6 @@
 package com.shop440.navigation.home
 
-import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.BasePresenter
 import com.shop440.BaseView
 
@@ -10,7 +10,7 @@ import com.shop440.BaseView
 
 interface HomeActivityContract {
     interface View : BaseView<Presenter>{
-        fun productDataAvailable(homeSection: List<ViewModel>)
+        fun productDataAvailable(homeSection: List<AdapterModel>)
     }
 
     interface Presenter : BasePresenter {

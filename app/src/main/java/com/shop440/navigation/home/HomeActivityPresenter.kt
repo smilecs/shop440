@@ -1,8 +1,8 @@
 package com.shop440.navigation.home
 
-import com.shop440.navigation.home.viewmodel.ProductViewModel
-import com.shop440.navigation.home.viewmodel.StoreViewModel
-import com.shop440.navigation.home.viewmodel.ViewModel
+import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.navigation.home.adaptermodel.StoreAdapterModel
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.R
 import com.shop440.response.SectionResponse
 import retrofit2.Call
@@ -43,22 +43,22 @@ class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.V
         })
     }
 
-    private fun parseViewModels(section: SectionResponse.HomeSection?): List<ViewModel> {
-        val listOfModel = mutableListOf<ViewModel>()
-        if(section != null){
-            for (sectionRes in section.sections) {
-                listOfModel.add(selectType(sectionRes))
-            }
-        }else{
+    private fun parseViewModels(section: SectionResponse.HomeSection?): List<AdapterModel> {
+        val listOfModel = mutableListOf<AdapterModel>()
+        if (section != null) {
+            section.sections.mapTo(listOfModel, { t ->
+                selectType(t)
+            })
+        } else {
             homeActivityFragmentView.onError(R.string.feed_error_data)
         }
         return listOfModel
     }
 
-    private fun selectType(sectionResponse: SectionResponse.SectionResponse): ViewModel {
-        return when(sectionResponse.feedType){
-            "productfeed"-> ProductViewModel(sectionResponse.title, sectionResponse.product)
-            else-> StoreViewModel(sectionResponse.title, sectionResponse.shopFeed)
+    private fun selectType(sectionResponse: SectionResponse.SectionResponse): AdapterModel {
+        return when (sectionResponse.feedType) {
+            "productfeed" -> ProductModel(sectionResponse.title, sectionResponse.product)
+            else -> StoreAdapterModel(sectionResponse.title, sectionResponse.shopFeed)
         }
     }
 

@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.shop440.BaseViewHolder
 import com.shop440.R
-import com.shop440.navigation.home.viewmodel.ProductViewModel
+import com.shop440.navigation.home.adaptermodel.ProductModel
 import com.shop440.productview.ProductViewActivity
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
@@ -26,14 +26,14 @@ import kotlinx.android.synthetic.main.home_feed_product_layout.view.*
  * Created by mmumene on 21/11/2017.
  */
 
-class ProductViewHolder(val view: View, val requestManager: RequestManager?) : BaseViewHolder<ProductViewModel>(view) {
+class ProductViewHolder(val view: View, val requestManager: RequestManager?) : BaseViewHolder<ProductModel>(view) {
     private val productTitle = view.productFeedTitle
     private val productPrice = view.productFeedPrice
     private val productShopTitle = view.productShopTitle
     private val preview = view.productPreview
 
 
-    override fun bind(item: ProductViewModel, position: Int) {
+    override fun bind(item: ProductModel, position: Int) {
         val product = item.viewModel[position]
         //productShopTitle.text = product.productDesc
         productPrice.text = Metrics.getDisplayPriceWithCurrency(view.context, product.productPrice)

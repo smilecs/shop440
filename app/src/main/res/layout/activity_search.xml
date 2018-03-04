@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fitsSystemWindows="true"
-    tools:context="com.shop440.search.SearchActivity">
-        <RelativeLayout
-            android:id="@+id/content_main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              tools:context="com.shop440.search.SearchFragment">
+
+        <com.shop440.widgets.FontTextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="or Choose a category"
+            android:textAppearance="?android:textAppearanceMedium"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="6dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/text"
-                android:layout_marginLeft="12dp"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:text="or Choose a category"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text"
-                android:layout_marginTop="24dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/recyclerView"/>
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="92dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/progressBar"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="92dp"/>
 
-        </RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

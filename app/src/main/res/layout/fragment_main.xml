@@ -17,20 +17,25 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="12dp"
+            android:id="@+id/searchView"
             app:cardElevation="5dp"
             app:layout_scrollFlags="scroll|enterAlways">
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchViewQuery"
-                style="@style/SearchView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:defaultQueryHint="@string/search_hint"
-                app:iconifiedByDefault="false"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:queryHint="@string/search_hint"
-                app:searchIcon="@drawable/ic_search_dark">
-            </android.support.v7.widget.SearchView>
+                android:padding="12dp"
+                android:orientation="vertical">
+                <com.shop440.widgets.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_hint"
+                    android:textSize="18sp"
+                    style="@style/caption2TextDef"
+                    android:textColor="@color/colorAccent"
+                    android:drawableStart="@drawable/ic_search_black_24dp"
+                    android:drawablePadding="8dp"
+                    app:fontName="OpenSansRegular"/>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
     <android.support.v4.widget.SwipeRefreshLayout

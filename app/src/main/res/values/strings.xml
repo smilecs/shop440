@@ -145,4 +145,5 @@
     <string name="convince_addr_text">We would love to know where you stay.</string>
     <string name="save_button_text">save</string>
     <string name="my_orders">My Orders</string>
+    <string name="search_text">Search here</string>
 </resources>

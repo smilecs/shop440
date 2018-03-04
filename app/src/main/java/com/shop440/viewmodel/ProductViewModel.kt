@@ -2,7 +2,7 @@ package com.shop440.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import com.shop440.dao.CategoryDao
+import com.shop440.dao.KategoryDao
 import com.shop440.dao.models.CategoryModel
 import io.realm.Realm
 import io.realm.RealmResults
@@ -12,12 +12,12 @@ import io.realm.RealmResults
  */
 class ProductViewModel : ViewModel(){
 
-    val realm: Realm by lazy {
+    private val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
 
     fun getCategories() : LiveData<RealmResults<CategoryModel>>{
-        return realm.CategoryDao().getCategories()
+        return realm.KategoryDao().getCategories()
     }
 
 }
