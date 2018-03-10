@@ -48,6 +48,7 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                queryString = ""
                 return false
             }
         })

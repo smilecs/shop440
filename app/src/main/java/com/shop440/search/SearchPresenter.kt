@@ -40,13 +40,15 @@ class SearchPresenter(val view: SearchContract.View?) : SearchContract.Presenter
     }
 
     override fun performSearch(q: String, p: String, cat: String, tag: String) {
+        view?.onDataLoading()
         val call = retrofit.create(ApiRequest::class.java).getFilterList(q, p, cat, tag)
         call.enqueue(object : Callback<FilterResponse> {
             override fun onResponse(call: Call<FilterResponse>?, response: Response<FilterResponse>?) {
                 response?.let {
+                    view?.onDataLoading()
                     if (it.isSuccessful) {
                         it.body()?.let {
-                            view?.onSearchResults(createSearchModel(q, it))
+                            view?.onSearchResults(createSearchModel(q, it), it.page)
                         }
                     } else {
                         onFailure(call, null)
@@ -55,7 +57,7 @@ class SearchPresenter(val view: SearchContract.View?) : SearchContract.Presenter
             }
 
             override fun onFailure(call: Call<FilterResponse>?, t: Throwable?) {
-
+                view?.onDataLoading()
             }
         })
     }
