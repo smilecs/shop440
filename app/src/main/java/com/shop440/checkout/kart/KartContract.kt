@@ -6,6 +6,8 @@ import com.shop440.BaseView
 import com.shop440.dao.models.Product
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.checkout.models.ShopOrders
+import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.viewmodel.KartViewModel
 import io.realm.RealmResults
 
@@ -19,6 +21,15 @@ interface KartContract {
         fun onItemAvailable(item: Item)
         fun onItemDeleted()
         fun getViewModel(): KartViewModel
+    }
+
+    interface OrderView : BaseView<OrderPresenter>{
+        fun onKartLoaded(items:ArrayList<AdapterModel>, total:Double)
+        fun getViewModel(): KartViewModel
+    }
+
+    interface OrderPresenter : BasePresenter{
+        fun loadKart(fragment: Fragment)
     }
 
     interface Presenter : BasePresenter {

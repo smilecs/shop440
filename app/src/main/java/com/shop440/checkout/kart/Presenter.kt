@@ -2,10 +2,9 @@ package com.shop440.checkout.kart
 
 import android.arch.lifecycle.Observer
 import android.support.v4.app.Fragment
-import android.util.Log
-import com.shop440.dao.models.Product
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
+import com.shop440.dao.models.Product
 import io.realm.RealmResults
 
 /**
@@ -15,13 +14,12 @@ class Presenter(val view: KartContract.View) : KartContract.Presenter {
     init {
         view.presenter = this
     }
-    protected val viewModel by lazy {
+    private val viewModel by lazy {
         view.getViewModel()
     }
 
     override fun loadKart(fragment: Fragment) {
         viewModel.getKartData().observe(fragment, Observer<RealmResults<Item>> { t ->
-            Log.i("presenter", t?.size.toString())
             view.onKartLoaded(t)
         })
     }

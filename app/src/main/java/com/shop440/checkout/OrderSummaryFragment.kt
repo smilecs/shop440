@@ -23,11 +23,11 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_order_summary.*
 
 
-class OrderSummaryFragment : Fragment(), KartContract.View {
+class OrderSummaryFragment : Fragment(), KartContract.OrderView {
 
     val viewModel = arrayListOf<AdapterModel>()
     var amountForTotal = 0.0
-    override lateinit var presenter: KartContract.Presenter
+    override lateinit var presenter: KartContract.OrderPresenter
     val shopOrders = arrayListOf<ShopOrders>()
     private val kartViewModel: KartViewModel by lazy {
         ViewModelProviders.of(this).get(KartViewModel::class.java)
@@ -39,7 +39,7 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Presenter(this)
+        OrderPresenter(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -68,57 +68,14 @@ class OrderSummaryFragment : Fragment(), KartContract.View {
     }
 
     //pasta do not modify anyhow!!!!!
-    override fun onKartLoaded(realmResults: RealmResults<Item>?) {
-        val map = HashMap<String, ItemForKart>()
-        val shopNames = HashSet<String>()
-        realmResults?.let {
-            viewModel.clear()
-            for (results in it) {
-                if (!map.containsKey(results.itemName)) {
-                    map.put(results.itemName, ItemForKart(results.itemName, results.shopName, results.slug, results.id, results.shopSlug))
-                }
-                map[results.itemName]?.apply {
-                    amount = amount.plus(results.totalPrice)
-                    quantity = map[results.itemName]?.quantity?.plus(1)!!
-                    item = results
-                }
-                if (!shopNames.contains(results.shopName)) {
-                    shopNames.add(results.shopName)
-                }
-                amountForTotal += results.totalPrice
-            }
-
-            for (key in shopNames.toList()) {
-                val itemList = arrayListOf<ItemForKart>()
-                var totalPerShop = 0.0
-                for ((_, value) in map) {
-                    if (value.shopName == key) {
-                        itemList.add(value)
-                        //for now no shipping so itemCost and total are the same
-                        totalPerShop.plus(value.amount)
-                    }
-                }
-                val shop = ShopOrders().apply {
-                    shopName = itemList[0].shopName
-                    shopId = itemList[0].shopSlug
-                    total = totalPerShop
-                    itemList.mapTo(items, { t->
-                        t.item
-                    })
-                }
-                shopOrders.add(shop)
-                viewModel.add(SummaryAdapterModel(key, itemList))
-            }
-            total.text = Metrics.getDisplayPriceWithCurrency(context, amountForTotal)
+    override fun onKartLoaded(items: ArrayList<AdapterModel>, total: Double) {
+        viewModel.let {
+            it.clear()
+            it.addAll(items)
         }
         modelAdapter.notifyDataSetChanged()
-    }
 
-    override fun onItemAvailable(item: Item) {
-
-    }
-
-    override fun onItemDeleted() {
+        this@OrderSummaryFragment.total.text = Metrics.getDisplayPriceWithCurrency(context, amountForTotal)
 
     }
 
