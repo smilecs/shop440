@@ -17,8 +17,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.shop440.R
-import com.shop440.dao.models.CategoryModel
 import com.shop440.dao.models.Product
+import com.shop440.productview.ProductViewActivity
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.home_feed_product_layout.view.*
@@ -37,12 +37,9 @@ class SearchResultAdapter(val requestManager: RequestManager, val model: Mutable
 
         init {
             view.setOnClickListener { view ->
-                val toPass = itemView.tag as CategoryModel
-                val i = Intent(view.context, SearchResultFragment::class.java)
-                i.putExtra("query", toPass.slug)
-                i.putExtra("title", toPass.catName)
-                i.putExtra("isSearch", false)
-                view.context.startActivity(i)
+                val intent = Intent(view.context, ProductViewActivity::class.java)
+                intent.putExtra("data", view.tag as Product)
+                view.context.startActivity(intent)
             }
         }
     }
@@ -54,6 +51,7 @@ class SearchResultAdapter(val requestManager: RequestManager, val model: Mutable
 
     override fun onBindViewHolder(holder: SearchResultAdapter.ViewHolder, position: Int) {
         val product = model[position]
+        holder.itemView.tag = product
         holder.productPrice.text = Metrics.getDisplayPriceWithCurrency(holder.itemView.context, product.productPrice)
         holder.productTitle.text = product.productName
         holder.productShopTitle.text = product.shop.title
