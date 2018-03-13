@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_marginStart="6dp"
+              android:layout_marginEnd="6dp"
+              android:layout_marginBottom="54dp"
+              android:orientation="vertical">
+
+        <com.shop440.widgets.FontTextView
+            android:id="@+id/nestedTitle"
+            style="@style/headLineTextDef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#263238"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="6dp"
+            app:fontName="RobotoMedium"
+            tools:text="Tools"
+            />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/nestedRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_border"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:paddingTop="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+        <com.shop440.widgets.FontTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/listTextDef"
+            android:textSize="18sp"
+            android:text="@string/shop_total"/>
+        <com.shop440.widgets.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subTotal"
+            style="@style/listTextDef"
+            android:textSize="16sp"
+            app:fontName="RobotoMedium"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,5 +7,5 @@
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     app:popupTheme="@style/AppTheme3"
-    app:theme="@style/AppTheme3"/>
+    app:theme="@style/TransBar"/>
 

@@ -5,6 +5,7 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
@@ -22,8 +23,11 @@
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <meta-data android:name="com.truecaller.android.sdk.PartnerKey" android:value="@string/trucaller_key"/>
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme">
+        <meta-data
+            android:name="com.truecaller.android.sdk.PartnerKey"
+            android:value="@string/partnerKey"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
@@ -39,25 +43,6 @@
             android:authorities="com.facebook.app.FacebookContentProvider909211035848244"
             android:exported="true"/>
 
-        <meta-data
-            android:name="com.facebook.accountkit.ApplicationName"
-            android:value="@string/app_name"/>
-        <meta-data
-            android:name="com.facebook.accountkit.ClientToken"
-            android:value="@string/fb_account_kit"/>
-
-        <activity
-            android:name="com.facebook.accountkit.ui.AccountKitActivity"
-            android:theme="@style/AppLoginTheme"
-            tools:replace="android:theme"/>
-        <activity
-            android:name=".MainActivity.MainActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".signup.SignUpActivity"
-            android:exported="true"
-            android:label="Sign Up"/>
         <activity android:name=".auth.VerifyActivity"/>
 
         <receiver
@@ -69,13 +54,13 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".IntroActivity"/>
+        <activity android:name=".splash.IntroActivity"/>
         <activity
             android:name=".productview.ProductViewActivity"
             android:exported="true"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
+            android:theme="@style/TransBar">
 
             <!-- web and mobile urls differ web client uses /products for requests -->
             <intent-filter android:label="@string/app_name">
@@ -122,27 +107,8 @@
                     android:pathPrefix="/api/product"
                     android:scheme="https"/>
             </intent-filter>
+        </activity>
 
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity.MainActivity"/>
-        </activity>
-        <activity
-            android:name=".SearchActivity"
-            android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.MainActivity.MainActivity"/>
-        </activity>
-        <activity
-            android:name=".SearchResultActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shop440.SearchActivity"/>
-        </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -160,15 +126,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainNavigation"
-            android:label="@string/title_activity_main_navigation">
-        </activity>
-        <activity android:name=".auth.AuthActivity">
+            android:name=".navigation.MainNavigation"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".auth.AuthActivity">
+        </activity>
+        <activity
+            android:name=".checkout.CheckoutContainerActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".search.SearchContainerActivity">
         </activity>
     </application>
 

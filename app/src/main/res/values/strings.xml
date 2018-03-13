@@ -24,9 +24,6 @@
     <string name="facebook_app_id">909211035848244</string>
     <string name="fb_login_protocol_scheme">fb909211035848244</string>
     <string name="fb_account_kit">982d0b4c5c0873ae9bd3e1e19d41acf0</string>
-    <string name="trucaller_key">Nqesk81c574cf7fc04501989c871eb5d8369c</string>
-    <string name="trueprint">76e0fdd938cf79a3c7ca1ef8bbfb8f765ad3c6f5</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_get_location">GetLocation</string>
@@ -79,14 +76,14 @@
     <string-array name="fonts">
         <item>Roboto-Medium.ttf</item>
         <item>Roboto-Thin.ttf</item>
-        <item>Roboto-ThinItalic.ttf</item>
-        <item>RobotoCondensed-Bold.ttf</item>
-        <item>RobotoCondensed-Light.ttf</item>
-        <item>RobotoCondensed-Regular.ttf</item>
+        <item>OpenSans-Light.ttf</item>
+        <item>OpenSans-Regular.ttf</item>
+        <item>Roboto-Light.ttf</item>
+        <item>Roboto-Regular.ttf</item>
     </string-array>
     <string name="title_activity_main_navigation">MainNavigation</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Profile</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -97,11 +94,57 @@
     <string name="create_account_hint">Create account</string>
     <string name="email_signup_hint">Email</string>
     <string name="log_in_auth_button">Log in</string>
-    <string name="title_auth_text">Welcome to shop 440</string>
+    <string name="title_auth_text">Welcome to Shop440</string>
     <string name="create_account_auth_text">Create Account</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="insert_the_passcode_sent_to_your_phone">Insert the passcode sent to your phone</string>
     <string name="passcode_loading_text">Loading Passcode</string>
     <string name="email_invalid_error">Please correct email address</string>
     <string name="phone_invalid_error_message">Please fill correct phone format</string>
+    <string name="retry_button_text">Retry</string>
+    <string name="required_field_error">required field</string>
+    <string name="feed_error_data">Unable to get data</string>
+    <string name="search_hint"><![CDATA[Find Stores & Products]]></string>
+    <string name="view_more">See all >></string>
+    <string name="currency_symbol_code">₦</string>
+    <string name="log_out_hint_profile">Oops, you seem to be logged out!</string>
+    <string name="sign_in_sign_up">Sign in / Sign up</string>
+    <string name="sign_in_error">Error signing in</string>
+    <string name="password_hint">Password</string>
+    <string name="re_type_password_hint">Re-type password</string>
+    <string name="password_match_error">Passwords must match</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="log_out">Log out</string>
+    <string name="notifications">Notifications</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="policy">Shop440 is a product of Past3 Technologies Limited all data collected or by any means derived from the user will only be used to deliver the best experience.</string>
+    <string name="sign_in_login_text">Log in</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="number_exist_error">User with this phone number already exists</string>
+    <string name="buy_now_button">Add to cart</string>
+    <string name="product_view_hint_more">View more from seller</string>
+    <string name="visit_button">Visit</string>
+    <string name="cart_hint"><![CDATA[ <b>%1$s</b> items in your cart total of (<b>%2$s</b>)]]></string>
+    <string name="proceed_to_checkout">Checkout</string>
+    <string name="view_cart">View cart</string>
+    <string name="tiny_files">https://tinyfiles.past3dev.com/resize</string>
+    <string name="price_format"> %s%d</string>
+    <string name="per_item">per item</string>
+    <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="quantity">quantity: %s</string>
+    <string name="amount">amount: %s</string>
+    <string name="checkout">Cart</string>
+    <string name="next_checkout_button">Next</string>
+    <string name="order_finish_button">Check out</string>
+    <string name="prev_button">Prev</string>
+    <string name="sub_total">Sub total</string>
+    <string name="total">Total</string>
+    <string name="shop_total">Shop total</string>
+    <string name="current_address">Current address</string>
+    <string name="current_city">Current city</string>
+    <string name="convince_addr_text">We would love to know where you stay.</string>
+    <string name="save_button_text">save</string>
+    <string name="my_orders">My Orders</string>
+    <string name="search_text">Search here</string>
+    <string name="or_choose_a_category">or Choose a category</string>
 </resources>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/sheetContainer"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@android:color/white"
+             android:elevation="4dp"
+             android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:orientation="vertical">
+
+                <com.shop440.widgets.FontTextView
+                    android:id="@+id/productViewPrice"
+                    style="@style/subHeadingTextDef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="3000"
+                    app:fontName="RobotoMedium"/>
+
+                <com.shop440.widgets.FontTextView
+                    style="@style/captionTextDef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/per_item"
+                    app:fontName="OpenSansLight"/>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:paddingEnd="26dp"
+                android:paddingStart="26dp"
+                android:text="@string/buy_now_button"
+                android:id="@+id/bottomSheetAddCartButton"
+                android:textColor="@android:color/white"
+                android:theme="@style/buttonHighlightColor"/>
+        </LinearLayout>
+
+        <com.shop440.widgets.FontTextView
+            android:id="@+id/cartItems"
+            style="@style/descriptiveTExtDef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:fontName="OpenSansRegular"
+            tools:text="@string/cart_hint"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/viewCart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:text="@string/view_cart"
+                android:background="@color/invert_color"
+                android:foreground="?android:selectableItemBackground"
+                style="?android:buttonBarNeutralButtonStyle"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:id="@+id/bottomSheetCheckout"
+                android:background="@color/cartButton"
+                android:foreground="?android:selectableItemBackground"
+                style="?android:buttonBarPositiveButtonStyle"
+                android:text="@string/proceed_to_checkout"
+                />
+        </LinearLayout>
+    </LinearLayout>

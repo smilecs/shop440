@@ -1,24 +1,31 @@
 package com.shop440.productview
 
-import com.shop440.models.Datum
+import android.arch.lifecycle.Observer
+import android.util.Log
 import com.shop440.R
-import com.shop440.utils.FileCache
+import com.shop440.checkout.models.Item
+import com.shop440.checkout.models.ShopOrders
+import com.shop440.dao.models.CategoryModel
+import com.shop440.dao.models.Product
+import io.realm.Realm
+import io.realm.RealmObjectChangeListener
+import io.realm.RealmResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import java.io.BufferedInputStream
-import java.io.FileOutputStream
-import java.net.MalformedURLException
-import java.net.URL
 
 /**
  * Created by mmumene on 09/09/2017.
  */
-class ProductViewPresenter(val productView: ProductViewContract.View, val retrofit: Retrofit) : ProductViewContract.Presenter {
+class ProductViewPresenter(val productView: ProductViewContract.View?, val retrofit: Retrofit) : ProductViewContract.Presenter {
+
+   private val productViewModel by lazy {
+        productView?.getViewModel()
+    }
 
     init {
-        productView.presenter = this
+        productView?.presenter = this
     }
 
     override fun start() {
@@ -26,51 +33,61 @@ class ProductViewPresenter(val productView: ProductViewContract.View, val retrof
     }
 
     override fun loadData(path: String) {
-        productView.onDataLoading()
-        val data: Call<Datum> = retrofit.create(ApiRequest::class.java).getProduct(path)
-        data.enqueue(object : Callback<Datum> {
-            override fun onResponse(call: Call<Datum>?, response: Response<Datum>?) {
+        productView?.onDataLoading()
+        val data: Call<Product> = retrofit.create(ApiRequest::class.java).getProduct(path, "")
+        data.enqueue(object : Callback<Product> {
+            override fun onResponse(call: Call<Product>?, response: Response<Product>?) {
                 if (response!!.isSuccessful) {
-                    productView.showProduct(response.body()!!)
+                    productView?.onDataLoading()
+                    if (response.body() != null) {
+                        productView?.showProduct(response.body()!!)
+                        return
+                    }
+                    productView?.onError(R.string.api_data_load_error)
                 } else {
-                    productView.onError(R.string.api_data_load_error)
+                    productView?.onDataLoading()
+                    productView?.onError(R.string.api_data_load_error)
                 }
             }
 
-            override fun onFailure(call: Call<Datum>?, t: Throwable?) {
-                productView.onError(R.string.internet_error_message)
+            override fun onFailure(call: Call<Product>?, t: Throwable?) {
+                productView?.onDataLoading()
+                productView?.onError(R.string.internet_error_message)
             }
         })
     }
 
-    @Throws(MalformedURLException::class)
-    override fun downloadImage(imageUrl: String, productName: String, filePath: FileCache) {
-        val type = "jpg"
-        val file = filePath.getFile(productName, type)
-        val url = URL(imageUrl)
-        val tm = Thread(Runnable {
-            try {
-                val ucon = url.openConnection()
-                val `is` = ucon.getInputStream()
-                val inStream = BufferedInputStream(`is`, 5 * 1024)
-                val outStream = FileOutputStream(file)
-                val buff = ByteArray(5 * 1024)
+    override fun loadCart(activity: ProductViewActivity) {
+       productViewModel?.getKartData()?.observe(activity, Observer<RealmResults<Item>> { t ->
+            productView?.cartLoaded(t)
+        })
+    }
 
-                //Read bytes (and store them) until there is nothing more to read(-1)
-                var len: Int = 0
-                while (len != -1) {
-                    len = inStream.read(buff)
-                    outStream.write(buff, 0, len)
+    override fun resolveCategory(slug: String) {
+        val realm = Realm.getDefaultInstance()
+        realm.where(CategoryModel::class.java).equalTo("slug", slug).findFirstAsync().addChangeListener(RealmObjectChangeListener<CategoryModel> { t, changeSet ->
+            t.let {
+                if (t.isLoaded) {
+                    productView?.categoryNameResolved(t.catName)
+                    realm.close()
                 }
-                outStream.flush()
-                outStream.close()
-                inStream.close()
-                productView.imageDownloaded(file)
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         })
-        tm.start()
+    }
 
+    override fun addToCart(product: Product) {
+       productViewModel?.addToKart(product)
+    }
+
+    //check usefullness of this method, might be pointless
+    override fun getShopOrder(shopId: String) {
+        Realm.getDefaultInstance().use {
+            it.where(ShopOrders::class.java).equalTo("shopId", shopId).findFirstAsync().addChangeListener(RealmObjectChangeListener<ShopOrders> { t, changeSet ->
+                if (t.isLoaded) {
+                    it.removeAllChangeListeners()
+                    productView?.shopOrder(t)
+                }
+            })
+        }
     }
 }

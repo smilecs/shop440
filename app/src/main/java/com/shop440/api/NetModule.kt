@@ -4,9 +4,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.shop440.Application
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -33,13 +31,14 @@ object NetModule {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder()
         client.addInterceptor(interceptor)
+        client.addNetworkInterceptor(CacheInterceptor())
         client.addInterceptor { chain ->
             val request = chain.request().newBuilder()
             request.addHeader("X-AUTH-TOKEN", Application.authToken)
             request.addHeader("Content-Type", "application/json")
             chain.proceed(request.build())
         }
-        client.connectTimeout(30, TimeUnit.SECONDS)
+        client.connectTimeout(20, TimeUnit.SECONDS)
         client.readTimeout(30, TimeUnit.SECONDS)
         client.writeTimeout(30, TimeUnit.SECONDS)
         client.cache(cache)
@@ -49,10 +48,25 @@ object NetModule {
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create(providesGson()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Urls.BASE_URL)
                 .client(provideOkhttpClient())
                 .build()
+    }
+
+    private class  CacheInterceptor : Interceptor {
+
+        override fun intercept(chain: Interceptor.Chain?): Response {
+            val response = if (chain?.request()?.header("Cache-Control") != null) {
+                        Response.Builder()
+                        .removeHeader("Pragma")
+                        .header("Cache-Control", "max-age=2400")
+                        .build()
+            }else{
+                chain?.proceed(chain.request())
+            }
+            return response!!
+        }
     }
 
     private class NullOnEmptyConverterFactory : Converter.Factory() {

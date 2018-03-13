@@ -1,0 +1,26 @@
+package com.shop440.search
+
+import android.arch.lifecycle.LifecycleOwner
+import com.shop440.BasePresenter
+import com.shop440.BaseView
+import com.shop440.dao.models.CategoryModel
+import com.shop440.dao.models.Page
+import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.response.FilterResponse
+
+/**
+ * Created by mmumene on 25/02/2018.
+ */
+interface SearchContract{
+
+    interface View : BaseView<Presenter>{
+        fun onSearchResults(productModel: ProductModel, page: Page)
+        fun onCategories(categories:ArrayList<CategoryModel>)
+        val lifeCycle : LifecycleOwner
+    }
+
+    interface Presenter : BasePresenter{
+        fun performSearch(q:String, p:String, cat:String, tag:String)
+        fun getCategories()
+    }
+}

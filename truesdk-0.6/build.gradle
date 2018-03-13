@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('truesdk-0.6.aar'))

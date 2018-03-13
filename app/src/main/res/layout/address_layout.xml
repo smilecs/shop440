@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <com.shop440.widgets.FontTextView
+        style="@style/headLineTextDef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textAlignment="viewStart"
+        android:text="@string/convince_addr_text"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:textColorHint="@color/colorAccent">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/addressTextView"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:hint="@string/current_address"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimaryDark"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@color/colorAccent">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/cityTextView"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:hint="@string/current_city"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimaryDark"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="48dp"
+        style="@style/buttonRoundedDark"
+        android:textAllCaps="true"
+        android:foreground="?selectableItemBackground"
+        android:text="@string/save_button_text"
+        android:textColor="#fff"
+        />
+
+</LinearLayout>

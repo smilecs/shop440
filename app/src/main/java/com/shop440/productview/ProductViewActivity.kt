@@ -1,62 +1,61 @@
 package com.shop440.productview
 
 import android.app.ProgressDialog
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
-import android.support.v7.widget.Toolbar
-import android.util.Base64
-import android.util.Log
-import android.view.*
-import android.widget.*
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.ads.*
-import com.facebook.share.Sharer
-import com.facebook.share.model.ShareLinkContent
-import com.facebook.share.model.ShareMediaContent
-import com.facebook.share.model.SharePhoto
-import com.facebook.share.widget.ShareDialog
+import android.text.Html
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.shop440.api.NetModule
-import com.shop440.models.Datum
 import com.shop440.R
-import com.shop440.utils.AppEventsLogger
-import com.shop440.utils.FileCache
+import com.shop440.api.NetModule
+import com.shop440.checkout.CheckoutContainerActivity
+import com.shop440.checkout.models.Item
+import com.shop440.viewmodel.KartViewModel
+import com.shop440.checkout.models.ShopOrders
+import com.shop440.dao.models.Image
+import com.shop440.dao.models.Product
+import com.shop440.utils.Metrics
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_product_view.*
-import java.io.File
-import java.util.*
+import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
+import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
+import kotlinx.android.synthetic.main.bottom_product_view.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
     override lateinit var presenter: ProductViewContract.Presenter
     var TAG = "ProductViewActivity"
-    lateinit var fileCache: FileCache
-    lateinit var productModel: Datum
-    lateinit var content: ShareLinkContent
-    lateinit var callbackManager: CallbackManager
-    lateinit var shareDialog: ShareDialog
-    lateinit var sharePhoto: SharePhoto.Builder
-    var next = true
-    lateinit var map: MapView
+
+    lateinit var productModel: Product
+    private val kartViewModel: KartViewModel by lazy {
+        ViewModelProviders.of(this).get(KartViewModel::class.java)
+    }
+
     private lateinit var coord: LatLng
     private var bundle: Bundle? = null
-    private lateinit var productView: ProductViewActivity
     private var data: String? = null
     private lateinit var progressDialog: ProgressDialog
-    private lateinit var nativeAd: NativeAd
+    private var totalItems: Int = 0
+    private var totalPrice: Double = 0.0
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -66,48 +65,25 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bundle = savedInstanceState
-        productView = this
         setContentView(R.layout.activity_product_view)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        map = findViewById(R.id.map) as MapView
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        fileCache = FileCache(this)
-        val intent = intent
-        if (intent.dataString != null) {
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
+            setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@ProductViewActivity, R.color.TransColor)))
+        }
+        if (intent != null && !intent.dataString.isNullOrBlank()) {
             data = intent.dataString
         }
-        sharePhoto = SharePhoto.Builder()
-        callbackManager = CallbackManager.Factory.create()
-        shareDialog = ShareDialog(this)
-        shareDialog.registerCallback(callbackManager, object : FacebookCallback<Sharer.Result> {
-            override fun onSuccess(result: Sharer.Result) {
-                //Log.d(TAG, result.getPostId());
-
-
-            }
-
-            override fun onCancel() {
-
-            }
-
-            override fun onError(error: FacebookException) {
-                error.printStackTrace()
-
-            }
-        })
         progressDialog = ProgressDialog(this)
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
         progressDialog.isIndeterminate = true
         progressDialog.setMessage(getString(R.string.loading))
         ProductViewPresenter(this, NetModule.provideRetrofit())
 
-        map_layout.setOnClickListener {
+        map.setOnClickListener {
             val intent = Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?daddr=" + productModel.location.coordinates[0] + "," + productModel.location.coordinates[1]))
+                    Uri.parse("http://maps.google.com/maps?daddr=" + productModel.location.lat + "," + productModel.location.lon))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
@@ -115,68 +91,16 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         }
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+
+    override fun onResume() {
+        super.onResume()
         loadData()
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        shareProgress.visibility = View.GONE
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-
-    }
-
-    private fun initUi() {
-        val robotMedium = Typeface.createFromAsset(assets,
-                "fonts/Roboto-Medium.ttf")
-        val robotCondensed = Typeface.createFromAsset(assets,
-                "fonts/RobotoCondensed-Regular.ttf")
-        val robotBold = Typeface.createFromAsset(assets,
-                "fonts/RobotoCondensed-Bold.ttf")
-        val robotThinItalic = Typeface.createFromAsset(assets, "fonts/Roboto-Thin.ttf")
-        if (productModel.location != null) {
-            coord = LatLng(productModel.location.coordinates[0], productModel.location.coordinates[1])
-        }
-        productPrice.typeface = robotMedium
-        productName.typeface = robotMedium
-        productDescription.typeface = robotThinItalic
-        productName.text = productModel.name
-        productDescription.text = productModel.description
-        productPrice.text = productModel.price.toString()
-        storeName.text = productModel.store.name
-        val imageByte = Base64.decode(productModel.image.placeholder, Base64.DEFAULT)
-        val bit = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.size)
-        content = ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://shop440.com/products/" + productModel.slug))
-                .setContentTitle(productModel.name)
-                .setImageUrl(Uri.parse(productModel.image.path))
-                .build()
-        // SharePhoto.Builder sharePhoto = new SharePhoto.Builder();
-        sharePhoto.setImageUrl(Uri.parse(productModel.image.path))
-        val shareCard = findViewById(R.id.shareCard) as CardView
-        val shareContent = ShareMediaContent.Builder().addMedium(sharePhoto.build()).build()
-        shareCard.setOnClickListener {
-            AppEventsLogger.logItemShareEvent()
-            shareProgress.visibility = View.VISIBLE
-            shareDialog.show(shareContent)
-        }
-        showNativeAd()
-        progressDialog.show()
-
-        val handler = Handler()
-        handler.postDelayed({
-            map.onCreate(bundle)
-            map.getMapAsync(productView)
-        }, 1800)
-    }
-
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.d("here", "here")
         val builder = LatLngBounds.builder()
         builder.include(coord)
-        googleMap.addMarker(MarkerOptions().position(coord).title(productModel.store.name))
+        googleMap.addMarker(MarkerOptions().position(coord).title(productModel.shop.title))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15f))
         map.onResume()
         progressDialog.dismiss()
@@ -184,115 +108,131 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.productview, menu)
-        //MenuItem searchItem = menu.findItem(R.id.search);
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val id = item.itemId
-
-        if (id == R.id.download) {
-            try {
-                presenter.downloadImage(productModel.image.path, productModel.name, fileCache)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
+        if (id == R.id.checkout) {
+            startActivity(Intent(this@ProductViewActivity, CheckoutContainerActivity::class.java))
         }
-
+        if (id == android.R.id.home) {
+            finish()
+        }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadData() {
-        if (!data.isNullOrBlank()) {
-            val recievedData = data!!
-            val resolvedUrl = recievedData.substring(recievedData.lastIndexOf("/") + 1)
-            presenter.loadData(resolvedUrl)
-        } else {
-            productModel = intent.getSerializableExtra("data") as Datum
-            initUi()
-        }
-    }
-
-    private fun showNativeAd() {
-        nativeAd = NativeAd(this, "909211035848244_1018000754969271")
-        nativeAd.setAdListener(object : AdListener {
-
-            override fun onError(ad: Ad, error: AdError) {
-                // Ad error callback
-            }
-
-            override fun onAdLoaded(ad: Ad) {
-                    nativeAd.unregisterView()
-                // Add the Ad view into the ad container.
-                val nativeAdContainer = findViewById(R.id.native_ad_container) as LinearLayout
-                val inflater = LayoutInflater.from(this@ProductViewActivity)
-                // Inflate the Ad view.  The layout referenced should be the one you created in the last step.
-                val adView = inflater.inflate(R.layout.ad_layout, nativeAdContainer, false)
-                nativeAdContainer.addView(adView)
-
-                // Create native UI using the ad metadata.
-                val nativeAdIcon = adView.findViewById(R.id.native_ad_icon) as ImageView
-                val nativeAdTitle = adView.findViewById(R.id.native_ad_title) as TextView
-                val nativeAdMedia = adView.findViewById(R.id.native_ad_media) as MediaView
-                val nativeAdSocialContext = adView.findViewById(R.id.native_ad_social_context) as TextView
-                val nativeAdBody = adView.findViewById(R.id.native_ad_body) as TextView
-                val nativeAdCallToAction = adView.findViewById(R.id.native_ad_call_to_action) as Button
-
-                // Set the Text.
-                nativeAdTitle.text = nativeAd.adTitle
-                nativeAdSocialContext.text = nativeAd.adSocialContext
-                nativeAdBody.text = nativeAd.adBody
-                nativeAdCallToAction.text = nativeAd.adCallToAction
-
-                // Download and display the ad icon.
-                val adIcon = nativeAd.adIcon
-                NativeAd.downloadAndDisplayImage(adIcon, nativeAdIcon)
-
-                // Download and display the cover image.
-                nativeAdMedia.setNativeAd(nativeAd)
-
-                // Add the AdChoices icon
-                val adChoicesContainer = findViewById(R.id.ad_choices_container) as LinearLayout
-                val adChoicesView = AdChoicesView(this@ProductViewActivity, nativeAd, true)
-                adChoicesContainer.addView(adChoicesView)
-
-                // Register the Title and CTA button to listen for clicks.
-                val clickableViews = ArrayList<View>()
-                clickableViews.add(nativeAdTitle)
-                clickableViews.add(nativeAdCallToAction)
-                nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews)
-            }
-
-            override fun onAdClicked(ad: Ad) {
-                // Ad clicked callback
-            }
-
-            override fun onLoggingImpression(ad: Ad) {
-
-            }
-        })
-
-        // Request an ad
-        nativeAd.loadAd(NativeAd.MediaCacheFlag.ALL)
+    private fun loadData() = if (data != null) {
+        val resolvedUrl: String = data!!.substring(data!!.lastIndexOf("/") + 1)
+        presenter.loadData(resolvedUrl)
+    } else {
+        productModel = intent.getSerializableExtra("data") as Product
+        initUi()
     }
 
     override fun onError(errorMessage: Int) {
-
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onDataLoading() {
+        if (progressDialog.isShowing) {
+            progressDialog.hide()
+            return
+        }
+        progressDialog.show()
 
     }
 
-    override fun showProduct(product: Datum) {
+    override fun showProduct(product: Product) {
         this@ProductViewActivity.productModel = product
         initUi()
     }
 
-    override fun imageDownloaded(filePath: File) {
-        runOnUiThread { Toast.makeText(this@ProductViewActivity, "Product Image saved to shop440" + " " + filePath.absolutePath, Toast.LENGTH_LONG).show() }
+    internal class ViewAdapter(fm: FragmentManager, val image: List<Image>) : FragmentStatePagerAdapter(fm) {
+
+        override fun getCount(): Int = image.size
+
+        override fun getItem(position: Int): Fragment = PagerGalleryFragment.newInstance(image[position].url, image[position].placeholder)
     }
+
+    public override fun onDestroy() {
+        super.onDestroy()
+        map.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        map.onLowMemory()
+    }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
+    override fun getViewModel(): KartViewModel = kartViewModel
+
+    override fun cartLoaded(realmResults: RealmResults<Item>?) {
+        totalPrice = 0.0
+        realmResults?.let {
+            for (item: Item in it) {
+                totalPrice += item.totalPrice
+            }
+            totalItems = realmResults.size
+        }
+        cartItems.text = Html.fromHtml(getString(R.string.cart_hint, totalItems.toString(), Metrics.getDisplayPriceWithCurrency(this, totalPrice)))
+    }
+
+    override fun categoryNameResolved(category: String) {
+        productViewCategory.text = category
+    }
+
+    override fun shopOrder(shopOrders: ShopOrders) {
+
+    }
+
+    private fun initUi() {
+        presenter.resolveCategory(productModel.category)
+
+        if (!productModel.location.lat.isEmpty() && !productModel.location.lon.isEmpty()) {
+            coord = LatLng(productModel.location.lat.toDouble(), productModel.location.lon.toDouble())
+            map.visibility = View.VISIBLE
+            //progressDialog.show()
+            val handler = Handler()
+            handler.postDelayed({
+                map.onCreate(bundle)
+                map.getMapAsync(this@ProductViewActivity)
+            }, 1800)
+        }
+
+        productModel.images?.let {
+            imagePager.clipToPadding = false
+            imagePager.setPadding(12, 0, 12, 0)
+            imagePager.adapter = ViewAdapter(supportFragmentManager, it)
+            viewPagerIndicator.setupWithViewPager(imagePager)
+        }
+
+        //subContainer views
+        productViewTitle.text = productModel.productName
+        productViewCity.text = productModel.city
+        //productViewCategory.text = productModel.category
+        productViewShopName.text = productModel.shop.title
+        descriptionProductText.text = productModel.productDesc
+
+
+        productModel.shop.apply {
+            shopNameProductView.text = title
+            shopAddressProductView.text = address
+            phoneTextProductView.text = phone
+        }
+        bottomSheetControls()
+        presenter.loadCart(this)
+    }
+
+    private fun bottomSheetControls() {
+        productViewPrice.text = Metrics.getDisplayPriceWithCurrency(this, productModel.productPrice)
+        bottomSheetAddCartButton.setOnClickListener {
+            presenter.addToCart(productModel)
+        }
+    }
+
 }
