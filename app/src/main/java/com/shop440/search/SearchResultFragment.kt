@@ -17,13 +17,15 @@ import com.shop440.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class SearchResultFragment : Fragment() {
-    lateinit var layoutManager: StaggeredGridLayoutManager
     var next: Boolean? = true
+    val gridLayoutManager : GridLayoutManager by lazy{
+        GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
+    }
     val TAG = "SearchResultActivity"
     val searchControl : SearchContainerActivity by lazy {
         activity as SearchContainerActivity
     }
-    private val list = mutableListOf<Product>()
+    val list = mutableListOf<Product>()
     val adapter : SearchResultAdapter by lazy {
         SearchResultAdapter(Glide.with(context), list)
     }
@@ -46,13 +48,12 @@ class SearchResultFragment : Fragment() {
             searchControl.presenter.performSearch(searchControl.queryString, "1", searchControl.catString, "")
         }
         recyclerView.apply{
-            layoutManager = GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
+            layoutManager = gridLayoutManager
             adapter = this@SearchResultFragment.adapter
             setHasFixedSize(true)
 
-        }.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
+        }.addOnScrollListener(object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                Log.d(TAG, page.toString())
                 if (searchControl.next) {
                     searchControl.presenter.performSearch(searchControl.queryString, page.toString(), searchControl.catString, "")
                 }

@@ -38,7 +38,6 @@ class TopFeedAdapter(val adapterModel: List<AdapterModel>, val context: Context,
             ViewHolder.GridViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.nested_reycler, parent, false))
         }
         viewHolder.recyclerView.recycledViewPool = viewPool
-        //LinearSnapHelper().attachToRecyclerView(viewHolder.recyclerView)
         return viewHolder
     }
 
