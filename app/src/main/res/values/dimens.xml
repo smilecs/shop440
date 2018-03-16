@@ -27,7 +27,7 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="margin_spacing_home">8dp</dimen>
-    <dimen name="image_size_home_max_height">190dp</dimen>
+    <dimen name="image_size_home_max_height">240dp</dimen>
     <dimen name="image_size_home_max_width">160dp</dimen>
 
 </resources>

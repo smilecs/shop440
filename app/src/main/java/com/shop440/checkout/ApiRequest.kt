@@ -2,7 +2,7 @@ package com.shop440.checkout
 
 import com.shop440.api.Urls
 import com.shop440.checkout.models.Order
-import com.shop440.response.GenericResponse
+import com.shop440.resp.GenericResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

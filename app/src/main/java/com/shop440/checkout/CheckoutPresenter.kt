@@ -4,7 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import com.shop440.R
 import com.shop440.checkout.models.Order
-import com.shop440.response.GenericResponse
+import com.shop440.resp.GenericResponse
 import com.shop440.viewmodel.KartViewModel
 import retrofit2.Call
 import retrofit2.Callback

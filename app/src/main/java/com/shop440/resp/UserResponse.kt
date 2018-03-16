@@ -1,4 +1,4 @@
-package com.shop440.response
+package com.shop440.resp
 
 import com.shop440.dao.models.User
 

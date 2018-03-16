@@ -4,7 +4,8 @@ import com.shop440.navigation.home.adaptermodel.ProductModel
 import com.shop440.navigation.home.adaptermodel.StoreAdapterModel
 import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.R
-import com.shop440.response.SectionResponse
+import com.shop440.resp.HomeSection
+import com.shop440.resp.SectionResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,15 +25,15 @@ class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.V
 
     override fun getProductFeedData() {
         homeActivityFragmentView.onDataLoading()
-        val productData: Call<SectionResponse.HomeSection> = retrofit.create(ApiRequest::class.java).homeSection()
-        productData.enqueue(object : Callback<SectionResponse.HomeSection> {
+        val productData: Call<HomeSection> = retrofit.create(ApiRequest::class.java).homeSection()
+        productData.enqueue(object : Callback<HomeSection> {
 
-            override fun onFailure(call: Call<SectionResponse.HomeSection>?, t: Throwable?) {
+            override fun onFailure(call: Call<HomeSection>?, t: Throwable?) {
                 homeActivityFragmentView.onDataLoading()
                 homeActivityFragmentView.onError(R.string.internet_error_message)
             }
 
-            override fun onResponse(call: Call<SectionResponse.HomeSection>?, response: Response<SectionResponse.HomeSection>?) {
+            override fun onResponse(call: Call<HomeSection>?, response: Response<HomeSection>?) {
                 homeActivityFragmentView.onDataLoading()
                 if (response?.isSuccessful!!) {
                     homeActivityFragmentView.productDataAvailable(parseViewModels(response.body()))
@@ -43,7 +44,7 @@ class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.V
         })
     }
 
-    private fun parseViewModels(section: SectionResponse.HomeSection?): List<AdapterModel> {
+    private fun parseViewModels(section: HomeSection?): List<AdapterModel> {
         val listOfModel = mutableListOf<AdapterModel>()
         if (section != null) {
             section.sections.mapTo(listOfModel, { t ->
@@ -55,7 +56,7 @@ class HomeActivityPresenter(val homeActivityFragmentView: HomeActivityContract.V
         return listOfModel
     }
 
-    private fun selectType(sectionResponse: SectionResponse.SectionResponse): AdapterModel {
+    private fun selectType(sectionResponse: SectionResponse): AdapterModel {
         return when (sectionResponse.feedType) {
             "productfeed" -> ProductModel(sectionResponse.title, sectionResponse.product)
             else -> StoreAdapterModel(sectionResponse.title, sectionResponse.shopFeed)

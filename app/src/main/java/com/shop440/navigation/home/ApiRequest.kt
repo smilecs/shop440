@@ -1,7 +1,8 @@
 package com.shop440.navigation.home
 
 import com.shop440.api.Urls
-import com.shop440.response.SectionResponse
+import com.shop440.resp.HomeSection
+import com.shop440.resp.SectionResponse
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -12,7 +13,7 @@ import retrofit2.http.GET
 
 interface ApiRequest {
     @GET(Urls.HOME_PAGE_SECTION)
-    fun homeSection():Call<SectionResponse.HomeSection>
+    fun homeSection():Call<HomeSection>
 
     /*@GET(Urls.GETPRODUCTS)
     fun getProductFeeds(@Query("p") page: String): Call<ProductModel>*/

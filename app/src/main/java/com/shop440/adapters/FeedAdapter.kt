@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.shop440.R
 import com.shop440.checkout.models.SummaryAdapterModel
 import com.shop440.navigation.home.adaptermodel.AdapterModel
@@ -19,8 +20,14 @@ import kotlinx.android.synthetic.main.linear_recycler.view.*
 /**
  * Created by mmumene on 19/11/2017.
  */
-class TopFeedAdapter(val adapterModel: List<AdapterModel>, val context: Context, val isLinear: Boolean) : RecyclerView.Adapter<TopFeedAdapter.ViewHolder.BaseViewHolder>() {
+class TopFeedAdapter(private val adapterModel: List<AdapterModel>,
+                     val context: Context,
+                     val isLinear: Boolean) : RecyclerView.Adapter<TopFeedAdapter.ViewHolder.BaseViewHolder>() {
     constructor(adapterModel: List<AdapterModel>, context: Context) : this(adapterModel, context, false)
+
+    private val requestManager by lazy {
+        Glide.with(context)
+    }
 
     private val viewPool: RecyclerView.RecycledViewPool by lazy {
         RecyclerView.RecycledViewPool()
@@ -33,9 +40,9 @@ class TopFeedAdapter(val adapterModel: List<AdapterModel>, val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder.BaseViewHolder {
         val viewHolder = if (isLinear) {
-            ViewHolder.LinearViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.linear_recycler, parent, false))
+            ViewHolder.LinearViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.linear_recycler, parent, false), requestManager)
         } else {
-            ViewHolder.GridViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.nested_reycler, parent, false))
+            ViewHolder.GridViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.nested_reycler, parent, false), requestManager)
         }
         viewHolder.recyclerView.recycledViewPool = viewPool
         return viewHolder
@@ -54,14 +61,10 @@ class TopFeedAdapter(val adapterModel: List<AdapterModel>, val context: Context,
                 view.findViewById<FontTextView>(R.id.nestedTitle)
             }
 
-            val requestManager by lazy {
-                Glide.with(view.context)
-            }
-
             abstract fun onBind(adapterModel: AdapterModel)
         }
 
-        class GridViewHolder(val views: View) : BaseViewHolder(views) {
+        class GridViewHolder(views: View, private val requestManager: RequestManager) : BaseViewHolder(views) {
             override fun onBind(adapterModel: AdapterModel) {
                 title.text = adapterModel.title
                 recyclerView.apply {
@@ -72,10 +75,11 @@ class TopFeedAdapter(val adapterModel: List<AdapterModel>, val context: Context,
             }
         }
 
-        class LinearViewHolder(views: View) : BaseViewHolder(views) {
-            val subText:FontTextView by lazy {
+        class LinearViewHolder(views: View, private val requestManager: RequestManager) : BaseViewHolder(views) {
+            val subText: FontTextView by lazy {
                 view.subTotal
             }
+
             override fun onBind(adapterModel: AdapterModel) {
                 title.text = adapterModel.title
                 recyclerView.apply {

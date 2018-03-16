@@ -2,6 +2,7 @@ package com.shop440.checkout
 
 import android.arch.lifecycle.Observer
 import android.support.v4.app.Fragment
+import android.util.Log
 import com.shop440.checkout.kart.KartContract
 import com.shop440.checkout.models.Item
 import com.shop440.checkout.models.ItemForKart
@@ -25,7 +26,7 @@ class OrderPresenter(val view : KartContract.OrderView) : KartContract.OrderPres
             var total = 0.0
             val kartItem = computeRealmKartItem(t!!)
             for(item in kartItem.values){
-                total.plus(item.amount)
+                total += item.amount
             }
             view.onKartLoaded(getAdapterModels(kartItem), total)
         })

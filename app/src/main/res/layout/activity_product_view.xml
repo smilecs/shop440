@@ -59,7 +59,8 @@
                     <com.google.android.gms.maps.MapView
                         android:id="@+id/map"
                         android:layout_width="match_parent"
-                        android:layout_height="148dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:background="@drawable/bottom_border"
                         android:visibility="gone"
                         app:liteMode="true"
@@ -111,6 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <com.shop440.widgets.FontTextView

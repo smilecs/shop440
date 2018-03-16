@@ -1,8 +1,8 @@
 package com.shop440.auth
 
 import com.shop440.dao.models.User
-import com.shop440.response.OtpResponse
-import com.shop440.response.UserResponse
+import com.shop440.resp.OtpResponse
+import com.shop440.resp.UserResponse
 import com.shop440.api.Urls
 
 import retrofit2.Call

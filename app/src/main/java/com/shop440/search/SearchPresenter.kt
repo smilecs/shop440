@@ -1,10 +1,9 @@
 package com.shop440.search
 
-import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.Observer
 import com.shop440.api.NetModule
 import com.shop440.navigation.home.adaptermodel.ProductModel
-import com.shop440.response.FilterResponse
+import com.shop440.resp.FilterResponse
 import com.shop440.viewmodel.ProductViewModel
 import retrofit2.Call
 import retrofit2.Callback
