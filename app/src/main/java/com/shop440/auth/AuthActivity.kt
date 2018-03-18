@@ -20,7 +20,6 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.auth_container)
         supportFragmentManager.beginTransaction().apply {
-            addToBackStack(null)
             replace(R.id.content, authOptions, "options")
         }.commit()
     }

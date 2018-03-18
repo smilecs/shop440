@@ -1,6 +1,7 @@
 package com.shop440.search
 
 import android.arch.lifecycle.Observer
+import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.navigation.home.adaptermodel.ProductModel
 import com.shop440.resp.FilterResponse
@@ -47,7 +48,7 @@ class SearchPresenter(val view: SearchContract.View?) : SearchContract.Presenter
                     view?.onDataLoading()
                     if (it.isSuccessful) {
                         it.body()?.let {
-                            view?.onSearchResults(createSearchModel(q, it), it.page)
+                            view?.onSearchResults(ProductModel(q, it.data), it.page)
                         }
                     } else {
                         onFailure(call, null)
@@ -57,9 +58,8 @@ class SearchPresenter(val view: SearchContract.View?) : SearchContract.Presenter
 
             override fun onFailure(call: Call<FilterResponse>?, t: Throwable?) {
                 view?.onDataLoading()
+                view?.onError(R.string.internet_error_message)
             }
         })
     }
-
-    private fun createSearchModel(query:String, filterResponse: FilterResponse) = ProductModel(query, filterResponse.data)
 }

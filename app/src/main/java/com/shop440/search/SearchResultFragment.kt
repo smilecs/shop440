@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,19 +12,19 @@ import com.bumptech.glide.Glide
 import com.shop440.R
 import com.shop440.dao.models.Product
 import com.shop440.utils.EndlessRecyclerViewScrollListener
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.searchresult.*
 
 class SearchResultFragment : Fragment() {
-    var next: Boolean? = true
-    val gridLayoutManager : GridLayoutManager by lazy{
+    var next: Boolean = true
+    val gridLayoutManager: GridLayoutManager by lazy {
         GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
     }
     val TAG = "SearchResultActivity"
-    val searchControl : SearchContainerActivity by lazy {
+    val searchControl: SearchContainerActivity by lazy {
         activity as SearchContainerActivity
     }
     val list = mutableListOf<Product>()
-    val adapter : SearchResultAdapter by lazy {
+    val adapter: SearchResultAdapter by lazy {
         SearchResultAdapter(Glide.with(context), list)
     }
 
@@ -45,9 +43,11 @@ class SearchResultFragment : Fragment() {
 
         swipeContainer.setOnRefreshListener {
             list.clear()
+            recyclerView.visibility = View.GONE
+            searchControl.startSearch(searchControl.queryString, "1", searchControl.catString, "")
             searchControl.presenter.performSearch(searchControl.queryString, "1", searchControl.catString, "")
         }
-        recyclerView.apply{
+        recyclerView.apply {
             layoutManager = gridLayoutManager
             adapter = this@SearchResultFragment.adapter
             setHasFixedSize(true)
@@ -55,13 +55,14 @@ class SearchResultFragment : Fragment() {
         }.addOnScrollListener(object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (searchControl.next) {
-                    searchControl.presenter.performSearch(searchControl.queryString, page.toString(), searchControl.catString, "")
+                    searchControl.startSearch(searchControl.queryString, page.toString(), searchControl.catString, "")
                 }
             }
         })
     }
 
-    fun refreshLayout(products:List<Product>){
+    fun refreshLayout(products: List<Product>) {
+        recyclerView.visibility = View.VISIBLE
         list.addAll(products)
         adapter.notifyDataSetChanged()
     }

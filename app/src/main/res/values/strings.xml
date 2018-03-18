@@ -147,4 +147,6 @@
     <string name="my_orders">My Orders</string>
     <string name="search_text">Search here</string>
     <string name="or_choose_a_category">or Choose a category</string>
+    <string name="title_activity_products">ProductsActivity</string>
+    <string name="see_more">See more</string>
 </resources>

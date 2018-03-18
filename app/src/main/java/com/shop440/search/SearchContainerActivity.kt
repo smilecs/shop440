@@ -6,8 +6,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import com.shop440.R
 import com.shop440.dao.models.CategoryModel
 import com.shop440.dao.models.Page
@@ -25,19 +27,13 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
     var next: Boolean = true
     var queryString: String = ""
     var catString: String = ""
-    private val resultFragment: SearchResultFragment by lazy {
-        supportFragmentManager.findFragmentByTag("result") as SearchResultFragment
-    }
-
-    private val searchResultFragment = SearchResultFragment()
+    private val resultFragment = SearchResultFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_container)
         supportFragmentManager.beginTransaction().apply {
-            add(R.id.container, searchResultFragment, "result")
             replace(R.id.container, SearchFragment(), "searchFrag")
-            addToBackStack(null)
         }.commit()
         val reference = WeakReference<SearchContract.View>(this)
         SearchPresenter(reference.get())
@@ -51,8 +47,7 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
         searchViewQuery.setIconifiedByDefault(false)
         searchViewQuery.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                presenter.performSearch(query, "1", "", "")
-                resultFragment.list.clear()
+                startSearch(query, "1", "", "")
                 return true
             }
 
@@ -66,24 +61,22 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
     }
 
     override fun onError(errorMessage: Int) {
-
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onDataLoading() {
-
+       toggleProgressBar()
     }
 
     override fun onSearchResults(productModel: ProductModel, page: Page) {
+        container.visibility = View.VISIBLE
         this.productModel = productModel
         next = page.next
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.container, resultFragment, "result")
-        }.commit()
-
         resultFragment.refreshLayout(productModel.viewModel)
     }
 
     override fun onCategories(categories: ArrayList<CategoryModel>) {
+        container.visibility = View.VISIBLE
         val sortCategories = mutableListOf<CategoryModel>()
         val compare = Comparator { t: CategoryModel, y: CategoryModel ->
             t.catName.compareTo(y.catName)
@@ -94,5 +87,29 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
         }
         val searchFrag = supportFragmentManager.findFragmentByTag("searchFrag") as SearchFragment
         searchFrag.onCategories(sortCategories as ArrayList<CategoryModel>)
+    }
+
+    private fun isInForeGround() = resultFragment.isVisible
+
+    private fun switchFragment() {
+        if (!isInForeGround()) {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.container, resultFragment, "result")
+            }.commit()
+        }
+    }
+
+    fun startSearch(query: String, page: String, cat: String, tag: String) {
+        switchFragment()
+        presenter.performSearch(query, page, cat, tag)
+        resultFragment.list.clear()
+    }
+
+    private fun toggleProgressBar() {
+        progressBar.visibility = if (progressBar.visibility == View.GONE) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 }

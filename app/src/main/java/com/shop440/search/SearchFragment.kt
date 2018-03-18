@@ -32,6 +32,6 @@ class SearchFragment : Fragment(), CategorySearchAdapter.CategoryQuery {
 
     override fun onCategorySelected(cat: String) {
         (activity as SearchContainerActivity).catString = cat
-        (activity as SearchContainerActivity).presenter.performSearch("", "1", cat, "")
+        (activity as SearchContainerActivity).startSearch("", "1", cat, "")
     }
 }

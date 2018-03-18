@@ -53,14 +53,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginTop="12dp"
                     android:orientation="vertical">
 
                     <com.google.android.gms.maps.MapView
                         android:id="@+id/map"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="160dp"
                         android:background="@drawable/bottom_border"
                         android:visibility="gone"
                         app:liteMode="true"
@@ -73,7 +71,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="Past3"
                         app:fontName="RobotoRegular"/>
 
                     <com.shop440.widgets.FontTextView
@@ -83,7 +80,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="89 sjkdjksj skdskdjk"
                         app:fontName="OpenSansLight"/>
 
                     <LinearLayout
@@ -104,7 +100,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:autoLink="phone"
-                            android:text="07033383068"
                             app:fontName="OpenSansLight"/>
                     </LinearLayout>
 
@@ -112,7 +107,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <com.shop440.widgets.FontTextView
