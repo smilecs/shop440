@@ -1,8 +1,7 @@
 package com.shop440.navigation.home
 
 import com.shop440.api.Urls
-import com.shop440.resp.HomeSection
-import com.shop440.resp.SectionResponse
+import com.shop440.api.response.HomeSection
 
 import retrofit2.Call
 import retrofit2.http.GET

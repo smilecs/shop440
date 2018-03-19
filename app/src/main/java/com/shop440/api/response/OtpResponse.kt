@@ -1,4 +1,4 @@
-package com.shop440.resp
+package com.shop440.api.response
 
 /**
  * Created by mmumene on 04/11/2017.

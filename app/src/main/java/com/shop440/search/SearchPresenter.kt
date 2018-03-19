@@ -4,7 +4,7 @@ import android.arch.lifecycle.Observer
 import com.shop440.R
 import com.shop440.api.NetModule
 import com.shop440.navigation.home.adaptermodel.ProductModel
-import com.shop440.resp.FilterResponse
+import com.shop440.api.response.FilterResponse
 import com.shop440.viewmodel.ProductViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,11 +19,12 @@ class SearchPresenter(val view: SearchContract.View?) : SearchContract.Presenter
     init {
         view?.presenter = this
     }
+
     private val productViewModel: ProductViewModel by lazy {
         ProductViewModel()
     }
 
-    private val retrofit:Retrofit by lazy {
+    private val retrofit: Retrofit by lazy {
         NetModule.provideRetrofit()
     }
 
@@ -48,7 +49,9 @@ class SearchPresenter(val view: SearchContract.View?) : SearchContract.Presenter
                     view?.onDataLoading()
                     if (it.isSuccessful) {
                         it.body()?.let {
-                            view?.onSearchResults(ProductModel(q, it.data), it.page)
+                            if (it.data.isNotEmpty()) {
+                                view?.onSearchResults(ProductModel(q, it.data), it.page)
+                            }
                         }
                     } else {
                         onFailure(call, null)

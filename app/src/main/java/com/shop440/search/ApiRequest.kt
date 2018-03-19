@@ -1,7 +1,7 @@
 package com.shop440.search
 
 import com.shop440.api.Urls
-import com.shop440.resp.FilterResponse
+import com.shop440.api.response.FilterResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

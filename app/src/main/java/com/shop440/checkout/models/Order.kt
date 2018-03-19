@@ -14,9 +14,9 @@ open class Order : RealmObject(){
     var name: String = ""
     var email: String = ""
     var imageUrl: String = ""
-    @SerializedName(value = "postalcode") var postalCode: String = ""
+    var postalCode: String = ""
     var city: String = ""
-    @SerializedName(value = "address1") var address: String = ""
+    var address: String = ""
     var company: String = ""
     var province: String = ""
     var total: Double = 0.0

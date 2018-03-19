@@ -17,6 +17,7 @@ import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -44,6 +45,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
     override lateinit var presenter: ProductViewContract.Presenter
     var TAG = "ProductViewActivity"
+    var count = 0
 
     lateinit var productModel: Product
     private val kartViewModel: KartViewModel by lazy {
@@ -108,8 +110,17 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.productview, menu)
+        val countView = menu.findItem(R.id.checkout)
+        val view = countView.actionView
+        val notifCount = view.findViewById<Button>(R.id.notif_count)
+        if(count > 0){
+            notifCount.visibility = View.VISIBLE
+            notifCount.text = count.toString()
+        }
         return true
     }
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
@@ -179,6 +190,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
             }
             totalItems = realmResults.size
         }
+        setKartCount(totalItems)
         cartItems.text = Html.fromHtml(getString(R.string.cart_hint, totalItems.toString(), Metrics.getDisplayPriceWithCurrency(this, totalPrice)))
     }
 
@@ -233,6 +245,11 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         bottomSheetAddCartButton.setOnClickListener {
             presenter.addToCart(productModel)
         }
+    }
+
+    private fun setKartCount(value:Int){
+        count = value
+        invalidateOptionsMenu()
     }
 
 }

@@ -4,8 +4,8 @@ import android.arch.lifecycle.Observer
 import com.shop440.R
 import com.shop440.dao.models.CategoryModel
 import com.shop440.navigation.home.adaptermodel.ProductModel
-import com.shop440.resp.FilterResponse
-import com.shop440.resp.ResponseWrapper
+import com.shop440.api.response.FilterResponse
+import com.shop440.api.response.ResponseWrapper
 import io.realm.Realm
 import io.realm.RealmObjectChangeListener
 

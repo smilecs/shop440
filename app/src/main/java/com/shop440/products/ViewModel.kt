@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.shop440.api.NetModule
-import com.shop440.resp.FilterResponse
-import com.shop440.resp.ResponseWrapper
+import com.shop440.api.response.FilterResponse
+import com.shop440.api.response.ResponseWrapper
 import com.shop440.search.ApiRequest
 import retrofit2.Call
 import retrofit2.Callback

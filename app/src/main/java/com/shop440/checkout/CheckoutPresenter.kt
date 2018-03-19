@@ -3,8 +3,9 @@ package com.shop440.checkout
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import com.shop440.R
+import com.shop440.api.request.OrderRequest
 import com.shop440.checkout.models.Order
-import com.shop440.resp.GenericResponse
+import com.shop440.api.response.GenericResponse
 import com.shop440.viewmodel.KartViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +32,7 @@ class CheckoutPresenter(val view: CheckoutContract.View, val retrofit: Retrofit)
         view.onDataLoading()
         viewModel.persistOrder(order).observe(lifecycle, Observer<Order> {t ->
             t?.let {
-                val call : Call<GenericResponse> = retrofit.create(ApiRequest::class.java).newOrder(it)
+                val call : Call<GenericResponse> = retrofit.create(ApiRequest::class.java).newOrder(OrderRequest(it))
                 call.enqueue(object : Callback<GenericResponse> {
                     override fun onResponse(call: Call<GenericResponse>?, response: Response<GenericResponse>?) {
                         view.onDataLoading()

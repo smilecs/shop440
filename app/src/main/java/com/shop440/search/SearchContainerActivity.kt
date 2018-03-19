@@ -48,6 +48,7 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
         searchViewQuery.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 startSearch(query, "1", "", "")
+                resultFragment.list.clear()
                 return true
             }
 
@@ -102,7 +103,6 @@ class SearchContainerActivity : AppCompatActivity(), SearchContract.View {
     fun startSearch(query: String, page: String, cat: String, tag: String) {
         switchFragment()
         presenter.performSearch(query, page, cat, tag)
-        resultFragment.list.clear()
     }
 
     private fun toggleProgressBar() {

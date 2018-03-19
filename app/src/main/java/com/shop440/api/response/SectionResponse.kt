@@ -1,4 +1,4 @@
-package com.shop440.resp
+package com.shop440.api.response
 
 import com.google.gson.annotations.SerializedName
 import com.shop440.dao.models.Product

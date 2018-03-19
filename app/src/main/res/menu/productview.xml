@@ -7,6 +7,7 @@
         android:title="@string/checkout"
         app:showAsAction="always"
         android:id="@+id/checkout"
+        app:actionLayout="@layout/badge_button"
         android:icon="@drawable/ic_checkout"/>
 
 </menu>
