@@ -3,15 +3,18 @@ package com.shop440.navigation
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.transition.Explode
+import android.support.transition.Transition
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.view.Window
 import com.shop440.R
-import com.shop440.api.NetModule
-import com.shop440.checkout.CheckoutFragmentContainer
+import com.shop440.features.checkout.CheckoutFragmentContainer
 import com.shop440.navigation.home.HomeActivityFragment
 import com.shop440.navigation.profile.ProfileContainerFragment
+import com.shop440.repository.api.NetModule
 import com.shop440.utils.ProgressHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -30,6 +33,13 @@ class MainNavigation : AppCompatActivity(), AppContract.AppView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+
+            // set an exit transition
+            exitTransition = android.transition.Explode()
+        }
+
         setContentView(R.layout.activity_main)
         navigationViewPager.adapter = Pager.PagerAdapter(supportFragmentManager)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

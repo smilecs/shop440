@@ -1,7 +1,7 @@
 package com.shop440.navigation.home.adaptermodel
 
 import com.shop440.R
-import com.shop440.dao.models.Product
+import com.shop440.repository.dao.models.Product
 
 /**
  * Created by mmumene on 21/11/2017.

@@ -2,8 +2,8 @@ package com.shop440.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import com.shop440.dao.KategoryDao
-import com.shop440.dao.models.CategoryModel
+import com.shop440.repository.dao.KategoryDao
+import com.shop440.repository.dao.models.CategoryModel
 import io.realm.Realm
 import io.realm.RealmResults
 

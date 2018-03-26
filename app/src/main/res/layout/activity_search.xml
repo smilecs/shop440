@@ -7,7 +7,7 @@
               android:background="@android:color/white"
               android:fitsSystemWindows="true"
               android:orientation="vertical"
-              tools:context="com.shop440.search.SearchFragment">
+              tools:context=".features.search.SearchFragment">
 
         <com.shop440.widgets.FontTextView
             android:id="@+id/text"

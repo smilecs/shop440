@@ -10,13 +10,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import com.shop440.adapters.TopFeedAdapter
 import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.R
-import com.shop440.api.NetModule
-import com.shop440.search.SearchContainerActivity
+import com.shop440.repository.api.NetModule
+import com.shop440.features.search.SearchContainerActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 
 /**

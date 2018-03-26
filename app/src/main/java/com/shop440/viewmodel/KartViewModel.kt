@@ -2,11 +2,11 @@ package com.shop440.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import com.shop440.dao.kartDao
-import com.shop440.dao.models.Product
-import com.shop440.checkout.models.Item
-import com.shop440.checkout.models.ItemForKart
-import com.shop440.checkout.models.Order
+import com.shop440.repository.dao.kartDao
+import com.shop440.repository.dao.models.Product
+import com.shop440.features.checkout.models.Item
+import com.shop440.features.checkout.models.ItemForKart
+import com.shop440.features.checkout.models.Order
 import io.realm.Realm
 import io.realm.RealmResults
 

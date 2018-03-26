@@ -4,8 +4,8 @@ import com.shop440.navigation.home.adaptermodel.ProductModel
 import com.shop440.navigation.home.adaptermodel.StoreAdapterModel
 import com.shop440.navigation.home.adaptermodel.AdapterModel
 import com.shop440.R
-import com.shop440.api.response.HomeSection
-import com.shop440.api.response.SectionResponse
+import com.shop440.repository.api.response.HomeSection
+import com.shop440.repository.api.response.SectionResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

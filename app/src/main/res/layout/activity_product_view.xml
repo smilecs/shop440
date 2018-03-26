@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="@android:color/white"
-             tools:context="com.shop440.productview.ProductViewActivity">
+             tools:context=".features.productview.ProductViewActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

@@ -43,7 +43,7 @@
             android:authorities="com.facebook.app.FacebookContentProvider909211035848244"
             android:exported="true"/>
 
-        <activity android:name=".auth.VerifyActivity"/>
+        <activity android:name="com.shop440.features.auth.VerifyActivity"/>
 
         <receiver
             android:name=".receiver.SmsReciever"
@@ -54,9 +54,16 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".splash.IntroActivity"/>
+        <service
+            android:name=".firebase.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.shop440.features.splash.IntroActivity"/>
         <activity
-            android:name=".productview.ProductViewActivity"
+            android:name="com.shop440.features.productview.ProductViewActivity"
             android:exported="true"
             android:label="@string/title_activity_product_view"
             android:launchMode="singleTop"
@@ -133,16 +140,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".auth.AuthActivity">
+        <activity android:name="com.shop440.features.auth.AuthActivity">
         </activity>
         <activity
-            android:name=".checkout.CheckoutContainerActivity"
+            android:name="com.shop440.features.checkout.CheckoutContainerActivity"
             android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".search.SearchContainerActivity">
+        <activity android:name="com.shop440.features.search.SearchContainerActivity">
         </activity>
         <activity
-            android:name=".products.ProductsActivity"
+            android:name="com.shop440.features.products.ProductsActivity"
             android:label="@string/title_activity_products"
             android:theme="@style/AppTheme">
         </activity>

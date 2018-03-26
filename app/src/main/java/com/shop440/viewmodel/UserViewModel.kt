@@ -1,9 +1,6 @@
 package com.shop440.viewmodel
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import com.shop440.dao.UserDao
-import com.shop440.dao.models.UserAdress
 import io.realm.Realm
 
 /**

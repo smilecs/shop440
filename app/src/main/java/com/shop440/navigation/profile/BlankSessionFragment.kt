@@ -11,8 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.shop440.R
-import com.shop440.auth.AuthActivity
-import com.shop440.navigation.MainNavigation
+import com.shop440.features.auth.AuthActivity
 import kotlinx.android.synthetic.main.profile_no_token.*
 
 

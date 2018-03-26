@@ -7,7 +7,7 @@ import android.util.Log
 import com.bentech.android.appcommons.AppCommons
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
-import com.shop440.api.Urls
+import com.shop440.repository.api.Urls
 import io.realm.Realm
 
 /**

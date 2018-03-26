@@ -16,7 +16,7 @@ import com.bumptech.glide.request.target.Target
 import com.shop440.BaseViewHolder
 import com.shop440.R
 import com.shop440.navigation.home.adaptermodel.ProductModel
-import com.shop440.productview.ProductViewActivity
+import com.shop440.features.productview.ProductViewActivity
 import com.shop440.utils.Image
 import com.shop440.utils.Metrics
 import kotlinx.android.synthetic.main.home_feed_product_layout.view.*

@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/notif_count"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:background="@drawable/badge"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:padding="2dp"
-        android:singleLine="true">
-</Button>
+        app:srcCompat="@drawable/ic_checkout"
+        android:singleLine="true"/>
+    <RelativeLayout
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="end"
+        android:id="@+id/parentView"
+        android:alpha="0.90"
+        android:background="@drawable/badge">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:alpha="1.0"
+            android:textColor="@android:color/white"
+            android:id="@+id/notif_count"
+            android:textSize="8sp"
+            />
+    </RelativeLayout>
+</FrameLayout>

@@ -3,7 +3,7 @@ package com.shop440.typefactory
 import android.view.View
 import com.bumptech.glide.RequestManager
 import com.shop440.R
-import com.shop440.checkout.viewholder.SummaryViewHolder
+import com.shop440.features.checkout.viewholder.SummaryViewHolder
 import com.shop440.BaseViewHolder
 import com.shop440.navigation.home.viewholders.ProductViewHolder
 import com.shop440.navigation.home.viewholders.StoreViewHolder
