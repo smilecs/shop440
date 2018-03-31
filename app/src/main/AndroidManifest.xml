@@ -55,7 +55,7 @@
         </receiver>
 
         <service
-            android:name=".firebase.MyFirebaseInstanceIDService">
+            android:name=".notification.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

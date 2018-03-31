@@ -1,9 +1,9 @@
-package com.shop440.firebase
+package com.shop440.notification
 
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceIdService
 import com.google.firebase.iid.FirebaseInstanceId
-
+import com.shop440.repository.api.NetModule
 
 
 /**
@@ -32,5 +32,7 @@ class MyFirebaseInstanceIDService : FirebaseInstanceIdService(){
      */
     private fun sendRegistrationToServer(token: String?) {
         // TODO: Implement this method to send token to your app server.
+        val mod = NetModule.provideRetrofit().create(ApiRequest::class.java)
+        //mod.subscribe()
     }
 }
