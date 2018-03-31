@@ -1,6 +1,7 @@
 package com.shop440.utils
 
 import com.bentech.android.appcommons.preference.Preference
+import java.util.*
 
 /**
  * Created by mmumene on 26/11/2017.
@@ -13,6 +14,7 @@ class PreferenceManager : Preference() {
     var phone: String? = null
     var city: String? = null
     var address: String? = null
+    var deviceId : String = ""
     fun persistToken(userToken: String) {
         PrefData.getPreferenceManager()?.apply {
             token = userToken
@@ -48,6 +50,14 @@ class PreferenceManager : Preference() {
         PrefData.getPreferenceManager()?.apply {
             this.address = address
         }?.savePreference()
+    }
+
+    fun persistDeviceId():String{
+        val uid = UUID.randomUUID().toString()
+        PrefData.getPreferenceManager()?.apply {
+            this.deviceId = uid
+        }?.savePreference()
+        return uid
     }
 
     object PrefData {

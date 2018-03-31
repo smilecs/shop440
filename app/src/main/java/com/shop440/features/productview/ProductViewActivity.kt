@@ -40,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_product_view_sub_container.*
 import kotlinx.android.synthetic.main.activity_product_view_sub_description.*
 import kotlinx.android.synthetic.main.bottom_product_view.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.lang.ref.WeakReference
 
 
 class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductViewContract.View {
@@ -81,7 +82,7 @@ class ProductViewActivity : AppCompatActivity(), OnMapReadyCallback, ProductView
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
         progressDialog.isIndeterminate = true
         progressDialog.setMessage(getString(R.string.loading))
-        ProductViewPresenter(this, NetModule.provideRetrofit())
+        ProductViewPresenter(WeakReference<ProductViewActivity>(this).get(), NetModule.provideRetrofit())
 
         map.setOnClickListener {
             val intent = Intent(android.content.Intent.ACTION_VIEW,

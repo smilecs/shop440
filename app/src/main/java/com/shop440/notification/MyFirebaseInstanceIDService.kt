@@ -1,9 +1,14 @@
 package com.shop440.notification
 
 import android.util.Log
-import com.google.firebase.iid.FirebaseInstanceIdService
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.FirebaseInstanceIdService
 import com.shop440.repository.api.NetModule
+import com.shop440.repository.api.response.GenericResponse
+import com.shop440.utils.PreferenceManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 /**
@@ -14,25 +19,26 @@ class MyFirebaseInstanceIDService : FirebaseInstanceIdService(){
         // Get updated InstanceID token.
         val refreshedToken = FirebaseInstanceId.getInstance().token
         Log.d(this.javaClass.name, "Refreshed token: " + refreshedToken!!)
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
         sendRegistrationToServer(refreshedToken)
     }
-    // [END refresh_token]
 
-    /**
-     * Persist token to third-party servers.
-     *
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    private fun sendRegistrationToServer(token: String?) {
-        // TODO: Implement this method to send token to your app server.
+    private fun sendRegistrationToServer(token: String) {
         val mod = NetModule.provideRetrofit().create(ApiRequest::class.java)
-        //mod.subscribe()
+        PreferenceManager.PrefData.getPreferenceManager()?.let {
+            val uid = if(it.deviceId.isNotBlank()){
+                it.deviceId
+            }else{
+                it.persistDeviceId()
+            }
+            mod.subscribe(DeviceModel(uid, token)).enqueue(object : Callback<GenericResponse> {
+                override fun onFailure(call: Call<GenericResponse>?, t: Throwable?) {
+                    t?.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<GenericResponse>?, response: Response<GenericResponse>?) {
+
+                }
+            })
+        }
     }
 }

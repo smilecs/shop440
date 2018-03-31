@@ -10,14 +10,18 @@ import io.realm.RealmResults
 /**
  * Created by mmumene on 01/03/2018.
  */
-class ProductViewModel : ViewModel(){
+class ProductViewModel : ViewModel() {
 
     private val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
 
-    fun getCategories() : LiveData<RealmResults<CategoryModel>>{
+    fun getCategories(): LiveData<RealmResults<CategoryModel>> {
         return realm.KategoryDao().getCategories()
     }
 
+    override fun onCleared() {
+        realm.close()
+        super.onCleared()
+    }
 }
