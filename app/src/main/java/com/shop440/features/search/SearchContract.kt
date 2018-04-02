@@ -5,7 +5,7 @@ import com.shop440.BasePresenter
 import com.shop440.BaseView
 import com.shop440.repository.dao.models.CategoryModel
 import com.shop440.repository.dao.models.Page
-import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.features.navigation.home.adaptermodel.ProductModel
 
 /**
  * Created by mmumene on 25/02/2018.

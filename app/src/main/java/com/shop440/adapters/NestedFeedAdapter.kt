@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.RequestManager
 import com.shop440.BaseViewHolder
 import com.shop440.typefactory.TypesFactoryImpl
-import com.shop440.navigation.home.adaptermodel.AdapterModel
+import com.shop440.features.navigation.home.adaptermodel.AdapterModel
 
 /**
  * Created by mmumene on 22/11/2017.

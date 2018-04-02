@@ -8,6 +8,7 @@ import com.bentech.android.appcommons.AppCommons
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.shop440.repository.api.Urls
+import com.shop440.utils.PreferenceManager
 import io.realm.Realm
 
 /**
@@ -57,10 +58,9 @@ class Application : android.app.Application() {
             return typeface
         }
 
-        val authToken: String
+        val authToken: String?
             get() {
-                val preferences = getsInstance()!!.getSharedPreferences(getsInstance()!!.getString(R.string.shop440), Context.MODE_PRIVATE)
-                return preferences.getString(Urls.TOKEN, "null")
+                return  PreferenceManager.PrefData.getPreferenceManager()?.token
             }
     }
 

@@ -3,7 +3,7 @@ package com.shop440.features.products
 import android.arch.lifecycle.Observer
 import com.shop440.R
 import com.shop440.repository.dao.models.CategoryModel
-import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.features.navigation.home.adaptermodel.ProductModel
 import com.shop440.repository.api.response.FilterResponse
 import com.shop440.repository.api.response.ResponseWrapper
 import io.realm.Realm

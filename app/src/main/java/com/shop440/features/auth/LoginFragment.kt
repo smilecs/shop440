@@ -79,10 +79,7 @@ class LoginFragment : Fragment(), AuthContract.View {
     }
 
     override fun onError(errorMessage: Int) {
-        view?.let {
-            Snackbar.make(it, errorMessage, Snackbar.LENGTH_LONG).show()
-        }
-
+        Snackbar.make(container, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 }
 

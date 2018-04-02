@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            truesdk:truebutton_text="signUp"/>
+            truesdk:truebutton_text="register"/>
 
     </LinearLayout>
     <com.shop440.widgets.FontTextView

@@ -24,8 +24,6 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
     override lateinit var presenter: AuthContract.Presenter
     private var TAG = "Confirm.kt"
     private lateinit var user: User
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
     private var otp: String? = null
     private var newString: String? = null
     private val progressDialog: ProgressDialog by lazy {
@@ -35,8 +33,7 @@ class VerifyActivity : AppCompatActivity(), AuthContract.View, AuthContract.OtpL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.confirmation)
-        sharedPreferences = getSharedPreferences(resources.getString(R.string.shop440), Context.MODE_PRIVATE)
-        editor = sharedPreferences.edit()
+
         user = intent.getSerializableExtra("data") as User
         AuthPresenter(this, NetModule.provideRetrofit())
         Log.d(TAG, user.name)

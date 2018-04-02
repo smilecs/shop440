@@ -5,8 +5,8 @@ import com.bumptech.glide.RequestManager
 import com.shop440.R
 import com.shop440.features.checkout.viewholder.SummaryViewHolder
 import com.shop440.BaseViewHolder
-import com.shop440.navigation.home.viewholders.ProductViewHolder
-import com.shop440.navigation.home.viewholders.StoreViewHolder
+import com.shop440.features.navigation.home.viewholders.ProductViewHolder
+import com.shop440.features.navigation.home.viewholders.StoreViewHolder
 
 /**
  * Created by mmumene on 21/11/2017.

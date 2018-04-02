@@ -1,8 +1,10 @@
 package com.shop440.notification
 
+
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
+import com.shop440.Application
 import com.shop440.repository.api.NetModule
 import com.shop440.repository.api.response.GenericResponse
 import com.shop440.utils.PreferenceManager
@@ -17,9 +19,11 @@ import retrofit2.Response
 class MyFirebaseInstanceIDService : FirebaseInstanceIdService(){
     override fun onTokenRefresh() {
         // Get updated InstanceID token.
-        val refreshedToken = FirebaseInstanceId.getInstance().token
-        Log.d(this.javaClass.name, "Refreshed token: " + refreshedToken!!)
-        sendRegistrationToServer(refreshedToken)
+        Application.authToken?.let {
+            val refreshedToken = FirebaseInstanceId.getInstance().token
+            Log.d(this.javaClass.name, "Refreshed token: " + refreshedToken!!)
+            sendRegistrationToServer(refreshedToken)
+        }
     }
 
     private fun sendRegistrationToServer(token: String) {

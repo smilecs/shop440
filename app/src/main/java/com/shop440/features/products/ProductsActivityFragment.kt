@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.shop440.R
 import com.shop440.repository.dao.models.Page
 import com.shop440.repository.dao.models.Product
-import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.features.navigation.home.adaptermodel.ProductModel
 import com.shop440.features.search.SearchResultAdapter
 import com.shop440.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.searchresult.*

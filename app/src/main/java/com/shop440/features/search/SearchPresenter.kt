@@ -3,7 +3,7 @@ package com.shop440.features.search
 import android.arch.lifecycle.Observer
 import com.shop440.R
 import com.shop440.repository.api.NetModule
-import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.features.navigation.home.adaptermodel.ProductModel
 import com.shop440.repository.api.response.FilterResponse
 import com.shop440.viewmodel.ProductViewModel
 import retrofit2.Call

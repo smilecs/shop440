@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.shop440.R
 import com.shop440.features.checkout.models.SummaryAdapterModel
-import com.shop440.navigation.home.adaptermodel.AdapterModel
+import com.shop440.features.navigation.home.adaptermodel.AdapterModel
 import com.shop440.features.products.ProductsActivity
 import com.shop440.utils.Metrics
 import com.shop440.view.ItemDecorator

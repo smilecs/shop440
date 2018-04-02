@@ -1,5 +1,6 @@
 package com.shop440.repository.api
 
+import android.util.Log
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -18,12 +19,6 @@ import java.util.concurrent.TimeUnit
 
 object NetModule {
 
-    private fun providesGson(): Gson {
-        val gsonBuilder = GsonBuilder()
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-        return gsonBuilder.create()
-    }
-
     private fun provideOkhttpClient(): OkHttpClient {
         val cacheSize = 10 * 1024 * 1024
         val cache = Cache(Application.getsInstance()!!.cacheDir, cacheSize.toLong())
@@ -34,7 +29,10 @@ object NetModule {
         client.addNetworkInterceptor(CacheInterceptor())
         client.addInterceptor { chain ->
             val request = chain.request().newBuilder()
-            request.addHeader("X-AUTH-TOKEN", Application.authToken)
+            Application.authToken?.let {
+                Log.i("X-AUTH-TOKEN:", it)
+                request.addHeader("Authorization", "BEARER $it")
+            }
             request.addHeader("Content-Type", "application/json")
             chain.proceed(request.build())
         }

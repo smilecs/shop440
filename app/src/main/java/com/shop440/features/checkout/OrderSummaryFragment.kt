@@ -12,7 +12,7 @@ import com.shop440.adapters.TopFeedAdapter
 import com.shop440.features.checkout.kart.KartContract
 import com.shop440.viewmodel.KartViewModel
 import com.shop440.features.checkout.models.ShopOrders
-import com.shop440.navigation.home.adaptermodel.AdapterModel
+import com.shop440.features.navigation.home.adaptermodel.AdapterModel
 import com.shop440.utils.Metrics
 import com.shop440.view.ItemDecorator
 import kotlinx.android.synthetic.main.fragment_order_summary.*

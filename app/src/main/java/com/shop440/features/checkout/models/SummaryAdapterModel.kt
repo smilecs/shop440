@@ -1,7 +1,7 @@
 package com.shop440.features.checkout.models
 
 import com.shop440.R
-import com.shop440.navigation.home.adaptermodel.AdapterModel
+import com.shop440.features.navigation.home.adaptermodel.AdapterModel
 
 /**
  * Created by mmumene on 10/02/2018.

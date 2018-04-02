@@ -6,7 +6,7 @@ import com.shop440.BaseView
 import com.shop440.repository.dao.models.Product
 import com.shop440.features.checkout.models.Item
 import com.shop440.features.checkout.models.ItemForKart
-import com.shop440.navigation.home.adaptermodel.AdapterModel
+import com.shop440.features.navigation.home.adaptermodel.AdapterModel
 import com.shop440.viewmodel.KartViewModel
 import io.realm.RealmResults
 

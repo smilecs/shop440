@@ -13,7 +13,7 @@ import android.widget.Toast
 import com.shop440.R
 import com.shop440.repository.dao.models.CategoryModel
 import com.shop440.repository.dao.models.Page
-import com.shop440.navigation.home.adaptermodel.ProductModel
+import com.shop440.features.navigation.home.adaptermodel.ProductModel
 import kotlinx.android.synthetic.main.activity_search_container.*
 import java.lang.ref.WeakReference
 import java.util.*

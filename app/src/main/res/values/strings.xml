@@ -149,4 +149,5 @@
     <string name="or_choose_a_category">or Choose a category</string>
     <string name="title_activity_products">ProductsActivity</string>
     <string name="see_more">See more</string>
+    <string name="default_channel">default</string>
 </resources>

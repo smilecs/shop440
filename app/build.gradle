@@ -50,9 +50,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //test
     androidTestCompile 'br.com.concretesolutions:kappuccino:1.0.6'
-    compile('com.google.android.gms:play-services:11.8.0') {
-        exclude group: 'com.android.support', module: 'mediarouter-v7'
-    }
     compile('com.facebook.android:facebook-android-sdk:4.22.0') {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'cardview-v7'
@@ -74,7 +71,6 @@ dependencies {
     //OkHttp
     //Gson
     compile 'com.android.support:multidex:1.0.2'
-    compile "com.google.android.gms:play-services:${googleVersion}"
     compile "com.google.android.gms:play-services-maps:${googleVersion}"
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -105,8 +101,10 @@ dependencies {
     implementation "android.arch.paging:runtime:1.0.0-alpha5"
     compile 'io.realm:android-adapters:2.1.1'
     compile "com.google.firebase:firebase-messaging:${googleVersion}"
+    compile "com.google.firebase:firebase-core:${googleVersion}"
 }
 repositories {
     mavenCentral()
     google()
 }
+apply plugin: 'com.google.gms.google-services'
